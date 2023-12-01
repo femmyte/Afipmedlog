@@ -52,7 +52,7 @@ function DashboardLayout({ children }) {
 					</div>
 					{/* <div className=' min-h-screen md:pl-[15.3125rem] bg-black w-3/5'>
 						<div className='bg-black pt-[50px] md:pt-0 '> */}
-					<div className=' pt-[30px] pb-[20px]'>
+					<div className=' pt-[30px] pb-[20px] px-[2rem]'>
 						{/* <LogoutModal
 									modalOpen={openLogoutModal}
 									handleOpen={setOpenLogoutModal}
