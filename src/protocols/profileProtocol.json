@@ -1,0 +1,18 @@
+{
+	"protocol": "https://identity.foundation/protocols/person",
+	"published": true,
+	"types": {
+		"userInfo": {
+			"schema": "https://example.com/userSchema",
+			"dataFormats": ["application/json"]
+		}
+	},
+	"structure": {
+		"userInfo": {
+			"$actions": [
+				{ "who": "anyone", "can": "write" },
+				{ "who": "anyone", "can": "read" }
+			]
+		}
+	}
+}
