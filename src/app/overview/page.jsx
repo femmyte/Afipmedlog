@@ -4,6 +4,7 @@ import Cards from '@/components/pages/overview/Cards';
 import Table from '@/components/pages/overview/Table';
 import MedicalRecords from '@/components/pages/overview/MedicalRecords';
 import Doctors from '@/components/pages/overview/Doctors';
+import GeneralDetails from '@/components/pages/overview/GeneralDetails';
 
 const page = () => {
   return (
@@ -13,6 +14,7 @@ const page = () => {
 		<Table />
 		<MedicalRecords />
 		<Doctors />
+		<GeneralDetails />
 	</div>
   )
 }
