@@ -6,7 +6,7 @@ export const Card = (props) => {
 	
   return (
 	<div className={cardClasses} style={props.style}>
-		<div className='flex items-center space-around p-2'>
+		<div className='flex items-center justify-around p-2'>
 		  <Image src={props.img} alt="" width={40} height={40} className='bg-white rounded-md p-1'/>
 		  <div>
 			  <p className=''>{props.text}</p>
