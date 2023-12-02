@@ -1,40 +1,48 @@
 'use client';
-import { sendEmail } from '@/service/sendEmail';
-import React, { useState } from 'react';
-
+import React, { useState, useEffect } from 'react';
+import { Web5 } from '@web5/api';
+import { useRouter } from 'next/navigation';
 const Home = () => {
-	const [email, setEmail] = useState('');
+	const router = useRouter();
+	const [isLoading, setIsLoading] = useState(false);
 	const [did, setDid] = useState('');
 
+	useEffect(() => {
+		const existingDid = localStorage.getItem('myDid');
+		if (existingDid) {
+			router.push('/overview');
+		}
+	});
+	const handleClick = async () => {
+		try {
+			const { web5, did } = await Web5.connect({ sync: '5s' });
+			localStorage.setItem('myDid', did);
+			router.push('/overview'); // Redirect to the dashboard page after successful login
+		} catch (error) {
+			console.error('Error Singning up:', error);
+		} finally {
+			setIsLoading(false);
+		}
+	};
+
+	if (isLoading) {
+		return (
+			<div className='h-screen w-screen flex justify-center items-center'>
+				<p className='text-xl'>Loading..</p>
+			</div>
+		);
+	}
 	return (
 		<div className='flex justify-center items-center h-screen w-full'>
-			{/* <p className='text-black'>welcome</p> */}
-			<form
-				action={async (formData) => {
-					await sendEmail(formData);
-				}}
-				className='w-1/2 m-auto'
-			>
-				<input
-					className='border py-3 px-5 rounded-md w-full mb-4 text-black'
-					type='email'
-					value={email}
-					name='email'
-					onChange={(e) => setEmail(e.target.value)}
-				/>
-				<input
-					className='border py-3 px-5 rounded-md w-full text-black'
-					type='text'
-					name='did'
-					value={did}
-					onChange={(e) => setDid(e.target.value)}
-				/>
-				<div className='flex justify-center mt-6'>
-					<button className='bg-red-400 px-5 py-2 rounded-md text-white'>
-						Send DID
-					</button>
-				</div>
-			</form>
+			<p className='text-black'>welcome</p>
+			<div className='flex justify-center'>
+				<button
+					className='bg-purple-500 px-5 py-3'
+					onClick={handleClick}
+				>
+					get started
+				</button>
+			</div>
 		</div>
 	);
 };
