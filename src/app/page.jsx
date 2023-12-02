@@ -17,7 +17,7 @@ const Home = () => {
 		try {
 			const { web5, did } = await Web5.connect({ sync: '5s' });
 			localStorage.setItem('myDid', did);
-			router.push('/overview'); // Redirect to the dashboard page after successful login
+			router.push('/profile'); // Redirect to the dashboard page after successful login
 		} catch (error) {
 			console.error('Error Singning up:', error);
 		} finally {
