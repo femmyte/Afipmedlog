@@ -52,210 +52,214 @@
 		"patientInfo": {
 			"$actions": [
 				{
-					"who": "anyone",
+					"who": "recipient",
 					"can": "write"
-				}
-			]
-		},
-		"medicalHistory": {
-			"$actions": [
-				{ "who": "author", "of": "patientInfo", "can": "read" },
+				},
 				{
 					"who": "recipient",
-					"of": "patientInfo",
 					"can": "update"
 				},
 				{
 					"who": "recipient",
-					"of": "patientInfo",
 					"can": "read"
-				},
-				{
-					"who": "recipient",
-					"of": "patientInfo",
-					"can": "write"
 				}
-			]
-		},
-		"vitalSigns": {
-			"$actions": [
-				{ "who": "author", "of": "patientInfo", "can": "read" },
-				{
-					"who": "recipient",
-					"of": "patientInfo",
-					"can": "update"
-				},
-				{
-					"who": "recipient",
-					"of": "patientInfo",
-					"can": "read"
-				},
-				{
-					"who": "recipient",
-					"of": "patientInfo",
-					"can": "write"
-				}
-			]
-		},
-		"medicationInformation": {
-			"$actions": [
-				{ "who": "author", "of": "patientInfo", "can": "read" },
-				{
-					"who": "recipient",
-					"of": "patientInfo",
-					"can": "update"
-				},
-				{
-					"who": "recipient",
-					"of": "patientInfo",
-					"can": "read"
-				},
-				{
-					"who": "recipient",
-					"of": "patientInfo",
-					"can": "write"
-				}
-			]
-		},
-		"immunisationHistory": {
-			"$actions": [
-				{ "who": "author", "of": "patientInfo", "can": "read" },
-				{
-					"who": "recipient",
-					"of": "patientInfo",
-					"can": "update"
-				},
-				{
-					"who": "recipient",
-					"of": "patientInfo",
-					"can": "read"
-				},
-				{
-					"who": "recipient",
-					"of": "patientInfo",
-					"can": "write"
-				}
-			]
-		},
-		"labTestResults": {
-			"$actions": [
-				{ "who": "author", "of": "patientInfo", "can": "read" },
-				{
-					"who": "recipient",
-					"of": "patientInfo",
-					"can": "update"
-				},
-				{
-					"who": "recipient",
-					"of": "patientInfo",
-					"can": "read"
-				},
-				{
-					"who": "recipient",
-					"of": "patientInfo",
-					"can": "write"
-				}
-			]
-		},
-		"diagnosisAndTreatmentInformation": {
-			"$actions": [
-				{ "who": "author", "of": "patientInfo", "can": "read" },
-				{
-					"who": "recipient",
-					"of": "patientInfo",
-					"can": "update"
-				},
-				{
-					"who": "recipient",
-					"of": "patientInfo",
-					"can": "read"
-				},
-				{
-					"who": "recipient",
-					"of": "patientInfo",
-					"can": "write"
-				}
-			]
-		},
-		"healthcareProviderInformation": {
-			"$actions": [
-				{ "who": "author", "of": "patientInfo", "can": "read" },
-				{
-					"who": "recipient",
-					"of": "patientInfo",
-					"can": "update"
-				},
-				{
-					"who": "recipient",
-					"of": "patientInfo",
-					"can": "read"
-				},
-				{
-					"who": "recipient",
-					"of": "patientInfo",
-					"can": "write"
-				}
-			]
-		},
-		"appointmentAndVisitHistory": {
-			"$actions": [
-				{ "who": "author", "of": "patientInfo", "can": "read" },
-				{
-					"who": "recipient",
-					"of": "patientInfo",
-					"can": "update"
-				},
-				{
-					"who": "recipient",
-					"of": "patientInfo",
-					"can": "read"
-				},
-				{
-					"who": "recipient",
-					"of": "patientInfo",
-					"can": "write"
-				}
-			]
-		},
-		"insuranceInformation": {
-			"$actions": [
-				{ "who": "author", "of": "patientInfo", "can": "read" },
-				{
-					"who": "recipient",
-					"of": "patientInfo",
-					"can": "update"
-				},
-				{
-					"who": "recipient",
-					"of": "patientInfo",
-					"can": "read"
-				},
-				{
-					"who": "recipient",
-					"of": "patientInfo",
-					"can": "write"
-				}
-			]
-		},
-		"emergencyContactInformation": {
-			"$actions": [
-				{ "who": "author", "of": "patientInfo", "can": "read" },
-				{
-					"who": "recipient",
-					"of": "patientInfo",
-					"can": "update"
-				},
-				{
-					"who": "recipient",
-					"of": "patientInfo",
-					"can": "read"
-				},
-				{
-					"who": "recipient",
-					"of": "patientInfo",
-					"can": "write"
-				}
-			]
+			],
+			"medicalHistory": {
+				"$actions": [
+					{ "who": "author", "of": "patientInfo", "can": "read" },
+
+					{
+						"who": "recipient",
+						"of": "patientInfo",
+						"can": "read"
+					},
+					{
+						"who": "recipient",
+						"of": "patientInfo",
+						"can": "write"
+					}
+				]
+			},
+			"vitalSigns": {
+				"$actions": [
+					{ "who": "author", "of": "patientInfo", "can": "read" },
+					{
+						"who": "recipient",
+						"of": "patientInfo",
+						"can": "update"
+					},
+					{
+						"who": "recipient",
+						"of": "patientInfo",
+						"can": "read"
+					},
+					{
+						"who": "recipient",
+						"of": "patientInfo",
+						"can": "write"
+					}
+				]
+			},
+			"medicationInformation": {
+				"$actions": [
+					{ "who": "author", "of": "patientInfo", "can": "read" },
+					{
+						"who": "recipient",
+						"of": "patientInfo",
+						"can": "update"
+					},
+					{
+						"who": "recipient",
+						"of": "patientInfo",
+						"can": "read"
+					},
+					{
+						"who": "recipient",
+						"of": "patientInfo",
+						"can": "write"
+					}
+				]
+			},
+			"immunisationHistory": {
+				"$actions": [
+					{ "who": "author", "of": "patientInfo", "can": "read" },
+					{
+						"who": "recipient",
+						"of": "patientInfo",
+						"can": "update"
+					},
+					{
+						"who": "recipient",
+						"of": "patientInfo",
+						"can": "read"
+					},
+					{
+						"who": "recipient",
+						"of": "patientInfo",
+						"can": "write"
+					}
+				]
+			},
+			"labTestResults": {
+				"$actions": [
+					{ "who": "author", "of": "patientInfo", "can": "read" },
+					{
+						"who": "recipient",
+						"of": "patientInfo",
+						"can": "update"
+					},
+					{
+						"who": "recipient",
+						"of": "patientInfo",
+						"can": "read"
+					},
+					{
+						"who": "recipient",
+						"of": "patientInfo",
+						"can": "write"
+					}
+				]
+			},
+			"diagnosisAndTreatmentInformation": {
+				"$actions": [
+					{ "who": "author", "of": "patientInfo", "can": "read" },
+					{
+						"who": "recipient",
+						"of": "patientInfo",
+						"can": "update"
+					},
+					{
+						"who": "recipient",
+						"of": "patientInfo",
+						"can": "read"
+					},
+					{
+						"who": "recipient",
+						"of": "patientInfo",
+						"can": "write"
+					}
+				]
+			},
+			"healthcareProviderInformation": {
+				"$actions": [
+					{ "who": "author", "of": "patientInfo", "can": "read" },
+					{
+						"who": "recipient",
+						"of": "patientInfo",
+						"can": "update"
+					},
+					{
+						"who": "recipient",
+						"of": "patientInfo",
+						"can": "read"
+					},
+					{
+						"who": "recipient",
+						"of": "patientInfo",
+						"can": "write"
+					}
+				]
+			},
+			"appointmentAndVisitHistory": {
+				"$actions": [
+					{ "who": "author", "of": "patientInfo", "can": "read" },
+					{
+						"who": "recipient",
+						"of": "patientInfo",
+						"can": "update"
+					},
+					{
+						"who": "recipient",
+						"of": "patientInfo",
+						"can": "read"
+					},
+					{
+						"who": "recipient",
+						"of": "patientInfo",
+						"can": "write"
+					}
+				]
+			},
+			"insuranceInformation": {
+				"$actions": [
+					{ "who": "author", "of": "patientInfo", "can": "read" },
+					{
+						"who": "recipient",
+						"of": "patientInfo",
+						"can": "update"
+					},
+					{
+						"who": "recipient",
+						"of": "patientInfo",
+						"can": "read"
+					},
+					{
+						"who": "recipient",
+						"of": "patientInfo",
+						"can": "write"
+					}
+				]
+			},
+			"emergencyContactInformation": {
+				"$actions": [
+					{ "who": "author", "of": "patientInfo", "can": "read" },
+					{
+						"who": "recipient",
+						"of": "patientInfo",
+						"can": "update"
+					},
+					{
+						"who": "recipient",
+						"of": "patientInfo",
+						"can": "read"
+					},
+					{
+						"who": "recipient",
+						"of": "patientInfo",
+						"can": "write"
+					}
+				]
+			}
 		}
 	}
 }

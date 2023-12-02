@@ -1,7 +1,7 @@
 'use client';
 import { useContext, useEffect, createContext, useRef, useState } from 'react';
 import { Web5 } from '@web5/api';
-import protocolDefinition from '@/protocols/profileProtocol.json';
+import protocolDefinition from '@/protocols/healthRecord.json';
 
 const AppContext = createContext();
 
@@ -24,10 +24,17 @@ export const AppContextProvider = ({ children }) => {
 		const existingDid = localStorage.getItem('myDid');
 
 		const getObject = async () => {
-			const { web5: userWeb } = await Web5.connect(existingDid);
+			// const { web5: userWeb } = await Web5.connect(existingDid);
 			// console.log(userWeb);
-			setMyDid(existingDid);
-			setWeb5(userWeb);
+			const { web5, did } = await Web5.connect({
+				techPreview: {
+					dwnEndpoints: ['http://localhost:3000/'],
+				},
+			});
+			// setMyDid(existingDid);
+			// setWeb5(userWeb);
+			setMyDid(did);
+			setWeb5(web5);
 		};
 
 		getObject();
