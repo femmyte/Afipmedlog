@@ -5,6 +5,7 @@ import Table from '@/components/pages/overview/Table';
 import MedicalRecords from '@/components/pages/overview/MedicalRecords';
 import Doctors from '@/components/pages/overview/Doctors';
 import GeneralDetails from '@/components/pages/overview/GeneralDetails';
+import OverviewAppointments from '@/components/pages/overview/OverviewAppointments';
 
 const page = () => {
   return (
@@ -15,6 +16,7 @@ const page = () => {
 		<MedicalRecords />
 		<Doctors />
 		<GeneralDetails />
+		<OverviewAppointments />
 	</div>
   )
 }
