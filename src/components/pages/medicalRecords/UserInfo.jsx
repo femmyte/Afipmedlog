@@ -5,40 +5,13 @@ import GuardianRecord from './GuardianRecord';
 import MedicalProvider from './MedicalProvider';
 import { useStateContext } from '@/state/AppContext';
 import protocolDefinition from '@/protocols/healthRecord.json';
+import TopComponent from './TopComponent';
 
 const UserInfo = () => {
-	const { web5, myDid } = useStateContext();
+	const { web5, myDid, user } = useStateContext();
 	const [userInfo, setUserInfo] = useState([]);
-	const getUser = async () => {
-		console.log('getting user');
-		const { records } = await web5.dwn.records.query({
-			message: {
-				filter: {
-					schema: protocolDefinition.types.patientInfo.schema,
-				},
-				// dateSort: 'createdAscending',
-			},
-		});
-		console.log(records);
-		// add entry to userInfo
-		for (let record of records) {
-			const data = await record.data.json();
-			const list = { record, data, id: record.id };
-			console.log(list);
-			setUserInfo((user) => {
-				if (!user.some((item) => item.id === list.id)) {
-					return [...user, list];
-				}
-				return user;
-			});
-		}
-		console.log(userInfo);
-	};
-	useEffect(() => {
-		if (web5) {
-			getUser();
-		}
-	}, [web5]);
+	const [copiedDid, setCopiedDid] = useState(false);
+	const [clicked, setClicked] = useState(false);
 
 	const handleDelete = async () => {
 		//Query records with plain text data format
@@ -70,8 +43,10 @@ const UserInfo = () => {
 			console.log('unable to delete', error);
 		}
 	};
+
 	return (
 		<div>
+			<TopComponent />
 			<PersonalRecord />
 			<GuardianRecord />
 			<MedicalProvider />

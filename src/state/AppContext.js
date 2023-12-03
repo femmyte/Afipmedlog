@@ -17,7 +17,8 @@ export const AppContextProvider = ({ children }) => {
 	const [fetchedTweets, setFetchedTweets] = useState([]);
 	const [userRole, setUserRole] = useState('');
 	const [userInfo, setUserInfo] = useState([]);
-
+	const [record, setRecord] = useState([]);
+	const [isGettingUser, setIsGettingUser] = useState(false);
 	// web5
 	const [web5, setWeb5] = useState(null);
 	const [myDid, setMyDid] = useState(null);
@@ -26,17 +27,19 @@ export const AppContextProvider = ({ children }) => {
 		const existingDid = localStorage.getItem('myDid');
 
 		const getObject = async () => {
-			// const { web5: userWeb } = await Web5.connect(existingDid);
+			// Local dwN
+			// const { web5, did } = await Web5.connect({
+			// 	techPreview: {
+			// 		dwnEndpoints: ['http://localhost:3000/'],
+			// 	},
+			// });
+			// setMyDid(did);
+			// setWeb5(web5);
+			// Online DWN
+			const { web5: userWeb } = await Web5.connect(existingDid);
 			// console.log(userWeb);
-			const { web5, did } = await Web5.connect({
-				techPreview: {
-					dwnEndpoints: ['http://localhost:3000/'],
-				},
-			});
-			// setMyDid(existingDid);
-			// setWeb5(userWeb);
-			setMyDid(did);
-			setWeb5(web5);
+			setMyDid(existingDid);
+			setWeb5(userWeb);
 		};
 
 		getObject();
@@ -79,6 +82,7 @@ export const AppContextProvider = ({ children }) => {
 		}
 	}, [web5]);
 	const getUser = async () => {
+		setIsGettingUser(true);
 		console.log('getting user');
 		const { records } = await web5.dwn.records.query({
 			message: {
@@ -88,7 +92,6 @@ export const AppContextProvider = ({ children }) => {
 				dateSort: 'createdAscending',
 			},
 		});
-		console.log(records);
 		// add entry to userInfo
 		for (let record of records) {
 			const data = await record.data.json();
@@ -101,10 +104,9 @@ export const AppContextProvider = ({ children }) => {
 				return user;
 			});
 		}
-		// if (userInfo.length > 0) {
-		// 	setUserRole(userInfo[0].data.personalInfo.role);
-		// 	router.push(`/${userInfo[0].data.personalInfo.role}/overview`);
-		// }
+		if (records) {
+			setIsGettingUser(false);
+		}
 	};
 	useEffect(() => {
 		if (web5) {
@@ -116,6 +118,7 @@ export const AppContextProvider = ({ children }) => {
 		console.log(userInfo[0]);
 
 		if (userInfo.length > 0) {
+			setUser(userInfo[0].data);
 			setUserRole(userInfo[0].data.personalInfo.role);
 			// router.push(`/${userInfo[0].data.personalInfo.role}/overview`);
 		}
@@ -148,6 +151,7 @@ export const AppContextProvider = ({ children }) => {
 				userRole,
 				setUserRole,
 				getUser,
+				isGettingUser,
 			}}
 		>
 			{children}

@@ -10,7 +10,7 @@ export const sendEmail = async (formData) => {
 	resend.emails.send({
 		from: 'AFIP MEDLOG <onboarding@resend.dev>',
 		to: email,
-		subject: 'My DID',
-		html: `<p>Get my health record with this DID <strong>${did}</strong>!</p>`,
+		subject: "Your Doctor's DID",
+		html: `<p>Share your health record with me through this DID <br /> <strong>${did}</strong>!</p>`,
 	});
 };

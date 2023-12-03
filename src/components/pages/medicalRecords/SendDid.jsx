@@ -29,54 +29,63 @@ const SendDid = () => {
 	};
 
 	return (
-		<div className='flex justify-center items-center h-[80vh] w-full relative'>
-			{/* <p className='text-black'>welcome</p> */}
-			<form
-				action={async (formData) => {
-					await sendEmail(formData);
-				}}
-				className='w-1/2 m-auto'
+		<form
+			action={async (formData) => {
+				await sendEmail(formData);
+			}}
+		>
+			<label
+				htmlFor='did'
+				className='block font-[400] text-[0.875rem] text-[#151515] mb-[0.5rem] '
 			>
-				<input
-					className='w-full p-2 rounded-md border border-gray-300 my-4 focus:border-blue-500'
-					type='email'
-					placeholder='Enter Recipient Email'
-					value={email}
-					name='email'
-					onChange={(e) => setEmail(e.target.value)}
-				/>
-				<input
-					className='w-full p-2 rounded-md border border-gray-300 my-4 focus:border-blue-500'
-					placeholder='Enter Your DID'
-					type='text'
-					name='did'
-					value={did}
-					onChange={(e) => setDid(e.target.value)}
-				/>
-				<div className='flex flex-col items-center gap-6 justify-center mt-6'>
-					<button
-						onClick={handleCopyDid}
-						className={` bg-primaryBlue px-5 py-2 rounded-md text-white flex gap-4 items-center`}
-					>
-						<FiClipboard />
-						<span className='capitalize'>Copy Did</span>
-					</button>
-					<button className='bg-red-400 px-5 py-2 rounded-md text-white'>
-						Send DID
-					</button>
-				</div>
-			</form>
-			{copiedDid && (
-				<div className='absolute px-8 py-2 rounded-md bg-green-600 top-0 right-0'>
-					<p className='text-white'>Did Copied successfully</p>
-				</div>
-			)}
-			{clicked && (
-				<div className='absolute px-8 py-2 rounded-md bg-green-600 top-0 right-0'>
-					<p className='text-white'>Message sent successfully</p>
-				</div>
-			)}
-		</div>
+				Enter Recipients’ Email{' '}
+			</label>
+			<input
+				className='w-[25rem] py-[0.75rem] px-4 rounded-[0.25rem] border border-[#E8E8E8] focus:border-blue-500 block	'
+				type='email'
+				id='email'
+				placeholder='Enter Recipient Email'
+				value={email}
+				name='email'
+				onChange={(e) => setEmail(e.target.value)}
+			/>
+			<label
+				htmlFor='did'
+				className='block font-[400] text-[0.875rem] text-[#151515] mb-[0.5rem] '
+			>
+				Enter Recipients’ DID{' '}
+			</label>
+			<input
+				className='w-[25rem] py-[0.75rem] px-4 rounded-[0.25rem] border border-[#E8E8E8] focus:border-blue-500 block	'
+				placeholder='Enter Your DID'
+				type='text'
+				name='did'
+				id='did'
+				value={did}
+				onChange={(e) => setDid(e.target.value)}
+			/>
+			<div className='flex flex-col items-center gap-6 justify-center mt-8'>
+				<button
+					className='w-[10.125rem] py-[0.5rem] px-4 rounded-[0.25rem] bg-primaryBlue text-white flex justify-center items-center font-[500] leading-6 tracking-[0.02rem disabled:bg-[#DCE6FB]'
+					disabled={!did || !email}
+					// onClick={handleClick}
+				>
+					Share Record
+				</button>
+			</div>
+			{/* <div className='flex flex-col items-center gap-6 justify-center mt-6'>
+				<button
+					onClick={handleCopyDid}
+					className={` bg-primaryBlue px-5 py-2 rounded-md text-white flex gap-4 items-center`}
+				>
+					<FiClipboard />
+					<span className='capitalize'>Copy Did</span>
+				</button>
+				<button className='bg-red-400 px-5 py-2 rounded-md text-white'>
+					Send DID
+				</button>
+			</div> */}
+		</form>
 	);
 };
 

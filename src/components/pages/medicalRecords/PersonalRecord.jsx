@@ -6,21 +6,15 @@ import { FiClipboard } from 'react-icons/fi';
 import { sendEmail } from '@/service/sendEmail';
 import { useStateContext } from '@/state/AppContext';
 import { copyToClipboard } from '@/utils/utilities';
+import SendDid from './SendDid';
 
 const PersonalRecord = () => {
 	const [openModal, setOpenModal] = useState(false);
-	let { myDid, userRole } = useStateContext();
+	const [sendDidModal, setsendDidModal] = useState(false);
+	let { myDid, userRole, user } = useStateContext();
 	const [email, setEmail] = useState('');
 	const [did, setDid] = useState('');
-	const [copiedDid, setCopiedDid] = useState(false);
 	const [clicked, setClicked] = useState(false);
-	const handleCopyDid = () => {
-		setCopiedDid(true);
-		copyToClipboard(myDid);
-		setTimeout(() => {
-			setCopiedDid(false);
-		}, 4000);
-	};
 
 	const handleClick = () => {
 		setClicked(true);
@@ -30,10 +24,16 @@ const PersonalRecord = () => {
 			setClicked(false);
 		}, 4000);
 	};
-
+	// console.log(user);
 	const handleOpenModal = () => {
 		setOpenModal(true);
 	};
+	const handleOpenModalSendDid = () => {
+		setsendDidModal(true);
+	};
+	// handleSendRecord = async () => {
+	// 	const { status: bobStatus } = await record.send(bobDid);
+	// }
 	return (
 		<section>
 			<div>
@@ -51,35 +51,54 @@ const PersonalRecord = () => {
 							</button>
 						</div>
 					)}
+					{userRole === 'doctor' && (
+						<div className='flex gap-x-4'>
+							<button
+								className='text-[0.875rem] text-primaryBlue leading-[1.75rem] font-[400] tracking-[0.025rem]'
+								onClick={handleOpenModalSendDid}
+							>
+								Send Did
+							</button>
+						</div>
+					)}
 				</div>
 				<div className='grid grid-cols-12 w-full'>
 					<div className='col col-span-8'>
-						<ContentBox title={'Name'} text={'Chidimma Phoebe'} />
+						<ContentBox
+							title={'Name'}
+							text={user?.personalInfo?.name}
+						/>
 					</div>
 					<div className='col-span-2'>
 						<ContentBox
 							title={'Date of Birth'}
-							text={'12/21/2000'}
+							text={user?.personalInfo?.dateOfBirth}
 						/>
 					</div>
 					<div className='col-span-2'>
-						<ContentBox title={'Gender:'} text={'Female'} />
+						<ContentBox
+							title={'Gender:'}
+							text={user?.personalInfo?.gender}
+						/>
 					</div>
 				</div>
 				<div className='grid grid-cols-12 w-full'>
 					<div className='col col-span-2'>
-						<ContentBox title={'Marital Status:'} text={'Single'} />
+						<ContentBox
+							title={'Marital Status:'}
+							text={user?.personalInfo?.maritalStatus}
+						/>
 					</div>
 					<div className='col-span-5'>
 						<ContentBox
 							title={'Phone Number:'}
-							text={'08148710043'}
+							text={user?.personalInfo?.phoneNumber}
 						/>
 					</div>
 					<div className='col-span-5'>
 						<ContentBox
 							title={'Email Address:'}
-							text={'chidimmanancy@gmail.com'}
+							text={user?.personalInfo?.email}
 						/>
 					</div>
 				</div>
@@ -87,19 +106,26 @@ const PersonalRecord = () => {
 					<div className='col col-span-5'>
 						<ContentBox
 							title={'Home Address:'}
-							text={
-								'67 Ejigbo Street by Falana, Lagos State, Nigeria'
-							}
+							text={user?.personalInfo?.address}
 						/>
 					</div>
 					<div className='col-span-1'>
-						<ContentBox title={'City:'} text={'Lagos'} />
+						<ContentBox
+							title={'City:'}
+							text={user?.personalInfo?.city}
+						/>
 					</div>
 					<div className='col-span-3'>
-						<ContentBox title={'State'} text={'Lagos State'} />
+						<ContentBox
+							title={'State'}
+							text={user?.personalInfo?.stateOfOrigin}
+						/>
 					</div>
 					<div className='col-span-3'>
-						<ContentBox title={'Country:'} text={'Nigeria'} />
+						<ContentBox
+							title={'Country:'}
+							text={user?.personalInfo?.nationality}
+						/>
 					</div>
 				</div>
 			</div>
@@ -136,6 +162,25 @@ const PersonalRecord = () => {
 							</button>
 						</div>
 					</form>
+				</div>
+			</CustomModal>
+			<CustomModal modalIsOpen={sendDidModal} setIsOpen={setsendDidModal}>
+				<div className='py-[2.5rem] px-[3.62rem] relative'>
+					<p className='font-[600] text-[1.25rem] leading-[2.375rem] text-[#2E3646] text-center mb-8'>
+						Send your Did to your patience
+					</p>
+					<p className='my-[1.5rem] font-[400] text-[0.875rem] leading-[1.5rem] text-[#5F6D7E] text-center'>
+						you can copy your Did by pressing the copy DID button at
+						the top
+					</p>
+					<SendDid />
+					{clicked && (
+						<div className='absolute px-8 py-2 rounded-md bg-green-600 top-0 right-0'>
+							<p className='text-white'>
+								Message sent successfully
+							</p>
+						</div>
+					)}
 				</div>
 			</CustomModal>
 		</section>

@@ -7,7 +7,7 @@ import protocolDefinition from '@/protocols/healthRecord.json';
 import { useRouter } from 'next/navigation';
 const ProfilePage = () => {
 	const router = useRouter();
-	const { web5, myDid, userRole, getUser } = useStateContext();
+	const { web5, myDid, userRole, getUser, isGettingUser } = useStateContext();
 	const [name, setName] = useState('');
 	const [email, setEmail] = useState('');
 	const [isLoading, setIsLoading] = useState(false);
@@ -27,40 +27,10 @@ const ProfilePage = () => {
 		city: '',
 		role: '',
 	});
-	// console.log(web5);
 	const handleInputChange = (event) => {
 		const { name, value } = event.target;
 		setUser({ ...user, [name]: value });
 	};
-	// const getUser = async () => {
-	// 	console.log('getting user');
-	// 	const { records } = await web5.dwn.records.query({
-	// 		message: {
-	// 			filter: {
-	// 				schema: protocolDefinition.types.patientInfo.schema,
-	// 			},
-	// 			dateSort: 'createdAscending',
-	// 		},
-	// 	});
-	// 	console.log(records);
-	// 	// add entry to userInfo
-	// 	for (let record of records) {
-	// 		const data = await record.data.json();
-	// 		const list = { record, data, id: record.id };
-	// 		// console.log(list);
-	// 		setUserInfo((user) => {
-	// 			if (!user.some((item) => item.id === list.id)) {
-	// 				return [...user, list];
-	// 			}
-	// 			return user;
-	// 		});
-	// 	}
-	// };
-	// useEffect(() => {
-	// 	if (web5) {
-	// 		getUser();
-	// 	}
-	// }, [web5]);
 	useEffect(() => {
 		if (userRole) {
 			router.push(`/${userRole}/overview`);
@@ -68,10 +38,7 @@ const ProfilePage = () => {
 	});
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		// if (email === '' && name === '') {
-		// 	alert('email and fullname is required');
-		// 	return;
-		// }
+
 		setIsLoading(true);
 		try {
 			console.log('running');
@@ -103,29 +70,34 @@ const ProfilePage = () => {
 			});
 			setUserRecord(record);
 			if (status.code === 200) {
-				getUser();
+				// getUser();
 			}
-			// const { status: myDidStatus } = await record.send(myDid);
-			// console.log('status of online dwd >', myDidStatus);
-			// setEmail('');
-			// setName('');
+			const { status: myDidStatus } = await record.send(myDid);
+			console.log('status of online dwd >', myDidStatus);
 		} catch (error) {
 			console.log(error);
-		} finally {
-			// setIsLoading(false);
 		}
 	};
 	if (isLoading) {
 		return (
-			<div className='h-screen w-screen flex justify-center items-center'>
+			<div className='h-screen w-full flex justify-center items-center'>
 				<p className='text-xl'>Loading..</p>
+			</div>
+		);
+	}
+	if (isGettingUser) {
+		return (
+			<div className='h-screen w-full flex justify-center items-center'>
+				<p className='text-xl'>Getting Your information..</p>
 			</div>
 		);
 	}
 	return (
 		<div className='p-6'>
 			<form onSubmit={handleSubmit}>
-				<h2>User Profile</h2>
+				<h1 className='font-[500] text-[2rem] leading-[2.5rem] text-[#151515] tracking-[0.04rem] mb-[2rem]'>
+					User Profile
+				</h1>
 				<div className={`grid gap-x-4 grid-cols-2`}>
 					<div className={`w-full`}>
 						<label>
@@ -269,13 +241,17 @@ const ProfilePage = () => {
 					<div className={`w-full`}>
 						<label>
 							Marital Status:
-							<input
-								type='text'
+							<select
 								name='maritalStatus'
 								value={user.maritalStatus}
 								onChange={handleInputChange}
+								required
 								className={`w-full p-2 rounded-md border border-gray-300 focus:border-blue-500`}
-							/>
+							>
+								<option>Select Your Marital Status</option>
+								<option value='married'>Married</option>
+								<option value='single'>Single</option>
+							</select>
 						</label>
 					</div>
 				</div>
