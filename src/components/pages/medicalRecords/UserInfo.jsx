@@ -3,6 +3,9 @@ import React, { useState, useEffect } from 'react';
 import PersonalRecord from './PersonalRecord';
 import GuardianRecord from './GuardianRecord';
 import MedicalProvider from './MedicalProvider';
+import NewMedicalRecordCheckList from './NewMedicalRecordCheckList';
+import AllergyRecord from './AllergyRecord';
+import MedicalRecordsSuccess from './MedicalRecordsSuccess';
 import { useStateContext } from '@/state/AppContext';
 import protocolDefinition from '@/protocols/healthRecord.json';
 import TopComponent from './TopComponent';
@@ -51,6 +54,9 @@ const UserInfo = () => {
 			<GuardianRecord />
 			<MedicalProvider />
 			<button onClick={handleDelete}>delete</button>
+			<NewMedicalRecordCheckList />
+			<AllergyRecord />
+			<MedicalRecordsSuccess />
 		</div>
 	);
 };

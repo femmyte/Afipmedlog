@@ -14,13 +14,13 @@ const OverviewAppointments = () => {
               <GoChevronRight />
             </div>
        </div>
-       <div>
+       <div className='flex flex-col justify-center items-center'>
             <Calendar
                 className="text-sm p-2 mt-2"
                 onChange={onChange}
                 value={value}
             />
-            <button className='rounded-sm p-2 px-5 bg-[#145AE2] text-white items-center outline-none'>Book Appointment</button>
+            <button className='rounded-sm p-2 px-5 bg-[#145AE2] text-white'>Book Appointment</button>
        </div>
     </div>
   )
