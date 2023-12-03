@@ -14,7 +14,7 @@ const Table = () => {
         return 'black';
       };
   return (
-    <div className='w-[25rem] mt-[2rem] shadow-gray-300 shadow-sm p-3'>
+    <div className='w-[23rem] shadow-gray-300 shadow-sm p-3'>
         <div className='flex justify-between'>
             <h2>History</h2>
             <div className='flex items-center text-[#145AE2]'>
@@ -22,8 +22,8 @@ const Table = () => {
               <GoChevronRight />
             </div>
        </div>
-       <table className='mt-[1rem] text-left'>
-            <tr className='text-sm'>
+       <table className='mt-[0.5rem] text-left'>
+            <tr className='text-xs'>
               <th className='p-2'>Treatment</th>
               <th className='p-2'>Doctor</th>
               <th className='p-2'>Date</th>

@@ -9,14 +9,26 @@ import OverviewAppointments from '@/components/pages/overview/OverviewAppointmen
 
 const page = () => {
 	return (
-		<div>
+		<div className=''>
 			<OverviewHeader />
-			<Cards />
-			<Table />
-			<MedicalRecords />
-			<Doctors />
-			<GeneralDetails />
-			<OverviewAppointments />
+			<div className='grid grid-cols-12 gap-2 w-full'>
+				<div className="col col-span-9">
+					<Cards />
+				</div>
+				<div className="col col-span-2">
+				    <Doctors />
+				</div>
+				<div className="col col-span-5">
+				   <Table/>
+				</div>
+				<div className="col col-span-4">
+					<MedicalRecords />
+				</div>
+				<div className="col col-span-2">
+				<GeneralDetails />
+			    <OverviewAppointments />
+				</div>
+			</div>
 		</div>
 	);
 };
