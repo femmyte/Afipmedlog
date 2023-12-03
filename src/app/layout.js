@@ -15,7 +15,9 @@ export default function RootLayout({ children }) {
 		<html lang='en'>
 			<body className={inter.className}>
 				<AppContextProvider>
-					<DashboardLayout>{children}</DashboardLayout>
+					{/* <DashboardLayout> */}
+					{children}
+					{/* </DashboardLayout> */}
 				</AppContextProvider>
 			</body>
 		</html>
