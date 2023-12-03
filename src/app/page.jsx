@@ -10,7 +10,7 @@ const Home = () => {
 	useEffect(() => {
 		const existingDid = localStorage.getItem('myDid');
 		if (existingDid) {
-			router.push('/overview');
+			router.push('/profile');
 		}
 	});
 	const handleClick = async () => {
@@ -33,9 +33,9 @@ const Home = () => {
 		);
 	}
 	return (
-		<div className='flex justify-center items-center h-screen w-full'>
+		<div className='flex flex-col justify-center items-center h-screen w-full'>
 			<p className='text-black'>welcome</p>
-			<div className='flex justify-center'>
+			<div className='flex justify-center gap-x-6'>
 				<button
 					className='bg-purple-500 px-5 py-3'
 					onClick={handleClick}

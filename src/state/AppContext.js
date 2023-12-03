@@ -15,6 +15,8 @@ export const AppContextProvider = ({ children }) => {
 	const [darkToggle, setDarkToggle] = useState(false);
 	const [openLogoutModal, setOpenLogoutModal] = useState(false);
 	const [fetchedTweets, setFetchedTweets] = useState([]);
+	const [userRole, setUserRole] = useState('');
+	const [userInfo, setUserInfo] = useState([]);
 
 	// web5
 	const [web5, setWeb5] = useState(null);
@@ -76,7 +78,48 @@ export const AppContextProvider = ({ children }) => {
 			configureProtocol();
 		}
 	}, [web5]);
+	const getUser = async () => {
+		console.log('getting user');
+		const { records } = await web5.dwn.records.query({
+			message: {
+				filter: {
+					schema: protocolDefinition.types.patientInfo.schema,
+				},
+				dateSort: 'createdAscending',
+			},
+		});
+		console.log(records);
+		// add entry to userInfo
+		for (let record of records) {
+			const data = await record.data.json();
+			const list = { record, data, id: record.id };
+			// console.log(list);
+			setUserInfo((user) => {
+				if (!user.some((item) => item.id === list.id)) {
+					return [...user, list];
+				}
+				return user;
+			});
+		}
+		// if (userInfo.length > 0) {
+		// 	setUserRole(userInfo[0].data.personalInfo.role);
+		// 	router.push(`/${userInfo[0].data.personalInfo.role}/overview`);
+		// }
+	};
+	useEffect(() => {
+		if (web5) {
+			getUser();
+		}
+	}, [web5]);
 
+	useEffect(() => {
+		console.log(userInfo[0]);
+
+		if (userInfo.length > 0) {
+			setUserRole(userInfo[0].data.personalInfo.role);
+			// router.push(`/${userInfo[0].data.personalInfo.role}/overview`);
+		}
+	}, [userInfo]);
 	const handleClick = (clicked) => {
 		setIsClicked({ ...isClicked, [clicked]: true });
 	};
@@ -102,6 +145,9 @@ export const AppContextProvider = ({ children }) => {
 				setFetchedTweets,
 				web5,
 				myDid,
+				userRole,
+				setUserRole,
+				getUser,
 			}}
 		>
 			{children}
