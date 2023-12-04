@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import ContentBox from './ContentBox';
 import CustomModal from '@/components/common/CustomModal';
 import { FiClipboard } from 'react-icons/fi';
@@ -9,17 +9,20 @@ import { copyToClipboard } from '@/utils/utilities';
 import SendDid from './SendDid';
 
 const PersonalRecord = () => {
+	const ref = useRef();
 	const [openModal, setOpenModal] = useState(false);
 	const [sendDidModal, setsendDidModal] = useState(false);
 	let { myDid, userRole, user } = useStateContext();
 	const [email, setEmail] = useState('');
+	const [userDid, setUserDid] = useState('');
 	const [did, setDid] = useState('');
 	const [clicked, setClicked] = useState(false);
 
-	const handleClick = () => {
+	const handleClick = async (e) => {
+		e.preventDefault();
+
+		setsendDidModal(false);
 		setClicked(true);
-		setEmail('');
-		setDid('');
 		setTimeout(() => {
 			setClicked(false);
 		}, 4000);
@@ -35,7 +38,7 @@ const PersonalRecord = () => {
 	// 	const { status: bobStatus } = await record.send(bobDid);
 	// }
 	return (
-		<section>
+		<section className='relative'>
 			<div>
 				<div className='flex items-center justify-between mb-[1.5rem]'>
 					<p className='text-[1.25rem] text-primaryBlue leading-[1.75rem] font-[500] tracking-[0.025rem]'>
@@ -139,7 +142,7 @@ const PersonalRecord = () => {
 					</p> */}
 					<form className=''>
 						<label
-							htmlFor='did'
+							htmlFor='userDid'
 							className='block font-[400] text-[0.875rem] text-[#151515] mb-[0.5rem] '
 						>
 							Enter Recipients’ DID{' '}
@@ -147,16 +150,16 @@ const PersonalRecord = () => {
 						<input
 							className='w-[25rem] py-[0.75rem] px-4 rounded-[0.25rem] border border-[#E8E8E8] focus:border-blue-500 block	'
 							placeholder='Recipients’ DID '
-							id='did'
+							id='userDid'
 							type='text'
-							name='did'
-							value={did}
-							onChange={(e) => setDid(e.target.value)}
+							name='userDid'
+							value={userDid}
+							onChange={(e) => setUserDid(e.target.value)}
 						/>
 						<div className='flex flex-col items-center gap-6 justify-center mt-8'>
 							<button
 								className='w-[10.125rem] py-[0.5rem] px-4 rounded-[0.25rem] bg-primaryBlue text-white flex justify-center items-center font-[500] leading-6 tracking-[0.02rem disabled:bg-[#DCE6FB]'
-								disabled={!did}
+								disabled={!userDid}
 							>
 								Share Record
 							</button>
@@ -173,16 +176,67 @@ const PersonalRecord = () => {
 						you can copy your Did by pressing the copy DID button at
 						the top
 					</p>
-					<SendDid />
-					{clicked && (
-						<div className='absolute px-8 py-2 rounded-md bg-green-600 top-0 right-0'>
-							<p className='text-white'>
-								Message sent successfully
-							</p>
+					{/* <SendDid handleClick={handleClick} /> */}
+					<form
+						className=''
+						ref={ref}
+						action={async (formData) => {
+							ref.current.reset();
+							await sendEmail(formData);
+						}}
+					>
+						<div className='mb-4'>
+							<label
+								htmlFor='did'
+								className='block font-[400] text-[0.875rem] text-[#151515] mb-[0.5rem] '
+							>
+								Enter Recipients’ Email{' '}
+							</label>
+							<input
+								className='w-[25rem] py-[0.75rem] px-4 rounded-[0.25rem] border border-[#E8E8E8] focus:border-blue-500 block	'
+								type='email'
+								placeholder='Enter Recipient Email'
+								name='senderEmail'
+							/>
 						</div>
-					)}
+						<div className=''>
+							<label
+								htmlFor='did'
+								className='block font-[400] text-[0.875rem] text-[#151515] mb-[0.5rem] '
+							>
+								Enter Recipients’ DID{' '}
+							</label>
+							<input
+								className='w-[25rem] py-[0.75rem] px-4 rounded-[0.25rem] border border-[#E8E8E8] focus:border-blue-500 block	'
+								placeholder='Enter Recipient DID'
+								type='text'
+								id='did'
+								name='did'
+								required
+							/>
+							<input
+								className='hidden w-[25rem] py-[0.75rem] px-4 rounded-[0.25rem] border border-[#E8E8E8] focus:border-blue-500'
+								placeholder='Enter Your DID'
+								type='text'
+								name='name'
+								value={user?.personalInfo?.name}
+								hidden
+								readOnly
+							/>
+						</div>
+						<div className='flex flex-col items-center gap-6 justify-center mt-8'>
+							<button className='w-[10.125rem] py-[0.5rem] px-4 rounded-[0.25rem] bg-primaryBlue text-white flex justify-center items-center font-[500] leading-6 tracking-[0.02rem disabled:bg-[#DCE6FB]'>
+								Send DID
+							</button>
+						</div>
+					</form>
 				</div>
 			</CustomModal>
+			{clicked && (
+				<div className='absolute px-8 py-2 rounded-md bg-green-600 top-0 right-0'>
+					<p className='text-white'>Message sent successfully</p>
+				</div>
+			)}
 		</section>
 	);
 };

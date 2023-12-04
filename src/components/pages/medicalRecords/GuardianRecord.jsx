@@ -1,7 +1,16 @@
-import React from 'react';
+'use client';
+import React, { useState } from 'react';
 import ContentBox from './ContentBox';
+import CustomModal from '@/components/common/CustomModal';
+import { useStateContext } from '@/state/AppContext';
+import GuardianForm from './GuardianForm';
 
 const GuardianRecord = () => {
+	let { myDid, userRole, user } = useStateContext();
+	const [openModal, setOpenModal] = useState(false);
+	const handleOpenModal = () => {
+		setOpenModal(!openModal);
+	};
 	return (
 		<section>
 			<div className='mt-[2.5rem]'>
@@ -9,9 +18,14 @@ const GuardianRecord = () => {
 					<p className='text-[1.25rem] text-primaryBlue leading-[1.75rem] font-[500] tracking-[0.025rem]'>
 						Guardian Record
 					</p>
-					{/* <button className='text-[0.875rem] text-primaryBlue leading-[1.75rem] font-[400] tracking-[0.025rem]'>
-						Share Record
-					</button> */}
+					{userRole === 'patient' && (
+						<button
+							className='text-[0.875rem] text-primaryBlue leading-[1.75rem] font-[400] tracking-[0.025rem]'
+							onClick={handleOpenModal}
+						>
+							Add Record
+						</button>
+					)}
 				</div>
 				<div className='grid grid-cols-12 w-full'>
 					<div className='col col-span-7'>
@@ -61,6 +75,17 @@ const GuardianRecord = () => {
 					</div>
 				</div>
 			</div>
+			<CustomModal modalIsOpen={openModal} setIsOpen={setOpenModal}>
+				<div className='py-[2.5rem] px-[3.62rem]'>
+					<p className='font-[600] text-[1.25rem] leading-[2.375rem] text-[#2E3646] text-center mb-8'>
+						Share Medical Record
+					</p>
+					{/* <p className='my-[1.5rem] font-[400] text-[0.875rem] leading-[1.5rem] text-[#5F6D7E] text-center'>
+						What type of medical record ?
+					</p> */}
+					<GuardianForm handleOpenModal={handleOpenModal} />
+				</div>
+			</CustomModal>
 		</section>
 	);
 };

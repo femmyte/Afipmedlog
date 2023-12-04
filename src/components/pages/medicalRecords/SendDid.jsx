@@ -5,8 +5,8 @@ import { copyToClipboard } from '@/utils/utilities';
 import React, { useState } from 'react';
 import { FiClipboard } from 'react-icons/fi';
 
-const SendDid = () => {
-	let { myDid } = useStateContext();
+const SendDid = ({ handleClick }) => {
+	let { myDid, user } = useStateContext();
 	const [email, setEmail] = useState('');
 	const [did, setDid] = useState('');
 	const [copiedDid, setCopiedDid] = useState(false);
@@ -19,14 +19,14 @@ const SendDid = () => {
 		}, 4000);
 	};
 
-	const handleClick = () => {
-		setClicked(true);
-		setEmail('');
-		setDid('');
-		setTimeout(() => {
-			setClicked(false);
-		}, 4000);
-	};
+	// const handleClick = () => {
+	// 	setClicked(true);
+	// 	setEmail('');
+	// 	setDid('');
+	// 	setTimeout(() => {
+	// 		setClicked(false);
+	// 	}, 4000);
+	// };
 
 	return (
 		<form
@@ -64,13 +64,22 @@ const SendDid = () => {
 				value={did}
 				onChange={(e) => setDid(e.target.value)}
 			/>
+			<input
+				className='w-[25rem] py-[0.75rem] px-4 rounded-[0.25rem] border border-[#E8E8E8] focus:border-blue-500 block	'
+				placeholder='Enter Your DID'
+				type='text'
+				name='name'
+				value={user?.personalInfo?.name}
+				hidden
+				readOnly
+			/>
 			<div className='flex flex-col items-center gap-6 justify-center mt-8'>
 				<button
 					className='w-[10.125rem] py-[0.5rem] px-4 rounded-[0.25rem] bg-primaryBlue text-white flex justify-center items-center font-[500] leading-6 tracking-[0.02rem disabled:bg-[#DCE6FB]'
 					disabled={!did || !email}
-					// onClick={handleClick}
+					onClick={handleClick}
 				>
-					Share Record
+					Send DID
 				</button>
 			</div>
 			{/* <div className='flex flex-col items-center gap-6 justify-center mt-6'>

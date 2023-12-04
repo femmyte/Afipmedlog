@@ -61,10 +61,10 @@ export const AppContextProvider = ({ children }) => {
 		}
 
 		// if the protocol already exists, we return
-		if (protocols.length > 0) {
-			console.log('Protocol already exists');
-			return;
-		}
+		// if (protocols.length > 0) {
+		// 	console.log('Protocol already exists');
+		// 	return;
+		// }
 
 		// configure protocol on local DWN
 		const { status: configureStatus, protocol } =

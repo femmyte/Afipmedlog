@@ -12,10 +12,6 @@ import TopComponent from './TopComponent';
 
 const UserInfo = () => {
 	const { web5, myDid, user } = useStateContext();
-	const [userInfo, setUserInfo] = useState([]);
-	const [copiedDid, setCopiedDid] = useState(false);
-	const [clicked, setClicked] = useState(false);
-
 	const handleDelete = async () => {
 		//Query records with plain text data format
 		try {
@@ -57,6 +53,7 @@ const UserInfo = () => {
 			<NewMedicalRecordCheckList />
 			<AllergyRecord />
 			<MedicalRecordsSuccess />
+			{/* <button onClick={handleDelete}>delete</button> */}
 		</div>
 	);
 };

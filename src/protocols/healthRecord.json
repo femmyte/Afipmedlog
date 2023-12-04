@@ -6,6 +6,10 @@
 			"schema": "https://example.com/patientInfoSchema",
 			"dataFormats": ["application/json"]
 		},
+		"guardianInfo": {
+			"schema": "https://example.com/guardianInfoSchema",
+			"dataFormats": ["application/json"]
+		},
 		"medicalHistory": {
 			"schema": "https://example.com/medicalHistorySchema",
 			"dataFormats": ["application/json"]
@@ -62,6 +66,17 @@
 					"can": "read"
 				}
 			],
+			"guardianInfo": {
+				"$actions": [
+					{ "who": "author", "of": "patientInfo", "can": "read" },
+
+					{
+						"who": "recipient",
+						"of": "patientInfo",
+						"can": "read"
+					}
+				]
+			},
 			"medicalHistory": {
 				"$actions": [
 					{ "who": "author", "of": "patientInfo", "can": "read" },
