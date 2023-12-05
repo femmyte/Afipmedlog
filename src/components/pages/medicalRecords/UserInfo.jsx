@@ -49,10 +49,10 @@ const UserInfo = () => {
 			<PersonalRecord />
 			<GuardianRecord />
 			<MedicalProvider />
-			<button onClick={handleDelete}>delete</button>
+			{/* 
 			<NewMedicalRecordCheckList />
 			<AllergyRecord />
-			<MedicalRecordsSuccess />
+			<MedicalRecordsSuccess /> */}
 			{/* <button onClick={handleDelete}>delete</button> */}
 		</div>
 	);
