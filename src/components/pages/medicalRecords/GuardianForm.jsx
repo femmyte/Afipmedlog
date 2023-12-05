@@ -7,12 +7,11 @@ import protocolDefinition from '@/protocols/healthRecord.json';
 import { useRouter } from 'next/navigation';
 const GuardianForm = ({ handleOpenModal }) => {
 	const router = useRouter();
-	const { web5, myDid, userRole, getUser, isGettingUser } = useStateContext();
+	const { web5, myDid, userRecord, userInfo } = useStateContext();
 	const [isLoading, setIsLoading] = useState(false);
-	const [userRecord, setUserRecord] = useState(null);
 	const existingDid = localStorage.getItem('myDid');
 	const [alertMessage, setAlertMessage] = useState('');
-	const [userInfo, setUserInfo] = useState([]);
+	// const [userInfo, setUserInfo] = useState([]);
 	const [isSuccessful, setIsSuccessful] = useState(false);
 	const [user, setUser] = useState({
 		name: '',
@@ -25,6 +24,8 @@ const GuardianForm = ({ handleOpenModal }) => {
 		stateOfOrigin: '',
 		city: '',
 	});
+
+	// console.log(userInfo);
 	const handleInputChange = (event) => {
 		const { name, value } = event.target;
 		setUser({ ...user, [name]: value });
@@ -55,12 +56,14 @@ const GuardianForm = ({ handleOpenModal }) => {
 				data: userData,
 				message: {
 					protocol: userInfoProtocol.protocol,
-					protocolPath: 'patientInfo',
-					schema: userInfoProtocol.types.patientInfo.schema,
+					protocolPath: 'guardianInfo',
+					schema: userInfoProtocol.types.guardianInfo.schema,
 					recipient: myDid,
+					dataFormat: 'application/json',
+					parentId: userInfo.id,
+					contextId: userInfo.contextId,
 				},
 			});
-			setUserRecord(record);
 			if (status === 202) {
 				setIsSuccessful(true);
 				setAlertMessage(status.message);
@@ -79,20 +82,7 @@ const GuardianForm = ({ handleOpenModal }) => {
 			console.log(error);
 		}
 	};
-	// if (isLoading) {
-	// 	return (
-	// 		<div className='h-screen w-full flex justify-center items-center'>
-	// 			<p className='text-xl'>Loading..</p>
-	// 		</div>
-	// 	);
-	// }
-	// if (isGettingUser) {
-	// 	return (
-	// 		<div className='h-screen w-full flex justify-center items-center'>
-	// 			<p className='text-xl'>Getting Your information..</p>
-	// 		</div>
-	// 	);
-	// }
+
 	return (
 		<div className='p-6 relative'>
 			<form onSubmit={handleSubmit}>

@@ -11,9 +11,9 @@ import { RiNotification3Line } from 'react-icons/ri';
 import { FaCertificate, FaUserTie } from 'react-icons/fa';
 // import LogoutModal from '../LogoutModal';
 import { copyToClipboard } from '@/utils/utilities';
-import { Noto_Sans } from 'next/font/google';
+// import { Noto_Sans } from 'next/font/google';
 
-const noto = Noto_Sans({ subsets: ['latin'], weight: ['400', '500', '600'] });
+// const noto = Noto_Sans({ subsets: ['latin'], weight: ['400', '500', '600'] });
 const Sidebar = () => {
 	let {
 		activeMenu,
@@ -48,7 +48,7 @@ const Sidebar = () => {
 
 	return (
 		<div
-			className={`h-screen  flex flex-col justify-between overflow-y-auto md:overflow-x-hidden px-[2rem] md:hover:overflow-y-auto py-[1.5rem] pb-[10px] w-full  shadow-sm ${noto.className}`}
+			className={`h-screen  flex flex-col justify-between overflow-y-auto md:overflow-x-hidden px-[2rem] md:hover:overflow-y-auto py-[1.5rem] pb-[10px] w-full  shadow-sm `}
 			style={{ boxShadow: '4px 4px 24px 0px rgba(206, 206, 206, 0.24)' }}
 		>
 			{/* <LogoutModal /> */}
