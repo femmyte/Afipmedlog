@@ -1,19 +1,16 @@
 'use client';
 import { useStateContext } from '@/state/AppContext';
-// import { Web5 } from '@web5/api';
 import React, { useContext, useEffect, useState } from 'react';
-// import protocolDefinition from '@/protocols/profileProtocol.json';
 import protocolDefinition from '@/protocols/healthRecord.json';
 import { useRouter } from 'next/navigation';
 const ProfilePage = () => {
 	const router = useRouter();
-	const { web5, myDid, userRole, getUser, isGettingUser } = useStateContext();
+	const { web5, myDid, userRole, getUser, isGettingUser, setUserRecord } =
+		useStateContext();
 	const [name, setName] = useState('');
 	const [email, setEmail] = useState('');
 	const [isLoading, setIsLoading] = useState(false);
-	const [userRecord, setUserRecord] = useState(null);
 	const existingDid = localStorage.getItem('myDid');
-	const [userInfo, setUserInfo] = useState([]);
 	const [user, setUser] = useState({
 		name: '',
 		email: '',
@@ -264,27 +261,6 @@ const ProfilePage = () => {
 					</button>
 				</div>
 			</form>
-			{/*
-			<div className='my-5'>
-				{userInfo &&
-					userInfo.map((user) => {
-						return (
-							<div className='' key={user.id}>
-								{/* <p>username: {user.data.name}</p> *
-								<p>userEmail: {user.data.email}</p>
-							</div>
-						);
-					})}
-				<div className='flex justify-center'>
-					<button
-						onClick={getUser}
-						className='bg-purple-500 px-5 py-3'
-						type='submit'
-					>
-						Fetch user record
-					</button>
-				</div>
-			</div> */}
 		</div>
 	);
 };

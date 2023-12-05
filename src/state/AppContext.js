@@ -1,5 +1,12 @@
 'use client';
-import { useContext, useEffect, createContext, useRef, useState } from 'react';
+import {
+	useContext,
+	useEffect,
+	createContext,
+	useRef,
+	useState,
+	useCallback,
+} from 'react';
 import { Web5 } from '@web5/api';
 import protocolDefinition from '@/protocols/healthRecord.json';
 
@@ -17,71 +24,183 @@ export const AppContextProvider = ({ children }) => {
 	const [fetchedTweets, setFetchedTweets] = useState([]);
 	const [userRole, setUserRole] = useState('');
 	const [userInfo, setUserInfo] = useState([]);
-	const [record, setRecord] = useState([]);
 	const [isGettingUser, setIsGettingUser] = useState(false);
+	const [userRecord, setUserRecord] = useState(null);
+	const [guardianRecord, setguardianRecord] = useState(null);
+
 	// web5
 	const [web5, setWeb5] = useState(null);
 	const [myDid, setMyDid] = useState(null);
 	const [didDocument, setDidDocument] = useState({});
-	useEffect(() => {
+
+	const getObject = useCallback(async () => {
 		const existingDid = localStorage.getItem('myDid');
 
-		const getObject = async () => {
-			// Local dwN
-			// const { web5, did } = await Web5.connect({
-			// 	techPreview: {
-			// 		dwnEndpoints: ['http://localhost:3000/'],
-			// 	},
-			// });
-			// setMyDid(did);
-			// setWeb5(web5);
-			// Online DWN
-			const { web5: userWeb } = await Web5.connect(existingDid);
-			// console.log(userWeb);
-			setMyDid(existingDid);
-			setWeb5(userWeb);
-		};
+		// Local dwN
+		// const { web5, did } = await Web5.connect({
+		// 	techPreview: {
+		// 		dwnEndpoints: ['http://localhost:3000/'],
+		// 	},
+		// });
+		// setMyDid(did);
+		// setWeb5(web5);
 
-		getObject();
+		// Online DWN
+		const { web5: userWeb } = await Web5.connect(existingDid);
+		// console.log(userWeb);
+		setMyDid(existingDid);
+		setWeb5(userWeb);
 	}, []);
-	const configureProtocol = async () => {
-		// query the list of existing protocols on the DWN
-		const { protocols, status } = await web5.dwn.protocols.query({
+
+	useEffect(() => {
+		getObject();
+	}, [getObject]);
+	const queryLocalProtocol = async (web5) => {
+		// this is in query local protocol
+		return await web5.dwn.protocols.query({
 			message: {
 				filter: {
 					protocol: protocolDefinition.protocol,
 				},
 			},
 		});
+	};
 
-		if (status.code !== 200) {
-			alert('Error querying protocols');
-			console.error('Error querying protocols', status);
+	const queryRemoteProtocol = async (web5, did) => {
+		// this is where Query remote protocol is
+		return await web5.dwn.protocols.query({
+			from: did,
+			message: {
+				filter: {
+					protocol: protocolDefinition.protocol,
+				},
+			},
+		});
+	};
+	const installLocalProtocol = async (web5, protocolDefinition) => {
+		// this is where we install local protocol
+		return await web5.dwn.protocols.configure({
+			message: {
+				definition: protocolDefinition,
+			},
+		});
+	};
+
+	const installRemoteProtocol = async (web5, did, protocolDefinition) => {
+		// this is where we install remote protocol
+		const { protocol } = await web5.dwn.protocols.configure({
+			message: {
+				definition: protocolDefinition,
+			},
+		});
+		return await protocol.send(did);
+	};
+
+	const configureProtocol = useCallback(async () => {
+		const protocolUrl = protocolDefinition.protocol;
+
+		const { protocols: localProtocols, status: localProtocolStatus } =
+			await queryLocalProtocol(web5, protocolUrl);
+
+		if (localProtocolStatus.code !== 200 || localProtocols.length === 0) {
+			const result = await installLocalProtocol(web5, protocolDefinition);
+			console.log({ result });
+			console.log('Protocol installed locally');
+		}
+
+		if (localProtocols.length > 0) {
+			console.log('Protocol already exists');
 			return;
 		}
 
-		// if the protocol already exists, we return
-		// if (protocols.length > 0) {
-		// 	console.log('Protocol already exists');
-		// 	return;
-		// }
+		const { protocols: remoteProtocols, status: remoteProtocolStatus } =
+			await queryRemoteProtocol(web5, myDid, protocolUrl);
 
-		// configure protocol on local DWN
-		const { status: configureStatus, protocol } =
-			await web5.dwn.protocols.configure({
-				message: {
-					definition: protocolDefinition,
-				},
-			});
+		if (remoteProtocolStatus.code !== 200 || remoteProtocols.length === 0) {
+			const result = await installRemoteProtocol(
+				web5,
+				myDid,
+				protocolDefinition
+			);
+			console.log({ result });
+			console.log('Protocol installed remotely');
+		}
+	}, [web5, myDid]);
 
-		console.log('Protocol configured', configureStatus, protocol);
-	};
+	// Run configureProtocol when web5 or myDid changes
 	useEffect(() => {
 		if (web5) {
 			configureProtocol();
 		}
-	}, [web5]);
-	const getUser = async () => {
+	}, [web5, configureProtocol]);
+
+	// const configureProtocol = async (web5, did) => {
+	// 	// this is where we configure our protocol
+	// 	const protocolUrl = protocolDefinition.protocol;
+
+	// 	const { protocols: localProtocols, status: localProtocolStatus } =
+	// 		await queryLocalProtocol(web5, protocolUrl);
+	// 	if (localProtocolStatus.code !== 200 || localProtocols.length === 0) {
+	// 		const result = await installLocalProtocol(web5, protocolDefinition);
+	// 		console.log({ result });
+	// 		console.log('Protocol installed locally');
+	// 	}
+	// 	// if the protocol already exists, we return
+	// 	if (localProtocols.length > 0) {
+	// 		console.log('Protocol already exists');
+	// 		return;
+	// 	}
+	// 	const { protocols: remoteProtocols, status: remoteProtocolStatus } =
+	// 		await queryRemoteProtocol(web5, did, protocolUrl);
+	// 	if (remoteProtocolStatus.code !== 200 || remoteProtocols.length === 0) {
+	// 		const result = await installRemoteProtocol(
+	// 			web5,
+	// 			did,
+	// 			protocolDefinition
+	// 		);
+	// 		console.log({ result });
+	// 		console.log('Protocol installed remotely');
+	// 	}
+	// };
+	// // const configureProtocol = async () => {
+	// // 	// query the list of existing protocols on the DWN
+	// // 	const { protocols, status } = await web5.dwn.protocols.query({
+	// // 		message: {
+	// // 			filter: {
+	// // 				protocol: protocolDefinition.protocol,
+	// // 			},
+	// // 		},
+	// // 	});
+
+	// // 	if (status.code !== 200) {
+	// // 		alert('Error querying protocols');
+	// // 		console.error('Error querying protocols', status);
+	// // 		return;
+	// // 	}
+
+	// // 	// if the protocol already exists, we return
+	// // 	if (protocols.length > 0) {
+	// // 		console.log('Protocol already exists');
+	// // 		return;
+	// // 	}
+
+	// // 	// configure protocol on local DWN
+	// // 	const { status: configureStatus, protocol } =
+	// // 		await web5.dwn.protocols.configure({
+	// // 			message: {
+	// // 				definition: protocolDefinition,
+	// // 			},
+	// // 		});
+
+	// // 	console.log('Protocol configured', configureStatus, protocol);
+	// // };
+	// useEffect(() => {
+	// 	if (web5) {
+	// 		configureProtocol(web5, myDid);
+	// 	}
+	// }, [web5, myDid]);
+	// Memoize the getUser function
+	const getUser = useCallback(async () => {
 		setIsGettingUser(true);
 		console.log('getting user');
 		const { records } = await web5.dwn.records.query({
@@ -92,11 +211,11 @@ export const AppContextProvider = ({ children }) => {
 				dateSort: 'createdAscending',
 			},
 		});
+
 		// add entry to userInfo
 		for (let record of records) {
 			const data = await record.data.json();
 			const list = { record, data, id: record.id };
-			// console.log(list);
 			setUserInfo((user) => {
 				if (!user.some((item) => item.id === list.id)) {
 					return [...user, list];
@@ -104,23 +223,29 @@ export const AppContextProvider = ({ children }) => {
 				return user;
 			});
 		}
+
 		if (records) {
 			setIsGettingUser(false);
 		}
-	};
+	}, [web5]); // Dependency array includes web5
+
+	// Trigger the getUser function on mount
 	useEffect(() => {
 		if (web5) {
 			getUser();
 		}
-	}, [web5]);
+	}, [getUser, web5]);
 
 	useEffect(() => {
-		console.log(userInfo[0]);
+		// console.log(userInfo[0]);
 
 		if (userInfo.length > 0) {
 			setUser(userInfo[0].data);
 			setUserRole(userInfo[0].data.personalInfo.role);
-			// router.push(`/${userInfo[0].data.personalInfo.role}/overview`);
+		}
+		if (userInfo.length > 1) {
+			console.log(userInfo[1].data.guardianInfo);
+			setguardianRecord(userInfo[1].data.guardianInfo);
 		}
 	}, [userInfo]);
 	const handleClick = (clicked) => {
@@ -152,6 +277,11 @@ export const AppContextProvider = ({ children }) => {
 				setUserRole,
 				getUser,
 				isGettingUser,
+				userRecord,
+				setUserRecord,
+				guardianRecord,
+				setguardianRecord,
+				userInfo,
 			}}
 		>
 			{children}

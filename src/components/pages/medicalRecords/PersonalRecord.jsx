@@ -2,17 +2,15 @@
 import React, { useRef, useState } from 'react';
 import ContentBox from './ContentBox';
 import CustomModal from '@/components/common/CustomModal';
-import { FiClipboard } from 'react-icons/fi';
 import { sendEmail } from '@/service/sendEmail';
 import { useStateContext } from '@/state/AppContext';
-import { copyToClipboard } from '@/utils/utilities';
-import SendDid from './SendDid';
+import protocolDefinition from '@/protocols/healthRecord.json';
 
 const PersonalRecord = () => {
 	const ref = useRef();
 	const [openModal, setOpenModal] = useState(false);
 	const [sendDidModal, setsendDidModal] = useState(false);
-	let { myDid, userRole, user } = useStateContext();
+	let { web5, myDid, userRole, user, userInfo } = useStateContext();
 	const [email, setEmail] = useState('');
 	const [userDid, setUserDid] = useState('');
 	const [did, setDid] = useState('');
@@ -27,16 +25,36 @@ const PersonalRecord = () => {
 			setClicked(false);
 		}, 4000);
 	};
-	// console.log(user);
+	console.log(userInfo);
 	const handleOpenModal = () => {
 		setOpenModal(true);
 	};
 	const handleOpenModalSendDid = () => {
 		setsendDidModal(true);
 	};
-	// handleSendRecord = async () => {
-	// 	const { status: bobStatus } = await record.send(bobDid);
-	// }
+	const handleSendRecord = async (e) => {
+		e.preventDefault();
+		const userInfoProtocol = protocolDefinition;
+
+		const { record: docTorRecord, status } = await web5.dwn.records.create({
+			data: userInfo,
+			message: {
+				protocol: userInfoProtocol.protocol,
+				protocolPath: 'patientInfo',
+				schema: userInfoProtocol.types.patientInfo.schema,
+				dataFormat: 'application/json',
+				recipient: userDid,
+			},
+		});
+
+		if (status.code === 202) {
+			setOpenModal(false);
+			setClicked(true);
+			setTimeout(() => {
+				setClicked(false);
+			}, 4000);
+		}
+	};
 	return (
 		<section className='relative'>
 			<div>
@@ -160,6 +178,7 @@ const PersonalRecord = () => {
 							<button
 								className='w-[10.125rem] py-[0.5rem] px-4 rounded-[0.25rem] bg-primaryBlue text-white flex justify-center items-center font-[500] leading-6 tracking-[0.02rem disabled:bg-[#DCE6FB]'
 								disabled={!userDid}
+								onClick={handleSendRecord}
 							>
 								Share Record
 							</button>
@@ -176,7 +195,6 @@ const PersonalRecord = () => {
 						you can copy your Did by pressing the copy DID button at
 						the top
 					</p>
-					{/* <SendDid handleClick={handleClick} /> */}
 					<form
 						className=''
 						ref={ref}
@@ -234,7 +252,9 @@ const PersonalRecord = () => {
 			</CustomModal>
 			{clicked && (
 				<div className='absolute px-8 py-2 rounded-md bg-green-600 top-0 right-0'>
-					<p className='text-white'>Message sent successfully</p>
+					<p className='text-white'>
+						Your Record has been send successfully
+					</p>
 				</div>
 			)}
 		</section>

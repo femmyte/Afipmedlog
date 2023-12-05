@@ -68,8 +68,6 @@
 			],
 			"guardianInfo": {
 				"$actions": [
-					{ "who": "author", "of": "patientInfo", "can": "read" },
-
 					{
 						"who": "recipient",
 						"of": "patientInfo",
