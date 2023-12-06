@@ -1,16 +1,31 @@
 'use client';
 import { useStateContext } from '@/state/AppContext';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, useCallback } from 'react';
 import protocolDefinition from '@/protocols/healthRecord.json';
 import { useRouter } from 'next/navigation';
+import { Web5 } from '@web5/api';
+
 const ProfilePage = () => {
 	const router = useRouter();
-	const { web5, myDid, userRole, getUser, isGettingUser, setUserRecord } =
+	const {  web5, myDid, userRole, getUser, isGettingUser, setUserRecord } =
 		useStateContext();
+		// console.log(web5)
 	const [name, setName] = useState('');
 	const [email, setEmail] = useState('');
+	const [web52, setWeb5] = useState(null);
 	const [isLoading, setIsLoading] = useState(false);
 	const existingDid = localStorage.getItem('myDid');
+	// const getObject = useCallback(async () => {
+	// 	const existingDid = localStorage.getItem('myDid');
+	// 	const { web5: userWeb } = await Web5.connect(existingDid);
+	// 	// console.log(userWeb);
+	// 	// setMyDid(existingDid);
+	// 	setWeb5(userWeb);
+	// }, []);
+
+	// useEffect(() => {
+	// 	getObject();
+	// }, [getObject]);
 	const [user, setUser] = useState({
 		name: '',
 		email: '',
@@ -33,6 +48,7 @@ const ProfilePage = () => {
 			router.push(`/${userRole}/overview`);
 		}
 	});
+	console.log(userRole);
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
@@ -66,7 +82,10 @@ const ProfilePage = () => {
 				},
 			});
 			setUserRecord(record);
-			if (status.code === 200) {
+			console.log(status);
+			if (status.code === 202) {
+				router.push(`/${userRole}/overview`);
+				setIsLoading(false)
 				// getUser();
 			}
 			const { status: myDidStatus } = await record.send(myDid);
@@ -75,6 +94,13 @@ const ProfilePage = () => {
 			console.log(error);
 		}
 	};
+	if (web5 == null){
+		return (
+			<div className='h-screen w-full flex justify-center items-center'>
+				<p className='text-xl'>fetching web5..</p>
+			</div>
+		);
+	}
 	if (isLoading) {
 		return (
 			<div className='h-screen w-full flex justify-center items-center'>

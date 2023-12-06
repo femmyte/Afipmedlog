@@ -32,9 +32,9 @@ export const AppContextProvider = ({ children }) => {
 	const [web5, setWeb5] = useState(null);
 	const [myDid, setMyDid] = useState(null);
 	const [didDocument, setDidDocument] = useState({});
+	const existingDid = localStorage.getItem('myDid');
 
 	const getObject = useCallback(async () => {
-		const existingDid = localStorage.getItem('myDid');
 
 		// Local dwN
 		// const { web5, did } = await Web5.connect({
@@ -46,14 +46,16 @@ export const AppContextProvider = ({ children }) => {
 		// setWeb5(web5);
 
 		// Online DWN
-		const { web5: userWeb } = await Web5.connect(existingDid);
+		const { web5 } = await Web5.connect(existingDid);
+		// const web5 = await Web5.connect(existingDid);
+        // const { agent: userWeb } = web5.options || {};
 		// console.log(userWeb);
 		setMyDid(existingDid);
-		setWeb5(userWeb);
+		setWeb5(web5);
 	}, []);
 
 	useEffect(() => {
-		getObject();
+			getObject();
 	}, [getObject]);
 	const queryLocalProtocol = async (web5) => {
 		// this is in query local protocol
@@ -104,7 +106,7 @@ export const AppContextProvider = ({ children }) => {
 
 		if (localProtocolStatus.code !== 200 || localProtocols.length === 0) {
 			const result = await installLocalProtocol(web5, protocolDefinition);
-			console.log({ result });
+			// console.log({ result });
 			console.log('Protocol installed locally');
 		}
 
@@ -122,7 +124,7 @@ export const AppContextProvider = ({ children }) => {
 				myDid,
 				protocolDefinition
 			);
-			console.log({ result });
+			// console.log({ result });
 			console.log('Protocol installed remotely');
 		}
 	}, [web5, myDid]);
@@ -237,7 +239,7 @@ export const AppContextProvider = ({ children }) => {
 	}, [getUser, web5]);
 
 	useEffect(() => {
-		// console.log(userInfo[0]);
+		console.log(userInfo);
 
 		if (userInfo.length > 0) {
 			setUser(userInfo[0].data);
