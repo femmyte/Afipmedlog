@@ -16,6 +16,7 @@ const TopComponent = () => {
 	const [openModal, setOpenModal] = useState(false);
 	const [openFormModal, setOpenFormModal] = useState(false);
 	const [selectedItem, setSelectedItem] = useState('');
+	const [sharedInfo, setSharedInfo] = useState(null);
 	const handleClick = () => {
 		setOpenModal(true);
 	};
@@ -28,7 +29,7 @@ const TopComponent = () => {
 	};
 	const getDoctorRecord = useCallback(async () => {
 		console.log('running');
-		const response = await web5.dwn.records.query({
+		const { records } = await web5.dwn.records.query({
 			// from: myDid,
 			// message: {
 			// 	filter: {
@@ -42,10 +43,20 @@ const TopComponent = () => {
 				},
 			},
 		});
-		console.log(response);
-		response.records.forEach((record) => {
-			console.log(record);
-		});
+		// records.forEach((record) => {
+		// 	console.log(record);
+		// });
+		for (let record of records) {
+			const data = await record.data.json();
+			const list = { record, data, id: record.id };
+			setSharedInfo((user) => {
+				if (!user.some((item) => item.id === list.id)) {
+					return [...user, list];
+				}
+				return user;
+			});
+		}
+		console.log(sharedInfo);
 	}, [myDid, web5]);
 	useEffect(() => {
 		if (web5) {
