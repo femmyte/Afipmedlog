@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { Web5 } from "@web5/api";
+import { Web5 } from "@web5/api/browser";
 import { useRouter } from "next/navigation";
 import { useStateContext } from "@/state/AppContext";
 import Link from "next/link";
@@ -47,10 +47,10 @@ const Home = () => {
     <div className="flex flex-col justify-center items-center h-screen w-full">
       <p className="text-black">welcome</p>
       <div className="flex justify-center gap-x-6">
-        <button className="bg-purple-500 px-5 py-3" onClick={handleClick}>
+        {/* <button className="bg-purple-500 px-5 py-3" onClick={handleClick}>
           get started
-        </button>
-        {/* <Link href={"/already-have-account"}>Get Started</Link> */}
+        </button> */}
+        <Link href={"/already-have-account"}>Get Started</Link>
       </div>
     </div>
   );

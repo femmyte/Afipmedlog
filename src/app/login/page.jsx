@@ -1,6 +1,6 @@
 "use client";
 import { useStateContext } from "@/state/AppContext";
-import { Web5 } from "@web5/api";
+import { Web5 } from "@web5/api/browser";
 import React, { useState, useEffect } from "react";
 
 const Login = () => {
@@ -24,10 +24,14 @@ const Login = () => {
     setIsLoading(true);
     try {
       if (did) {
-        const { web5 } = await Web5.connect(did);
+        // const { web5 } = await Web5.connect(did);
+        const { web5, did: newDid } = await Web5.connect({
+          agent: identityAgent,
+          connectedDid: did,
+        });
         // Rest of your code that uses the `web5` object
-        localStorage.setItem("myDid", did);
-        setMyDid(did);
+        localStorage.setItem("myDid", newDid);
+        setMyDid(newDid);
         setWeb5(web5);
         if (web5) {
           const userInfo = await getUser();

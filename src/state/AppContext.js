@@ -7,7 +7,8 @@ import {
   useState,
   useCallback,
 } from "react";
-import { Web5 } from "@web5/api";
+// import { Web5 } from "@web5/api";
+import { Web5 } from "@web5/api/browser";
 import protocolDefinition from "@/protocols/healthRecord.json";
 
 const AppContext = createContext();
@@ -26,7 +27,8 @@ export const AppContextProvider = ({ children }) => {
   const [userInfo, setUserInfo] = useState([]);
   const [isGettingUser, setIsGettingUser] = useState(false);
   const [userRecord, setUserRecord] = useState(null);
-  const [guardianRecord, setguardianRecord] = useState(null);
+  const [guardianRecord, setguardianRecord] = useState([]);
+  const [guardianInfo, setGuardianInfo] = useState("");
 
   // web5
   const [web5, setWeb5] = useState(null);
@@ -110,11 +112,11 @@ export const AppContextProvider = ({ children }) => {
     const { protocols: localProtocols, status: localProtocolStatus } =
       await queryLocalProtocol(web5, protocolUrl);
 
-    if (localProtocolStatus.code !== 200 || localProtocols.length === 0) {
-      const result = await installLocalProtocol(web5, protocolDefinition);
-      // console.log({ result });
-      console.log("Protocol installed locally");
-    }
+    // if (localProtocolStatus.code !== 200 || localProtocols.length === 0) {
+    const result = await installLocalProtocol(web5, protocolDefinition);
+    // console.log({ result });
+    console.log("Protocol installed locally");
+    // }
 
     if (localProtocols.length > 0) {
       console.log("Protocol already exists");
@@ -124,15 +126,15 @@ export const AppContextProvider = ({ children }) => {
     const { protocols: remoteProtocols, status: remoteProtocolStatus } =
       await queryRemoteProtocol(web5, myDid, protocolUrl);
 
-    if (remoteProtocolStatus.code !== 200 || remoteProtocols.length === 0) {
-      const result = await installRemoteProtocol(
-        web5,
-        myDid,
-        protocolDefinition
-      );
-      // console.log({ result });
-      console.log("Protocol installed remotely");
-    }
+    // if (remoteProtocolStatus.code !== 200 || remoteProtocols.length === 0) {
+    const { result: remoteResult } = await installRemoteProtocol(
+      web5,
+      myDid,
+      protocolDefinition
+    );
+    //   console.log({ result });
+    console.log("Protocol installed remotely");
+    // }
   }, [web5, myDid]);
 
   // Run configureProtocol when web5 or myDid changes
@@ -211,7 +213,6 @@ export const AppContextProvider = ({ children }) => {
   const getUser = useCallback(async () => {
     setIsGettingUser(true);
     console.log("getting user");
-    console.log(web5);
     const { records } = await web5.dwn.records.query({
       message: {
         filter: {
@@ -237,17 +238,45 @@ export const AppContextProvider = ({ children }) => {
     }
     return userInfo;
   }, [web5, userInfo]); // Dependency array includes web5
+  const getGuardianInfo = useCallback(async () => {
+    setIsGettingUser(true);
+    console.log("getting guardain info");
+    const { records } = await web5.dwn.records.query({
+      message: {
+        filter: {
+          schema: protocolDefinition.types.guardianInfo.schema,
+        },
+      },
+    });
+
+    // add entry to userInfo
+    for (let record of records) {
+      const data = await record.data.json();
+      const list = { record, data, id: record.id };
+      setguardianRecord((user) => {
+        if (!user.some((item) => item.id === list.id)) {
+          return [...user, list];
+        }
+        return user;
+      });
+    }
+
+    if (records) {
+      setIsGettingUser(false);
+    }
+  }, [web5]); // Dependency array includes web5
 
   // Trigger the getUser function on mount
   useEffect(() => {
     if (web5) {
       getUser();
+      getGuardianInfo();
     }
-  }, [getUser, web5]);
+  }, [getUser, getGuardianInfo, web5]);
 
   useEffect(() => {
     console.log(userInfo);
-
+    console.log(guardianRecord);
     if (userInfo.length > 0) {
       setUser(userInfo[0].data);
       setUserRole(userInfo[0].data.personalInfo.role);
@@ -256,7 +285,11 @@ export const AppContextProvider = ({ children }) => {
       console.log(userInfo[1].data.guardianInfo);
       setguardianRecord(userInfo[1].data.guardianInfo);
     }
-  }, [userInfo]);
+    if (guardianRecord.length > 0) {
+      console.log(guardianRecord);
+      setGuardianInfo(guardianRecord[0].data.guardianInfo);
+    }
+  }, [userInfo, guardianRecord]);
   const handleClick = (clicked) => {
     setIsClicked({ ...isClicked, [clicked]: true });
   };
@@ -292,7 +325,10 @@ export const AppContextProvider = ({ children }) => {
         setUserRecord,
         guardianRecord,
         setguardianRecord,
+        guardianInfo,
+        setGuardianInfo,
         userInfo,
+        getGuardianInfo,
       }}
     >
       {children}

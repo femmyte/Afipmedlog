@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { Web5 } from "@web5/api";
+import { Web5 } from "@web5/api/browser";
 import { useRouter } from "next/navigation";
 import { useStateContext } from "@/state/AppContext";
 import Link from "next/link";
