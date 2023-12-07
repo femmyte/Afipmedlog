@@ -4,7 +4,7 @@ import { Web5 } from "@web5/api";
 import { useRouter } from "next/navigation";
 import { useStateContext } from "@/state/AppContext";
 import Link from "next/link";
-const Home = () => {
+const Account = () => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [did, setDid] = useState("");
@@ -44,16 +44,21 @@ const Home = () => {
     );
   }
   return (
-    <div className="flex flex-col justify-center items-center h-screen w-full">
-      <p className="text-black">welcome</p>
-      <div className="flex justify-center gap-x-6">
+    <div>
+      <div className="">
+        <p>Did you account already?</p>
+        <Link href={"/login"} className="">
+          Login
+        </Link>
+      </div>
+      <div className="">
+        <p>No I dont have</p>
         <button className="bg-purple-500 px-5 py-3" onClick={handleClick}>
           get started
         </button>
-        {/* <Link href={"/already-have-account"}>Get Started</Link> */}
       </div>
     </div>
   );
 };
 
-export default Home;
+export default Account;
