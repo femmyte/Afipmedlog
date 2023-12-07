@@ -8,6 +8,7 @@ const AllergyRecord = () => {
 		reaction: '',
 		treatment: '',
 	});
+
 	const handleInputChange = (e) => {
 		const { name, value } = e.target;
 		setFormData({
