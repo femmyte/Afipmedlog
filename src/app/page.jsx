@@ -2,6 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import { Web5 } from '@web5/api';
 import { useRouter } from 'next/navigation';
+import Hero from '@/components/pages/landingPage/Hero';
+
 const Home = () => {
 	const router = useRouter();
 	const [isLoading, setIsLoading] = useState(false);
@@ -33,17 +35,20 @@ const Home = () => {
 		);
 	}
 	return (
-		<div className='flex flex-col justify-center items-center h-screen w-full'>
-			<p className='text-black'>welcome</p>
-			<div className='flex justify-center gap-x-6'>
-				<button
-					className='bg-purple-500 px-5 py-3'
-					onClick={handleClick}
-				>
-					get started
-				</button>
-			</div>
+		<div>
+			<Hero />
 		</div>
+		// <div className='flex flex-col justify-center items-center h-screen w-full'>
+		// 	<p className='text-black'>welcome</p>
+		// 	<div className='flex justify-center gap-x-6'>
+		// 		<button
+		// 			className='bg-purple-500 px-5 py-3'
+		// 			onClick={handleClick}
+		// 		>
+		// 			get started
+		// 		</button>
+		// 	</div>
+		// </div>
 	);
 };
 

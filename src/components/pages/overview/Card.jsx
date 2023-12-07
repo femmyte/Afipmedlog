@@ -6,11 +6,11 @@ export const Card = (props) => {
 
   return (
 	<div className={cardClasses} style={props.style}>
-		<div className='flex items-center justify-around p-2'>
-		  <Image src={props.img} alt="" width={40} height={40} className='bg-white rounded-md p-1'/>
+		<div className='flex items-center gap-[1.5rem]'>
+		  <Image src={props.img} alt="" width={40} height={40} className='bg-white rounded-md w-[2rem] h-[2rem]'/>
 		  <div>
-			  <p className=''>{props.text}</p>
-			  <p className='text-xs'>{props.number}</p>
+			  <p className='text-[1.25rem] font-medium leading-7'>{props.text}</p>
+			  <p className='text-[1rem]'>{props.number}</p>
 		  </div>
 		</div>
 	</div>
