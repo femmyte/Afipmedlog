@@ -8,7 +8,7 @@ import {
   useCallback,
 } from "react";
 // import { Web5 } from "@web5/api";
-import { Web5 } from "@web5/api/browser";
+// import { Web5 } from "@web5/api/browser";
 import protocolDefinition from "@/protocols/healthRecord.json";
 
 const AppContext = createContext();
@@ -34,37 +34,57 @@ export const AppContextProvider = ({ children }) => {
   const [web5, setWeb5] = useState(null);
   const [myDid, setMyDid] = useState(null);
   const [didDocument, setDidDocument] = useState({});
-  const existingDid = localStorage.getItem("myDid");
-
-  const getObject = useCallback(async () => {
-    // Local dwN
-    // const { web5, did } = await Web5.connect({
-    // 	techPreview: {
-    // 		dwnEndpoints: ['http://localhost:3000/'],
-    // 	},
-    // });
-    // setMyDid(did);
-    // setWeb5(web5);
-
-    // Online DWN
-    // const { web5 } = await Web5.connect(existingDid);
-    // const web5 = await Web5.connect(existingDid);
-    // const { agent: userWeb } = web5.options || {};
-    // console.log(userWeb);
-    if (existingDid) {
-      const { web5 } = await Web5.connect(existingDid);
-      // Rest of your code that uses the `web5` object
-      setMyDid(existingDid);
-      setWeb5(web5);
-    } else {
-      // Handle the case when `existingDid` is null or undefined
-      console.error("Invalid existingDid");
-    }
-  }, []);
-
   useEffect(() => {
-    getObject();
-  }, [getObject]);
+    const existingDid = localStorage.getItem("myDid");
+
+    const initWeb5 = async () => {
+      // @ts-ignore
+      const { Web5 } = await import("@web5/api/browser");
+      try {
+        const { web5, did } = await Web5.connect(existingDid);
+
+        setWeb5(web5);
+        setMyDid(did);
+
+        if (web5 && did) {
+          console.log("Web5 initialized");
+        }
+      } catch (error) {
+        console.error("Error initializing Web5:", error);
+      }
+    };
+
+    initWeb5();
+  }, []);
+  // const getObject = useCallback(async () => {
+  //   // Local dwN
+  //   // const { web5, did } = await Web5.connect({
+  //   // 	techPreview: {
+  //   // 		dwnEndpoints: ['http://localhost:3000/'],
+  //   // 	},
+  //   // });
+  //   // setMyDid(did);
+  //   // setWeb5(web5);
+
+  //   // Online DWN
+  //   // const { web5 } = await Web5.connect(existingDid);
+  //   // const web5 = await Web5.connect(existingDid);
+  //   // const { agent: userWeb } = web5.options || {};
+  //   // console.log(userWeb);
+  //   if (existingDid) {
+  //     const { web5 } = await Web5.connect(existingDid);
+  //     // Rest of your code that uses the `web5` object
+  //     setMyDid(existingDid);
+  //     setWeb5(web5);
+  //   } else {
+  //     // Handle the case when `existingDid` is null or undefined
+  //     console.error("Invalid existingDid");
+  //   }
+  // }, []);
+
+  // useEffect(() => {
+  //   getObject();
+  // }, [getObject]);
   const queryLocalProtocol = async (web5) => {
     // this is in query local protocol
     return await web5.dwn.protocols.query({

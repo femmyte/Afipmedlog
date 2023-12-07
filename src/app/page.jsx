@@ -1,6 +1,5 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { Web5 } from "@web5/api/browser";
 import { useRouter } from "next/navigation";
 import { useStateContext } from "@/state/AppContext";
 import Link from "next/link";
@@ -23,18 +22,19 @@ const Home = () => {
       router.push("/profile");
     }
   });
-  const handleClick = async () => {
-    try {
-      const { web5, did } = await Web5.connect({ sync: "5s" });
-      localStorage.setItem("myDid", did);
-      setWeb5(web5);
-      router.push("/profile"); // Redirect to the dashboard page after successful login
-    } catch (error) {
-      console.error("Error Singning up:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  // const handleClick = async () => {
+  //   try {
+  // const { Web5 } = await import("@web5/api/browser");
+  //     const { web5, did } = await Web5.connect({ sync: "5s" });
+  //     localStorage.setItem("myDid", did);
+  //     setWeb5(web5);
+  //     router.push("/profile"); // Redirect to the dashboard page after successful login
+  //   } catch (error) {
+  //     console.error("Error Singning up:", error);
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
 
   if (isLoading) {
     return (

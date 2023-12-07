@@ -3,7 +3,6 @@ import { useStateContext } from "@/state/AppContext";
 import React, { useContext, useEffect, useState, useCallback } from "react";
 import protocolDefinition from "@/protocols/healthRecord.json";
 import { useRouter } from "next/navigation";
-import { Web5 } from "@web5/api/browser";
 const ProfilePage = () => {
   const router = useRouter();
   const { web5, myDid, userRole, getUser, isGettingUser, setUserRecord } =
@@ -14,17 +13,7 @@ const ProfilePage = () => {
   const [web52, setWeb5] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const existingDid = localStorage.getItem("myDid");
-  // const getObject = useCallback(async () => {
-  // 	const existingDid = localStorage.getItem('myDid');
-  // 	const { web5: userWeb } = await Web5.connect(existingDid);
-  // 	// console.log(userWeb);
-  // 	// setMyDid(existingDid);
-  // 	setWeb5(userWeb);
-  // }, []);
 
-  // useEffect(() => {
-  // 	getObject();
-  // }, [getObject]);
   const [user, setUser] = useState({
     name: "",
     email: "",
