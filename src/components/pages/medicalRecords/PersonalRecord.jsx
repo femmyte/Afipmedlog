@@ -5,17 +5,21 @@ import CustomModal from "@/components/common/CustomModal";
 import { sendEmail } from "@/service/sendEmail";
 import { useStateContext } from "@/state/AppContext";
 import protocolDefinition from "@/protocols/healthRecord.json";
+import QrCodeComponent from "@/service/QrCode";
+import Link from "next/link";
 
 const PersonalRecord = () => {
   const ref = useRef();
+  let { web5, myDid, userRole, user, userInfo, guardianRecord } =
+    useStateContext();
+  const [authPhrase, setAuthPhrase] = useState(myDid);
   const [openModal, setOpenModal] = useState(false);
   const [sendDidModal, setsendDidModal] = useState(false);
-  let { web5, myDid, userRole, user, userInfo } = useStateContext();
   const [email, setEmail] = useState("");
   const [userDid, setUserDid] = useState("");
   const [did, setDid] = useState("");
   const [clicked, setClicked] = useState(false);
-
+  // console.log(userInfo[0].record);
   const handleClick = async (e) => {
     e.preventDefault();
 
@@ -34,10 +38,14 @@ const PersonalRecord = () => {
   };
   const handleSendRecord = async (e) => {
     e.preventDefault();
-    const userInfoProtocol = protocolDefinition;
 
-    const { record: docTorRecord, status } = await web5.dwn.records.create({
-      data: userInfo,
+    // const { status } = await userInfo[0].record.send(userDid);
+    console.log(status);
+    // Check the status of the request
+    const patientData = [guardianRecord[0].record, userInfo[0].record];
+    const userInfoProtocol = protocolDefinition;
+    const { record } = await web5.dwn.records.write({
+      data: patientData,
       message: {
         protocol: userInfoProtocol.protocol,
         protocolPath: "patientInfo",
@@ -46,17 +54,28 @@ const PersonalRecord = () => {
         recipient: userDid,
       },
     });
-
+    const { status } = await record.send(userDid);
     if (status.code === 202) {
+      console.log("Record successfully sent to the recipient");
       setOpenModal(false);
+      setUserDid("");
       setClicked(true);
       setTimeout(() => {
         setClicked(false);
       }, 4000);
+    } else {
+      console.log("Error sending the record");
     }
   };
   return (
     <section className="relative">
+      <div>
+        <h1>Scan the QR Code to Authenticate other device</h1>
+        <QrCodeComponent phrase={myDid} />
+        {/* <Link href={`/${userRole}/otherDevice?phrase=${authPhrase}`}>
+          Continue to Other Device
+        </Link> */}
+      </div>
       <div>
         <div className="flex items-center justify-between mb-[1.5rem]">
           <p className="text-[1.25rem] text-primaryBlue leading-[1.75rem] font-[500] tracking-[0.025rem]">
