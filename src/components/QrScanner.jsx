@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import QrReader from "react-qr-reader";
+import { QrReader } from "react-qr-reader";
 
 const QrScanner = ({ onScan }) => {
   const [isScanning, setIsScanning] = useState(true);
@@ -47,7 +47,7 @@ const QrScanner = ({ onScan }) => {
       )}
       <button
         onClick={toggleFacingMode}
-        className="absolute top-2 left-2 bg-blue-500 text-white py-2 px-4 rounded"
+        className="mt-4 bg-blue-500 text-white py-2 px-4 rounded"
       >
         Toggle Camera
       </button>

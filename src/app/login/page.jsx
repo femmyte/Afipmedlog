@@ -149,7 +149,7 @@ const Login = () => {
             Send your Did to your patience
           </p>
           <QrScanner onScan={handleScan} isScanning={isScanning} />
-          <button onClick={resetScan}>Resume Scanning</button>
+          {/* <button onClick={resetScan}>Resume Scanning</button> */}
           {/* <QrScanner stopScanner onScan={handleScan} />
           <button
             onClick={() => {
