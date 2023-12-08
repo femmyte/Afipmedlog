@@ -1,10 +1,17 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { QrReader } from "react-qr-reader";
 
 const QrScanner = ({ onScan }) => {
   const [isScanning, setIsScanning] = useState(true);
   const [facingMode, setFacingMode] = useState("user"); // 'user' for front camera, 'environment' for back camera
+
+  const qrReaderRef = useRef(null);
+
+  useEffect(() => {
+    // Reset scanning when facingMode changes
+    setIsScanning(true);
+  }, [facingMode]);
 
   const handleScan = (data) => {
     if (data) {
@@ -23,13 +30,14 @@ const QrScanner = ({ onScan }) => {
 
   const toggleFacingMode = () => {
     setFacingMode((prevMode) => (prevMode === "user" ? "environment" : "user"));
-    setIsScanning(true);
   };
 
   return (
     <div className="relative">
       {isScanning && (
         <QrReader
+          ref={qrReaderRef}
+          key={facingMode} // Force remount when facingMode changes
           delay={300}
           onError={handleError}
           onScan={handleScan}
