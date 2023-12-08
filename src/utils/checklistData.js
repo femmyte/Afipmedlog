@@ -13,23 +13,23 @@ const checklistData = [
 	},
 	{
 		records: 'Cardiology Record',
-		id: 26,
+		id: 36,
 	},
 	{
 		records: 'Allergy Record',
-		id: 28,
+		id: 38,
 	},
 	{
 		records: 'Surgery Record',
-		id: 30,
+		id: 40,
 	},
 	{
 		records: 'Family Health Records',
-		id: 32,
+		id: 42,
 	},
 	{
 		records: 'Others',
-		id: 34,
+		id: 44,
 	},
 ];
 

@@ -7,6 +7,8 @@ import HeroNavBar from "@/components/pages/landingPage/HeroNavBar";
 import Services from "@/components/pages/landingPage/Services";
 import { AboutUs } from "@/components/pages/landingPage/AboutUs";
 import HowItWorks from "@/components/pages/landingPage/HowItWorks";
+import FindDoctor from "@/components/pages/landingPage/FindDoctor";
+import Footer from "@/components/pages/landingPage/Footer";
 import Link from "next/link";
 
 const Home = () => {
@@ -56,6 +58,8 @@ const Home = () => {
       <Services />
       <AboutUs />
       <HowItWorks />
+      <FindDoctor />
+      <Footer />
       {/* <p className="text-black">welcome</p> */}
       <div className="flex justify-center gap-x-6">
         {/* <button className="bg-purple-500 px-5 py-3" onClick={handleClick}>

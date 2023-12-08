@@ -2,7 +2,7 @@ import React from 'react'
 
 const MedicalRecordPage = () => {
   return (
-    <div>
+    <div className='flex'>
         <div>
             <h3>Medical Records</h3>
             <p>Patient confidentiality is our priority.</p>

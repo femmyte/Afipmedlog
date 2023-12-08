@@ -6,11 +6,11 @@ import { IoIosArrowRoundForward } from "react-icons/io";
 
 const MedicalRecords = (props) => {
   return (
-    <div className='w-[18rem] mt-[1rem] shadow-gray-300 shadow-sm p-3'>
+    <div className='w-[19.1875rem] shadow-gray-300 shadow-sm mr-[1rem] px-[1rem] py-[1.5rem]'>
         <div className='flex justify-between'>
             <h2>History</h2>
             <div className='flex items-center text-[#145AE2]'>
-              <button className='text-sm'>See All</button>
+              <button className='text-[0.75rem]'>See All</button>
               <GoChevronRight />
             </div>
        </div>

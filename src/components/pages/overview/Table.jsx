@@ -13,11 +13,11 @@ const Table = () => {
     return "black";
   };
   return (
-    <div className="w-[28.3125rem] shadow-gray-300 shadow-sm rounded-[0.25rem] px-[1rem] py-[1.5rem]">
+    <div className="w-[25.3125rem] mr-[1rem] text-[1rem] shadow-gray-300 shadow-sm rounded-[0.25rem] px-[1rem] py-[1.5rem]">
       <div className="flex justify-between items-center">
         <h2 className="font-medium text-[1.25rem]">History</h2>
         <div className="flex items-center text-[0.75rem] text-[#145AE2]">
-          <button className="">See All</button>
+          <button className="text-[0.75rem]">See All</button>
           <GoChevronRight />
         </div>
       </div>

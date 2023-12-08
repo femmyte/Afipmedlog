@@ -22,9 +22,11 @@ export const AboutUs = () => {
                     }}/>
                     <h2 className='text-[1.5rem] font-medium'>About Us</h2>
                 </div>
-                <p>AFIP MedLog is an online medical web application with the vision of putting the patients in charge of their own medical records and their own identity through a unique decentralized Identifier DID which can only be accessed by the patients. </p>
-                <p>We also ensure specialty services from around the globe for patients to be able share their medical records to their doctor in any part of the world. AFIP MedLog is an online medical web application with the vision of putting the patients in charge of their own medical records and their own identity through a unique decentralized Identifier DID which can only be accessed by the patients.</p>
-                <p>We also ensure specialty services from around the globe for patients to be able share their medical records to their doctor in any part of the world.</p>
+                <div className='text-[#5F5F5F] text-[0.88rem]'>
+                    <p>AFIP MedLog is an online medical web application with the vision of putting the patients in charge of their own medical records and their own identity through a unique decentralized Identifier DID which can only be accessed by the patients. </p>
+                    <p>We also ensure specialty services from around the globe for patients to be able share their medical records to their doctor in any part of the world. AFIP MedLog is an online medical web application with the vision of putting the patients in charge of their own medical records and their own identity through a unique decentralized Identifier DID which can only be accessed by the patients.</p>
+                    <p>We also ensure specialty services from around the globe for patients to be able share their medical records to their doctor in any part of the world.</p>
+                </div>
         </div>
     </div>
   )

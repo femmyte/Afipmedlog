@@ -17,7 +17,7 @@ const HowItWorks = () => {
                 }}/>
                 <h2 className='text-[1.5rem] font-medium'>How It Works</h2>
             </div>
-            <p className='w-[38.0625rem] px-[1.5rem]'>AFIPMedLog is a very simple application that involves few steps to complete..</p>
+            <p className='w-[38.0625rem] px-[1.5rem] mt-[1rem] text-[#5F5F5F]'>AFIPMedLog is a very simple application that involves few steps to complete.</p>
         </div>
         <div className='flex items-center justify-center text-center pl-[6.25rem] mt-[2.5rem]'>
             <ServicesCard
@@ -26,17 +26,17 @@ const HowItWorks = () => {
             text="Patients have to search for a doctor through our available doctors within the specialty they want."
             />
             <ServicesCard
-            icon="/images/icons/security-user.svg"
+            icon="/images/icons/receipt-item.svg"
             heading="Share Your Medical Record Using Doctor’s DID"
             text="Get in touch with the doctor, the doctor shares his/her DID with the patient through which they can share their medical record.."
             />
             <ServicesCard
-            icon="/images/icons/user-tick.svg"
+            icon="/images/icons/user-search.svg"
             heading="Get Examined"
             text="Through the medical record, the doctor can refere them to the medical test they need to carry out."
             />
             <ServicesCard
-            icon="/images/icons/user-search.svg"
+            icon="/images/icons/flask-icon.svg"
             heading="Get Your Solution"
             text="Doctors can prescribe drugs to the patients based on the result of the test."
             />
