@@ -2,7 +2,13 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useStateContext } from "@/state/AppContext";
+import Hero from "@/components/pages/landingPage/Hero";
+import HeroNavBar from "@/components/pages/landingPage/HeroNavBar";
+import Services from "@/components/pages/landingPage/Services";
+import { AboutUs } from "@/components/pages/landingPage/AboutUs";
+import HowItWorks from "@/components/pages/landingPage/HowItWorks";
 import Link from "next/link";
+
 const Home = () => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
@@ -44,8 +50,13 @@ const Home = () => {
     );
   }
   return (
-    <div className="flex flex-col justify-center items-center h-screen w-full">
-      <p className="text-black">welcome</p>
+    <div className="h-screen w-full">
+      <HeroNavBar />
+      <Hero />
+      <Services />
+      <AboutUs />
+      <HowItWorks />
+      {/* <p className="text-black">welcome</p> */}
       <div className="flex justify-center gap-x-6">
         {/* <button className="bg-purple-500 px-5 py-3" onClick={handleClick}>
           get started
