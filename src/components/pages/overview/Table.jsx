@@ -13,7 +13,10 @@ const Table = () => {
     return "black";
   };
   return (
-    <div className="w-[28.3125rem] shadow-gray-300 shadow-sm rounded-[0.25rem] px-[1rem] py-[1.5rem]">
+    <div
+      className="w-full  rounded-[0.25rem] px-[1rem] py-[1.5rem]"
+      style={{ boxShadow: "4px 4px 24px 0px rgba(206, 206, 206, 0.24)" }}
+    >
       <div className="flex justify-between items-center">
         <h2 className="font-medium text-[1.25rem]">History</h2>
         <div className="flex items-center text-[0.75rem] text-[#145AE2]">
@@ -21,7 +24,7 @@ const Table = () => {
           <GoChevronRight />
         </div>
       </div>
-      <table className="mt-[0.5rem] text-left ">
+      <table className="mt-[0.5rem] text-left w-full ">
         <thead>
           <tr className="text-[0.875rem] py-[0.88rem] mr-[0.88rem]">
             <th className="font-normal ">Treatment</th>
