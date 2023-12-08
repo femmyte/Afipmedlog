@@ -8,11 +8,7 @@ const ProfilePage = () => {
   const { web5, myDid, userRole, getUser, isGettingUser, setUserRecord } =
     useStateContext();
   // console.log(web5)
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [web52, setWeb5] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const existingDid = localStorage.getItem("myDid");
 
   const [user, setUser] = useState({
     name: "",

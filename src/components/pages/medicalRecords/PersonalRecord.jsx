@@ -10,12 +10,13 @@ const PersonalRecord = () => {
   const ref = useRef();
   const [openModal, setOpenModal] = useState(false);
   const [sendDidModal, setsendDidModal] = useState(false);
-  let { web5, myDid, userRole, user, userInfo } = useStateContext();
+  let { web5, myDid, userRole, user, userInfo, guardianRecord } =
+    useStateContext();
   const [email, setEmail] = useState("");
   const [userDid, setUserDid] = useState("");
   const [did, setDid] = useState("");
   const [clicked, setClicked] = useState(false);
-
+  // console.log(userInfo[0].record);
   const handleClick = async (e) => {
     e.preventDefault();
 
@@ -34,10 +35,14 @@ const PersonalRecord = () => {
   };
   const handleSendRecord = async (e) => {
     e.preventDefault();
-    const userInfoProtocol = protocolDefinition;
 
-    const { record: docTorRecord, status } = await web5.dwn.records.create({
-      data: userInfo,
+    // const { status } = await userInfo[0].record.send(userDid);
+    console.log(status);
+    // Check the status of the request
+    const patientData = [guardianRecord[0].record, userInfo[0].record];
+    const userInfoProtocol = protocolDefinition;
+    const { record } = await web5.dwn.records.write({
+      data: patientData,
       message: {
         protocol: userInfoProtocol.protocol,
         protocolPath: "patientInfo",
@@ -46,13 +51,17 @@ const PersonalRecord = () => {
         recipient: userDid,
       },
     });
-
+    const { status } = await record.send(userDid);
     if (status.code === 202) {
+      console.log("Record successfully sent to the recipient");
       setOpenModal(false);
+      setUserDid("");
       setClicked(true);
       setTimeout(() => {
         setClicked(false);
       }, 4000);
+    } else {
+      console.log("Error sending the record");
     }
   };
   return (

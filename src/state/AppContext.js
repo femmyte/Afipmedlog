@@ -53,8 +53,7 @@ export const AppContextProvider = ({ children }) => {
         console.error("Error initializing Web5:", error);
       }
     };
-
-    initWeb5();
+    if (existingDid) initWeb5();
   }, []);
   // const getObject = useCallback(async () => {
   //   // Local dwN
@@ -132,11 +131,11 @@ export const AppContextProvider = ({ children }) => {
     const { protocols: localProtocols, status: localProtocolStatus } =
       await queryLocalProtocol(web5, protocolUrl);
 
-    // if (localProtocolStatus.code !== 200 || localProtocols.length === 0) {
-    const result = await installLocalProtocol(web5, protocolDefinition);
-    // console.log({ result });
-    console.log("Protocol installed locally");
-    // }
+    if (localProtocolStatus.code !== 200 || localProtocols.length === 0) {
+      const result = await installLocalProtocol(web5, protocolDefinition);
+      // console.log({ result });
+      console.log("Protocol installed locally");
+    }
 
     if (localProtocols.length > 0) {
       console.log("Protocol already exists");
@@ -146,15 +145,15 @@ export const AppContextProvider = ({ children }) => {
     const { protocols: remoteProtocols, status: remoteProtocolStatus } =
       await queryRemoteProtocol(web5, myDid, protocolUrl);
 
-    // if (remoteProtocolStatus.code !== 200 || remoteProtocols.length === 0) {
-    const { result: remoteResult } = await installRemoteProtocol(
-      web5,
-      myDid,
-      protocolDefinition
-    );
-    //   console.log({ result });
-    console.log("Protocol installed remotely");
-    // }
+    if (remoteProtocolStatus.code !== 200 || remoteProtocols.length === 0) {
+      const { result: remoteResult } = await installRemoteProtocol(
+        web5,
+        myDid,
+        protocolDefinition
+      );
+      //   console.log({ result });
+      console.log("Protocol installed remotely", remoteResult);
+    }
   }, [web5, myDid]);
 
   // Run configureProtocol when web5 or myDid changes
@@ -301,11 +300,7 @@ export const AppContextProvider = ({ children }) => {
       setUser(userInfo[0].data);
       setUserRole(userInfo[0].data.personalInfo.role);
     }
-    if (userInfo.length > 1) {
-      console.log(userInfo[1].data.guardianInfo);
-      setguardianRecord(userInfo[1].data.guardianInfo);
-    }
-    if (guardianRecord.length > 0) {
+    if (guardianRecord && guardianRecord.length > 0) {
       console.log(guardianRecord);
       setGuardianInfo(guardianRecord[0].data.guardianInfo);
     }

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useStateContext } from "@/state/AppContext";
 import Link from "next/link";
+import Hero from "@/components/landingPage/Hero";
 const Home = () => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
@@ -44,15 +45,18 @@ const Home = () => {
     );
   }
   return (
-    <div className="flex flex-col justify-center items-center h-screen w-full">
+    <>
+      <Hero />
+      {/* <div className="flex flex-col justify-center items-center h-screen w-full">
       <p className="text-black">welcome</p>
       <div className="flex justify-center gap-x-6">
         {/* <button className="bg-purple-500 px-5 py-3" onClick={handleClick}>
           get started
-        </button> */}
+        </button> *
         <Link href={"/already-have-account"}>Get Started</Link>
       </div>
-    </div>
+    </div> */}
+    </>
   );
 };
 

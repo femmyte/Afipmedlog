@@ -6,7 +6,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import { FiClipboard } from "react-icons/fi";
 import NewMedicalRecordCheckList from "../medicalRecords/NewMedicalRecordCheckList";
 import AllergyRecord from "../medicalRecords/AllergyRecord";
-
+import protocolDefinition from "@/protocols/healthRecord.json";
 const TopComponent = () => {
   let { myDid, web5, userRole, user } = useStateContext();
   const [copiedDid, setCopiedDid] = useState(false);
@@ -31,36 +31,52 @@ const TopComponent = () => {
     }, 4000);
   };
   const getDoctorRecord = useCallback(async () => {
+    const userInfoProtocol = protocolDefinition;
+
     console.log("running");
-    const { records } = await web5.dwn.records.query({
-      // from: myDid,
-      // message: {
-      // 	filter: {
-      // 		schema: protocolDefinition.types.patientInfo.schema,
-      // 		dataFormat: 'application/json',
-      // 	},
-      // },
+
+    const response = await web5.dwn.records.query({
+      from: myDid,
       message: {
         filter: {
-          recipient: myDid, // Replace 'your_did' with your actual DID
+          protocol: userInfoProtocol.protocol,
+          schema: userInfoProtocol.types.patientInfo.schema,
         },
       },
     });
-    console.log(records);
-    // records.forEach((record) => {
+
+    if (response.status.code === 200) {
+      const receivedDings = await Promise.all(
+        response.records.map(async (record) => {
+          const data = await record.data.json();
+          return data;
+        })
+      );
+      console.log(receivedDings, "I received these dings");
+      return receivedDings;
+    } else {
+      console.log("error", response.status);
+    }
+    // const response = await web5.dwn.records.query({
+    //   message: {
+    //     filter: {
+    //       protocol: userInfoProtocol.protocol,
+    //     },
+    //   },
     // });
-    // for (let record of records) {
-    //   const data = await record.data.json();
-    //   const list = { record, data, id: record.id };
-    //   setSharedInfo((user) => {
-    //     if (!user.some((item) => item.id === list.id)) {
-    //       return [...user, list];
-    //     }
-    //     return user;
-    //   });
+
+    // if (response.status.code === 200) {
+    //   const fetchedSharedRecords = await Promise.all(
+    //     response.records.map(async (record) => {
+    //       const data = await record.data.json();
+    //       return data;
+    //     })
+    //   );
+    //   return fetchedSharedRecords;
+    // } else {
+    //   console.log("error", response.status);
     // }
-    console.log(sharedInfo);
-  }, [myDid, web5]);
+  }, [web5]);
   useEffect(() => {
     if (web5) {
       getDoctorRecord();
@@ -71,7 +87,7 @@ const TopComponent = () => {
   };
 
   const handleOpenModal = (item) => {
-    console.log(item);
+    // console.log(item);
     setSelectedItem(item);
     setOpenModal(!openModal);
     setOpenFormModal(true);
@@ -79,7 +95,6 @@ const TopComponent = () => {
 
   const handleSendMail = async (e) => {
     e.preventDefault();
-    setSendMessage(true);
     const response = await fetch("/api/sendEmail", {
       method: "POST",
       headers: {
@@ -94,10 +109,11 @@ const TopComponent = () => {
     const result = await response.json();
     setsendDidModal(false);
     if (result) {
-      console.log(result);
+      setSendMessage(true);
+      // console.log(result);
       setEmailSentMessage(result.message);
       setTimeout(() => {
-        setCopiedDid(false);
+        setSendMessage(false);
       }, 4000);
     }
   };
