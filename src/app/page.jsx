@@ -9,7 +9,6 @@ import { AboutUs } from "@/components/pages/landingPage/AboutUs";
 import HowItWorks from "@/components/pages/landingPage/HowItWorks";
 import Link from "next/link";
 
-import Hero from "@/components/landingPage/Hero";
 const Home = () => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
@@ -58,6 +57,12 @@ const Home = () => {
       <AboutUs />
       <HowItWorks />
       {/* <p className="text-black">welcome</p> */}
+      <div className="flex justify-center gap-x-6">
+        {/* <button className="bg-purple-500 px-5 py-3" onClick={handleClick}>
+          get started
+        </button> */}
+        <Link href={"/already-have-account"}>Get Started</Link>
+      </div>
     </div>
   );
 };
