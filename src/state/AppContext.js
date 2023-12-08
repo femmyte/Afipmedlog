@@ -29,6 +29,7 @@ export const AppContextProvider = ({ children }) => {
   const [userRecord, setUserRecord] = useState(null);
   const [guardianRecord, setguardianRecord] = useState([]);
   const [guardianInfo, setGuardianInfo] = useState("");
+  const [authModal, setAuthModal] = useState(false);
 
   // web5
   const [web5, setWeb5] = useState(null);
@@ -344,6 +345,8 @@ export const AppContextProvider = ({ children }) => {
         setGuardianInfo,
         userInfo,
         getGuardianInfo,
+        authModal,
+        setAuthModal,
       }}
     >
       {children}

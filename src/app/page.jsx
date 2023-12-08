@@ -24,12 +24,12 @@ const Home = () => {
     isGettingUser,
     setUserRecord,
   } = useStateContext();
-  useEffect(() => {
-    const existingDid = localStorage.getItem("myDid");
-    if (existingDid) {
-      router.push("/profile");
-    }
-  });
+  // useEffect(() => {
+  //   const existingDid = localStorage.getItem("myDid");
+  //   if (existingDid) {
+  //     router.push("/profile");
+  //   }
+  // });
   // const handleClick = async () => {
   //   try {
   // const { Web5 } = await import("@web5/api/browser");
