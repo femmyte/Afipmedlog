@@ -5,13 +5,16 @@ import CustomModal from "@/components/common/CustomModal";
 import { sendEmail } from "@/service/sendEmail";
 import { useStateContext } from "@/state/AppContext";
 import protocolDefinition from "@/protocols/healthRecord.json";
+import QrCodeComponent from "@/service/QrCode";
+import Link from "next/link";
 
 const PersonalRecord = () => {
   const ref = useRef();
-  const [openModal, setOpenModal] = useState(false);
-  const [sendDidModal, setsendDidModal] = useState(false);
   let { web5, myDid, userRole, user, userInfo, guardianRecord } =
     useStateContext();
+  const [authPhrase, setAuthPhrase] = useState(myDid);
+  const [openModal, setOpenModal] = useState(false);
+  const [sendDidModal, setsendDidModal] = useState(false);
   const [email, setEmail] = useState("");
   const [userDid, setUserDid] = useState("");
   const [did, setDid] = useState("");
@@ -66,6 +69,13 @@ const PersonalRecord = () => {
   };
   return (
     <section className="relative">
+      <div>
+        <h1>Scan the QR Code to Authenticate other device</h1>
+        <QrCodeComponent phrase={myDid} />
+        {/* <Link href={`/${userRole}/otherDevice?phrase=${authPhrase}`}>
+          Continue to Other Device
+        </Link> */}
+      </div>
       <div>
         <div className="flex items-center justify-between mb-[1.5rem]">
           <p className="text-[1.25rem] text-primaryBlue leading-[1.75rem] font-[500] tracking-[0.025rem]">

@@ -1,10 +1,14 @@
 "use client";
+import QrScanner from "@/components/QrScanner";
+import CustomModal from "@/components/common/CustomModal";
+import QrCodeComponent from "@/service/QrCode";
 import { useStateContext } from "@/state/AppContext";
 import React, { useState, useEffect } from "react";
 
 const Login = () => {
   const [did, setDid] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [scannerModal, setScannerDidModal] = useState(false);
   const { setWeb5, userRole, isGettingUser, getUser, setMyDid } =
     useStateContext();
   useEffect(() => {
@@ -15,6 +19,47 @@ const Login = () => {
       }
     }
   });
+  const [authPhrase, setAuthPhrase] = useState("your_secret_key_here");
+  const [notification, setNotification] = useState("");
+  const [isScanning, setIsScanning] = useState(true); // New state
+
+  const handleCopyToClipboard = () => {
+    navigator.clipboard.writeText(authPhrase).then(() => {
+      setNotification("Key phrase copied to clipboard!");
+    });
+  };
+  const handleScan = (scannedPhrase) => {
+    setNotification(`QR Code scanned! Phrase: ${scannedPhrase}`);
+    setIsScanning(false); // Stop scanning
+
+    if (scannedPhrase === authPhrase) {
+      console.log("Authentication successful!");
+    } else {
+      console.log("Authentication failed!");
+    }
+  };
+
+  const resetScan = () => {
+    setIsScanning(false); // Start scanning again
+    setScannerDidModal(false);
+  };
+
+  // const handleScan = (scannedPhrase) => {
+  //   setNotification(`QR Code scanned! Phrase: ${scannedPhrase}`);
+
+  //   // Now you can use the scannedPhrase in your application logic
+  //   // For example, you might want to compare it with the authPhrase
+  //   if (scannedPhrase === authPhrase) {
+  //     // Perform authentication logic for the scanned phrase
+  //     console.log("Authentication successful!");
+  //   } else {
+  //     // Handle authentication failure
+  //     console.log("Authentication failed!");
+  //   }
+  // };
+  const handleStopScanner = () => {
+    stopScanner();
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!did) {
@@ -63,7 +108,13 @@ const Login = () => {
     );
   }
   return (
-    <div>
+    <div className="relative">
+      <div className="">
+        <button onClick={() => setScannerDidModal(true)}>
+          Scan the QR Code to Authenticate
+        </button>
+        <button onClick={handleCopyToClipboard}>Copy to Clipboard</button>
+      </div>
       <form onSubmit={handleSubmit}>
         <h1 className="font-[500] text-[2rem] leading-[2.5rem] text-[#151515] tracking-[0.04rem] mb-[2rem]">
           User Profile
@@ -92,6 +143,29 @@ const Login = () => {
           </button>
         </div>
       </form>
+      <CustomModal modalIsOpen={scannerModal} setIsOpen={setScannerDidModal}>
+        <div className="py-[2.5rem] px-[3.62rem] relative">
+          <p className="font-[600] text-[1.25rem] leading-[2.375rem] text-[#2E3646] text-center mb-8">
+            Send your Did to your patience
+          </p>
+          <QrScanner onScan={handleScan} isScanning={isScanning} />
+          <button onClick={resetScan}>Resume Scanning</button>
+          {/* <QrScanner stopScanner onScan={handleScan} />
+          <button
+            onClick={() => {
+              stopScanner();
+              setScannerDidModal(false);
+            }}
+          >
+            close{" "}
+          </button> */}
+        </div>
+      </CustomModal>
+      {notification && (
+        <div className="absolute px-8 py-2 rounded-md bg-green-600 top-0 right-0">
+          <p className="text-white">{notification}</p>
+        </div>
+      )}
     </div>
   );
 };
