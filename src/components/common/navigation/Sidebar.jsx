@@ -20,6 +20,7 @@ const Sidebar = () => {
   const pathname = usePathname();
   const [showSettings, setShowSettings] = useState(false);
   // console.log(userRole);
+  const storedRole = localStorage.getItem("role");
   const handleCloseSidebar = () => {
     if (activeMenu && screenSize <= 900) {
       setActiveMenu(false);
@@ -69,7 +70,7 @@ const Sidebar = () => {
                   {item.links.map((link) => {
                     return (
                       <Link
-                        href={`/${userRole}/${link.address}`}
+                        href={`/${storedRole}/${link.address}`}
                         key={link.address}
                         onClick={handleCloseSidebar}
                         className={

@@ -65,7 +65,7 @@ const Home = () => {
         {/* <button className="bg-purple-500 px-5 py-3" onClick={handleClick}>
           get started
         </button> */}
-        <Link href={"/already-have-account"}>Get Started</Link>
+        {/* <Link href={"/already-have-account"}>Get Started</Link> */}
       </div>
     </div>
   );
