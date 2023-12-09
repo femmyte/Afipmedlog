@@ -1,22 +1,50 @@
 // CustomInput.js
 import React from "react";
 
-const CustomInput = ({ label, value, onChange }) => {
+const CustomInput = ({
+  label,
+  value,
+  onChange,
+  type = "text",
+  options = [],
+}) => {
+  const renderInput = () => {
+    if (type === "select") {
+      return (
+        <select
+          className=" appearance-none border border-[#E8E8E8] rounded w-full py-[0.75rem] px-4 text-[#151515] font-[400] text-[0.875rem] leading-tight focus:outline-none focus:shadow-outline"
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+        >
+          {options.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
+      );
+    }
+
+    return (
+      <input
+        className=" appearance-none border border-[#E8E8E8] rounded w-full py-[0.75rem] px-4 text-[#151515] font-[400] text-[0.875rem] leading-tight focus:outline-none focus:shadow-outline"
+        type={type}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        placeholder={label}
+      />
+    );
+  };
+
   return (
     <div className="mb-4">
       <label
-        className="block text-gray-700 text-sm font-bold mb-2"
+        className="block text-[#151515] font-[400] text-sm leading-[1.25rem] mb-2"
         htmlFor={label}
       >
         {label}
       </label>
-      <input
-        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        id={label}
-        type="text"
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-      />
+      {renderInput()}
     </div>
   );
 };

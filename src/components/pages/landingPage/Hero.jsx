@@ -8,8 +8,11 @@ import { useRouter } from "next/navigation";
 
 const Hero = () => {
   const router = useRouter();
-  let { authModal, setAuthModal } = useStateContext();
+  let { authModal, setAuthModal, setWeb5, setMyDid, setUserRole } =
+    useStateContext();
+
   const [did, setDid] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const [role, setRole] = useState("");
   const [congratulationModal, setCongratulationModal] = useState(false);
   const [registrationModal, setRegistrationModal] = useState(false);
@@ -18,10 +21,30 @@ const Hero = () => {
     setAuthModal(false);
     // setCongratulationModal(true);
   };
-  const handleRegistration = (e) => {
+  const handleRegistration = async (e) => {
     e.preventDefault();
-    router.push(`/${role}/overview`);
+    setIsLoading(true);
+    try {
+      const { Web5 } = await import("@web5/api/browser");
+      const { web5, did } = await Web5.connect({ sync: "5s" });
+      localStorage.setItem("myDid", did);
+      setWeb5(web5);
+      setMyDid(did);
+      setUserRole(role);
+      router.push(`/${role}/settings`);
+    } catch (error) {
+      console.error("Error Singning up:", error);
+    } finally {
+      setIsLoading(false);
+    }
   };
+  if (isLoading) {
+    return (
+      <div className="h-screen w-screen flex justify-center items-center">
+        <p className="text-xl">Loading..</p>
+      </div>
+    );
+  }
   return (
     <div className="px-[6.25rem] py-[3rem]">
       <div className="flex justify-between items-center">
