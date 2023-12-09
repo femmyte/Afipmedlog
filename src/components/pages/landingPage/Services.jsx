@@ -3,7 +3,7 @@ import ServicesCard from './ServicesCard';
 
 const Services = () => {
   return (
-    <div className='py-[4.5rem] px-[6.25]'>
+    <div className='py-[4.5rem] flex flex-col justify-center items-center w-full'>
         <div className='flex flex-col text-center justify-center items-center'>
             <div className='flex justify-center items-center'>
                 <hr
@@ -17,9 +17,9 @@ const Services = () => {
                 }}/>
                 <h2 className='text-[1.5rem] font-medium'>Our Services</h2>
             </div>
-            <p className='w-[38.0625rem] px-[1.5rem]'>We ensure that every patient takes charge of their own medical records without any interference by a third party.</p>
+            <p className='w-[38.0625rem] text-[#5F5F5F] text-[1rem]'>We ensure that every patient takes charge of their own medical records without any interference by a third party.</p>
         </div>
-        <div className='flex items-center justify-center text-center pl-[6.25rem] mt-[2.5rem]'>
+        <div className='flex items-center text-center px-[5rem] mt-[2.5rem]'>
             <ServicesCard
             icon="/images/icons/receipt-edit.svg"
             heading="Decentralized Data Storage and Sharing"

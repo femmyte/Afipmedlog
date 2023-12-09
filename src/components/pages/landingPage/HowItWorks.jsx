@@ -3,7 +3,7 @@ import ServicesCard from './ServicesCard'
 
 const HowItWorks = () => {
   return (
-    <div className='py-[4.5rem] px-[6.25]'>
+    <div className='py-[4.5rem] flex flex-col justify-center items-center w-full'>
         <div className='flex flex-col text-center justify-center items-center'>
             <div className='flex justify-center items-center'>
                 <hr
@@ -19,7 +19,7 @@ const HowItWorks = () => {
             </div>
             <p className='w-[38.0625rem] px-[1.5rem] mt-[1rem] text-[#5F5F5F]'>AFIPMedLog is a very simple application that involves few steps to complete.</p>
         </div>
-        <div className='flex items-center justify-center text-center pl-[6.25rem] mt-[2.5rem]'>
+        <div className='flex items-center justify-center text-center px-[6.25rem] mt-[2.5rem]'>
             <ServicesCard
             icon="/images/icons/user-search.svg"
             heading="Find a Doctor"
