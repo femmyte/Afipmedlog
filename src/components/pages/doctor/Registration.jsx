@@ -7,16 +7,8 @@ import { useStateContext } from "@/state/AppContext";
 import CustomModal from "@/components/common/CustomModal";
 const Registration = () => {
   const router = useRouter();
-  const {
-    web5,
-    myDid,
-    userRole,
-    setUserInfo,
-    userInfo,
-    doctorInfo,
-    setDoctorInfo,
-    setUserRecord,
-  } = useStateContext();
+  const { web5, myDid, userRole, doctorInfo, setDoctorInfo, setUserRecord } =
+    useStateContext();
   const [isLoading, setIsLoading] = useState(false);
   const [successModal, setSuccessModal] = useState(false);
   const [isGettingUser, setIsGettingUser] = useState(false);
@@ -33,6 +25,8 @@ const Registration = () => {
     stateOfOrigin: "",
     city: "",
   });
+  const [formEdited, setFormEdited] = useState(false);
+  const [isCreateMode, setIsCreateMode] = useState(true);
   const [careerInfo, setCareerInfo] = useState({
     specialty: "",
     yearOfExperience: "",
@@ -46,12 +40,14 @@ const Registration = () => {
       ...prevFormData,
       [fieldName]: value,
     }));
+    setFormEdited(true);
   };
   const handleCareerInputChange = (fieldName, value) => {
     setCareerInfo((prevFormData) => ({
       ...prevFormData,
       [fieldName]: value,
     }));
+    setFormEdited(true);
   };
 
   const validate = () => {
@@ -86,7 +82,7 @@ const Registration = () => {
       const { records } = await web5.dwn.records.query({
         message: {
           filter: {
-            schema: protocolDefinition.types.patientInfo.schema,
+            schema: protocolDefinition.types.doctorInfo.schema,
           },
         },
       });
@@ -130,6 +126,7 @@ const Registration = () => {
       if (records) {
         setIsGettingUser(false);
       }
+      setIsCreateMode(false);
     } catch (error) {
       console.log("error getting user", error);
     }
@@ -137,19 +134,19 @@ const Registration = () => {
   useEffect(() => {
     if (web5) getUser();
   }, [getUser, web5]);
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsLoading(true);
+
+  const handleCreate = async () => {
     try {
       console.log("running");
+      const storedRole = localStorage.getItem("role");
       const userInfoProtocol = protocolDefinition;
-      const patientInfo = {
-        role: userRole,
+      const doctorInfo = {
+        role: storedRole,
         personalInfo: user,
         careerInfo: careerInfo,
       };
       const { record, status } = await web5.dwn.records.create({
-        data: patientInfo,
+        data: doctorInfo,
         message: {
           protocol: userInfoProtocol.protocol,
           protocolPath: "doctorInfo",
@@ -166,11 +163,56 @@ const Registration = () => {
       }
       const { status: myDidStatus } = await record.send(myDid);
       console.log("status of online dwd >", myDidStatus);
+      setFormEdited(false);
     } catch (error) {
       console.log(error);
     }
   };
+  const handleUpdate = async () => {
+    //Query records with plain text data format
+    try {
+      const recordId = doctorInfo[0].id;
+      const storedRole = localStorage.getItem("role");
+      const updatedDoctorInfo = {
+        role: storedRole,
+        personalInfo: user,
+        careerInfo: careerInfo,
+      };
 
+      // Get the record
+      const { record } = await web5.dwn.records.read({
+        message: {
+          filter: {
+            recordId: recordId,
+          },
+        },
+      });
+
+      // Update the record
+      const { status } = await record.update({ data: updatedDoctorInfo });
+
+      console.log(status);
+      if (status.code === 202) {
+        window.location.reload();
+        // getUser();
+        // setIsLoading(false);
+        // setSuccessModal(true);
+      }
+    } catch (error) {
+      console.error("unable to update record", error);
+    }
+  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    if (isCreateMode) {
+      handleCreate();
+    } else {
+      handleUpdate();
+    }
+  };
+
+  const isFormDisabled = !formEdited || validate();
   if (isLoading) {
     return (
       <div className="h-screen w-screen absolute top-0 left-0 right-0 bottom-0 bg-black/5">
@@ -272,7 +314,7 @@ const Registration = () => {
               onChange={(value) => setSelectedCountry(value)}
             /> */}
             <CustomInput
-              label="State"
+              label="Nationality"
               value={user.nationality}
               onChange={(value) => handleUserInputChange("nationality", value)}
             />
@@ -329,9 +371,12 @@ const Registration = () => {
           <button
             type="submit"
             className="w-[15.25rem] py-[0.5rem] px-4 rounded-[0.25rem] bg-primaryBlue text-white flex justify-center items-center font-[500] leading-6 tracking-[0.02rem disabled:bg-[#DCE6FB]"
-            disabled={validate()}
+            disabled={isFormDisabled}
           >
-            {isLoading ? "Saving..." : "Save Changes"}
+            {/* {isLoading ? "Saving..." : "Save Changes"} */}
+            {isCreateMode
+              ? "Create Profile"
+              : "Save Changes" || (isLoading && "Saving...")}
           </button>
         </div>
       </form>

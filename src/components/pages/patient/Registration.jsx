@@ -197,9 +197,10 @@ const Registration = () => {
     setIsLoading(true);
     try {
       console.log("running");
+      const storedRole = localStorage.getItem("role");
       const userInfoProtocol = protocolDefinition;
       const patientInfo = {
-        role: userRole,
+        role: storedRole,
         personalInfo: user,
         guardianInfo: guardian,
         medicalProvider: provider,
@@ -328,7 +329,7 @@ const Registration = () => {
               onChange={(value) => setSelectedCountry(value)}
             /> */}
             <CustomInput
-              label="State"
+              label="Nationality"
               value={user.nationality}
               onChange={(value) => handleUserInputChange("nationality", value)}
             />
@@ -412,7 +413,7 @@ const Registration = () => {
               onChange={(value) => setSelectedCountry(value)}
             /> */}
             <CustomInput
-              label="State"
+              label="Nationality"
               value={guardian.nationality}
               onChange={(value) =>
                 handleGuardianInputChange("nationality", value)
@@ -498,7 +499,7 @@ const Registration = () => {
               onChange={(value) => setSelectedCountry(value)}
             /> */}
             <CustomInput
-              label="State"
+              label="Nigeria"
               value={provider.nationality}
               onChange={(value) =>
                 handleProviderInputChange("nationality", value)
