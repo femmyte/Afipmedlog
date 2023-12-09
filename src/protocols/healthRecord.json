@@ -7,7 +7,7 @@
       "dataFormats": ["application/json"]
     },
     "doctorInfo": {
-      "schema": "https://example.com/guardianInfoSchema",
+      "schema": "https://example.com/doctorInfoSchema",
       "dataFormats": ["application/json"]
     },
     "medicalHistory": {

@@ -30,6 +30,7 @@ export const AppContextProvider = ({ children }) => {
   const [guardianRecord, setguardianRecord] = useState([]);
   const [guardianInfo, setGuardianInfo] = useState("");
   const [authModal, setAuthModal] = useState(false);
+  const [doctorInfo, setDoctorInfo] = useState([]);
 
   // web5
   const [web5, setWeb5] = useState(null);
@@ -152,7 +153,7 @@ export const AppContextProvider = ({ children }) => {
         myDid,
         protocolDefinition
       );
-      //   console.log({ result });
+      // console.log({ result });
       console.log("Protocol installed remotely", remoteResult);
     }
   }, [web5, myDid]);
@@ -347,6 +348,8 @@ export const AppContextProvider = ({ children }) => {
         // getGuardianInfo,
         authModal,
         setAuthModal,
+        doctorInfo,
+        setDoctorInfo,
       }}
     >
       {children}
