@@ -19,7 +19,6 @@ const PersonalRecord = () => {
   const [userDid, setUserDid] = useState("");
   const [did, setDid] = useState("");
   const [clicked, setClicked] = useState(false);
-  // console.log(userInfo[0].record);
   const handleClick = async (e) => {
     e.preventDefault();
 
@@ -69,13 +68,13 @@ const PersonalRecord = () => {
   };
   return (
     <section className="relative">
-      <div>
+      {/* <div>
         <h1>Scan the QR Code to Authenticate other device</h1>
         <QrCodeComponent phrase={myDid} />
         {/* <Link href={`/${userRole}/otherDevice?phrase=${authPhrase}`}>
           Continue to Other Device
-        </Link> */}
-      </div>
+        </Link> *
+      </div> */}
       <div>
         <div className="flex items-center justify-between mb-[1.5rem]">
           <p className="text-[1.25rem] text-primaryBlue leading-[1.75rem] font-[500] tracking-[0.025rem]">
@@ -102,9 +101,12 @@ const PersonalRecord = () => {
             </div>
           )}
         </div>
-        <div className="grid grid-cols-12 w-full">
+        <div className="grid grid-cols-12 w-full h-max">
           <div className="col col-span-8">
-            <ContentBox title={"Name"} text={user?.personalInfo?.name} />
+            <ContentBox
+              title={"Name"}
+              text={`${user?.personalInfo?.firstName} ${user?.personalInfo?.lastName}`}
+            />
           </div>
           <div className="col-span-2">
             <ContentBox
@@ -116,7 +118,7 @@ const PersonalRecord = () => {
             <ContentBox title={"Gender:"} text={user?.personalInfo?.gender} />
           </div>
         </div>
-        <div className="grid grid-cols-12 w-full">
+        <div className="grid grid-cols-12 w-full h-max">
           <div className="col col-span-2">
             <ContentBox
               title={"Marital Status:"}
@@ -136,7 +138,7 @@ const PersonalRecord = () => {
             />
           </div>
         </div>
-        <div className="grid grid-cols-12 w-full">
+        <div className="grid grid-cols-12 w-full h-max">
           <div className="col col-span-5">
             <ContentBox
               title={"Home Address:"}

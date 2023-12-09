@@ -7,11 +7,12 @@ import { useStateContext } from "@/state/AppContext";
 import CustomModal from "@/components/common/CustomModal";
 const Registration = () => {
   const router = useRouter();
-  const { web5, myDid, userRole, doctorInfo, setDoctorInfo, setUserRecord } =
-    useStateContext();
+  const { web5, myDid, userRole, setUserRecord } = useStateContext();
   const [isLoading, setIsLoading] = useState(false);
   const [successModal, setSuccessModal] = useState(false);
   const [isGettingUser, setIsGettingUser] = useState(false);
+  const [doctorInfo, setDoctorInfo] = useState([]);
+
   const [user, setUser] = useState({
     firstName: "",
     lastName: "",
