@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MdOutlineCancel } from "react-icons/md";
 import { FiLogOut, FiSettings } from "react-icons/fi";
 import { links } from "../../../../links";
@@ -19,8 +19,12 @@ const Sidebar = () => {
   const router = useRouter();
   const pathname = usePathname();
   const [showSettings, setShowSettings] = useState(false);
+  const [storedRole, setStoredRole] = useState("");
   // console.log(userRole);
-  const storedRole = localStorage.getItem("role");
+  useEffect(() => {
+    const storedRole = localStorage.getItem("role");
+    setStoredRole(storedRole);
+  }, []);
   const handleCloseSidebar = () => {
     if (activeMenu && screenSize <= 900) {
       setActiveMenu(false);

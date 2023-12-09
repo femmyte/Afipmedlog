@@ -30,13 +30,32 @@ const Hero = () => {
     setAuthModal(false);
     // setCongratulationModal(true);
   };
+
+  const handleGetStarted = () => {
+    if (checkUserExist) {
+      const storedRole = localStorage.getItem("role");
+      router.push(`/${storedRole}/settings`);
+    } else {
+      setAuthModal(true);
+    }
+  };
+  const handleGenerateDid = () => {
+    setAuthModal(false);
+    setCongratulationModal(true);
+  };
+  const handleCongratulation = () => {
+    const existingDid = localStorage.getItem("myDid");
+    const storedRole = localStorage.getItem("role");
+    if (existingDid && storedRole) {
+      setCongratulationModal(false);
+      router.push(`/${storedRole}/settings`);
+    } else {
+      setRegistrationModal(true);
+    }
+  };
   const handleRegistration = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
-    // const existingDid = localStorage.getItem("myDid");
-    // if (existingDid) {
-    //   router.push(`/${userRole}/settings`);
-    // }
+
     try {
       const { Web5 } = await import("@web5/api/browser");
       const { web5, did } = await Web5.connect({ sync: "5s" });
@@ -45,19 +64,13 @@ const Hero = () => {
       setWeb5(web5);
       setMyDid(did);
       setUserRole(role);
+      setRegistrationModal(false);
+      // console.log(did, role);
       router.push(`/${role}/settings`);
     } catch (error) {
       console.error("Error Singning up:", error);
     } finally {
       setIsLoading(false);
-    }
-  };
-  const handleGetStarted = () => {
-    if (checkUserExist) {
-      const storedRole = localStorage.getItem("role");
-      router.push(`/${storedRole}/settings`);
-    } else {
-      setAuthModal(true);
     }
   };
   if (isLoading) {
@@ -138,10 +151,7 @@ const Hero = () => {
             <p className="my-[1.5rem] font-[400] text-[0.875rem] leading-[1.5rem] text-[#5F6D7E] text-center">
               Don’t have a DID yet?{" "}
               <span
-                onClick={() => {
-                  setCongratulationModal(true);
-                  setAuthModal(false);
-                }}
+                onClick={handleGenerateDid}
                 className="text-primaryBlue cursor-pointer"
               >
                 Click here to generate your DID
@@ -174,10 +184,7 @@ const Hero = () => {
           <div className="flex flex-col items-center gap-6 justify-center ">
             <button
               className="w-[14.125rem] py-[0.5rem] px-4 rounded-[0.25rem] bg-primaryBlue text-white flex justify-center items-center font-[500] leading-6 tracking-[0.02rem disabled:bg-[#DCE6FB]"
-              onClick={() => {
-                setCongratulationModal(false);
-                setRegistrationModal(true);
-              }}
+              onClick={handleCongratulation}
             >
               Continue
             </button>
@@ -201,19 +208,22 @@ const Hero = () => {
                   value={role}
                   onChange={(e) => setRole(e.target.value)}
                   required
-                  className="w-full py-5 h-12 px-4 rounded-md border border-[#e8e8e8]"
+                  className="w-full py-5 h-[60px]  px-4 rounded-md border border-[#e8e8e8]"
                 >
-                  <option value={""} className={`w-full py-5 px-4 rounded-md`}>
+                  <option
+                    value={""}
+                    className={`w-full py-[4rem] px-4 rounded-md`}
+                  >
                     Select Your Role
                   </option>
                   <option
-                    className={`w-full py-5 px-4 rounded-md`}
+                    className={`w-full py-[4rem] px-4 rounded-md`}
                     value="doctor"
                   >
                     Doctor
                   </option>
                   <option
-                    className={`w-full py-5 px-4 rounded-md`}
+                    className={`w-full h-[4rem] px-4 rounded-md`}
                     value="patient"
                   >
                     Patient

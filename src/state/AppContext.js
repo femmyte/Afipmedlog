@@ -165,6 +165,46 @@ export const AppContextProvider = ({ children }) => {
     }
   }, [web5, configureProtocol]);
 
+  const getUser = useCallback(async () => {
+    setIsGettingUser(true);
+    console.log("getting user");
+    try {
+      const { records } = await web5.dwn.records.query({
+        message: {
+          filter: {
+            schema: protocolDefinition.types.patientInfo.schema,
+          },
+        },
+      });
+
+      // console.log(records);
+      // add entry to userInfo
+      for (let record of records) {
+        const data = await record.data.json();
+        const list = { record, data, id: record.id };
+        setUserInfo((user) => {
+          if (!user.some((item) => item.id === list.id)) {
+            return [...user, list];
+          }
+          return user;
+        });
+      }
+      // console.log(userInfo);
+      if (userInfo.length > 0) {
+        setUser(userInfo[0].data);
+      }
+      if (records) {
+        setIsGettingUser(false);
+      }
+      return userInfo;
+    } catch (error) {
+      console.log("error getting user", error);
+    }
+  }, [web5, userInfo]);
+  useEffect(() => {
+    if (web5) getUser();
+  }, [getUser, web5]);
+
   // const configureProtocol = async (web5, did) => {
   // 	// this is where we configure our protocol
   // 	const protocolUrl = protocolDefinition.protocol;

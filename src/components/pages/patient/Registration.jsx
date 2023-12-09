@@ -7,13 +7,13 @@ import { useStateContext } from "@/state/AppContext";
 import CustomModal from "@/components/common/CustomModal";
 const Registration = () => {
   const router = useRouter();
-  const { web5, myDid, userRole, setUserInfo, userInfo, setUserRecord } =
-    useStateContext();
+  const { web5, myDid, userRole, setUserRecord } = useStateContext();
   // console.log(web5)
   const [isLoading, setIsLoading] = useState(false);
   const [successModal, setSuccessModal] = useState(false);
   const [formEdited, setFormEdited] = useState(false);
   const [isCreateMode, setIsCreateMode] = useState(true);
+  const [userInfo, setUserInfo] = useState([]);
   const [isGettingUser, setIsGettingUser] = useState(false);
   const [user, setUser] = useState({
     firstName: "",
@@ -182,11 +182,12 @@ const Registration = () => {
           stateOfOrigin: userInfo[0].data.medicalProvider.stateOfOrigin || "",
           city: userInfo[0].data.medicalProvider.city || "",
         });
+        // set the create mode to false if the user has already created account, this will enable to know if we are updating the record or we are creating a record
+        setIsCreateMode(false);
       }
       if (records) {
         setIsGettingUser(false);
       }
-      setIsCreateMode(false);
       return userInfo;
     } catch (error) {
       console.log("error getting user", error);

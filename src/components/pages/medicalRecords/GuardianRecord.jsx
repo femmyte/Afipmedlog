@@ -12,6 +12,7 @@ const GuardianRecord = () => {
     userInfo,
     guardianRecord,
     web5,
+    user: guardianData,
     getGuardianInfo,
     guardianInfo,
   } = useStateContext();
@@ -20,17 +21,17 @@ const GuardianRecord = () => {
   const [isSuccessful, setIsSuccessful] = useState(false);
   // const [guardianRecord, setguardianRecord] = useState(null);
 
-  const [user, setUser] = useState({
-    name: "",
-    email: "",
-    address: "",
-    phoneNumber: "",
-    gender: "",
-    relationship: "",
-    nationality: "",
-    stateOfOrigin: "",
-    city: "",
-  });
+  // const [user, setUser] = useState({
+  //   name: "",
+  //   email: "",
+  //   address: "",
+  //   phoneNumber: "",
+  //   gender: "",
+  //   relationship: "",
+  //   nationality: "",
+  //   stateOfOrigin: "",
+  //   city: "",
+  // });
   const handleOpenModal = () => {
     setOpenModal(!openModal);
   };
@@ -38,23 +39,23 @@ const GuardianRecord = () => {
     const { name, value } = event.target;
     setUser({ ...user, [name]: value });
   };
-  const validate = () => {
-    if (
-      user.name === "" ||
-      user.email === "" ||
-      user.address === "" ||
-      user.phoneNumber === "" ||
-      user.gender === "" ||
-      user.relationship === "" ||
-      user.nationality === "" ||
-      user.stateOfOrigin === "" ||
-      user.city === ""
-    ) {
-      return true;
-    } else {
-      return false;
-    }
-  };
+  // const validate = () => {
+  //   if (
+  //     user.name === "" ||
+  //     user.email === "" ||
+  //     user.address === "" ||
+  //     user.phoneNumber === "" ||
+  //     user.gender === "" ||
+  //     user.relationship === "" ||
+  //     user.nationality === "" ||
+  //     user.stateOfOrigin === "" ||
+  //     user.city === ""
+  //   ) {
+  //     return true;
+  //   } else {
+  //     return false;
+  //   }
+  // };
   const handleSubmit = async (e) => {
     e.preventDefault();
     setOpenModal(false);
@@ -131,47 +132,68 @@ const GuardianRecord = () => {
             </button>
           )}
         </div>
-        <div className="grid grid-cols-12 w-full">
-          <div className="col col-span-7">
-            <ContentBox title={"Name"} text={guardianInfo?.name} />
-          </div>
-          <div className="col-span-3">
+        <div className="grid grid-cols-12  w-full">
+          <div className="col col-span-7 ">
             <ContentBox
-              title={"Relationship with Patient:"}
-              text={guardianInfo?.relationship}
+              title={"Name"}
+              text={`${guardianData.guardianInfo?.firstName} ${guardianData.guardianInfo?.lastName}`}
             />
           </div>
-          <div className="col-span-2">
-            <ContentBox title={"Gender:"} text={guardianInfo?.gender} />
+          <div className="col-span-3 ">
+            <ContentBox
+              title={"Relationship with Patient:"}
+              text={guardianData.guardianInfo?.relationship}
+            />
+          </div>
+          <div className="col-span-2 ">
+            <ContentBox
+              title={"Gender:"}
+              text={guardianData.guardianInfo?.gender}
+            />
           </div>
         </div>
         <div className="grid grid-cols-12 w-full">
           <div className="col-span-6">
             <ContentBox
               title={"Phone Number:"}
-              text={guardianInfo?.phoneNumber}
+              text={guardianData.guardianInfo?.phoneNumber}
             />
           </div>
           <div className="col-span-6">
-            <ContentBox title={"Email Address:"} text={guardianInfo?.email} />
+            <ContentBox
+              title={"Email Address:"}
+              text={guardianData.guardianInfo?.email}
+            />
           </div>
         </div>
         <div className="grid grid-cols-12 w-full">
           <div className="col col-span-5">
-            <ContentBox title={"Home Address:"} text={guardianInfo?.address} />
+            <ContentBox
+              title={"Home Address:"}
+              text={guardianData.guardianInfo?.address}
+            />
           </div>
           <div className="col-span-1">
-            <ContentBox title={"City:"} text={guardianInfo?.city} />
+            <ContentBox
+              title={"City:"}
+              text={guardianData.guardianInfo?.city}
+            />
           </div>
           <div className="col-span-3">
-            <ContentBox title={"State"} text={guardianInfo?.stateOfOrigin} />
+            <ContentBox
+              title={"State"}
+              text={guardianData.guardianInfo?.stateOfOrigin}
+            />
           </div>
           <div className="col-span-3">
-            <ContentBox title={"Country:"} text={guardianInfo?.nationality} />
+            <ContentBox
+              title={"Country:"}
+              text={guardianData.guardianInfo?.nationality}
+            />
           </div>
         </div>
       </div>
-      <CustomModal modalIsOpen={openModal} setIsOpen={setOpenModal}>
+      {/* <CustomModal modalIsOpen={openModal} setIsOpen={setOpenModal}>
         <div className="py-[2.5rem] px-[3.62rem]">
           <p className="font-[600] text-[1.25rem] leading-[2.375rem] text-[#2E3646] text-center mb-8">
             Share Medical Record
@@ -313,7 +335,7 @@ const GuardianRecord = () => {
             </form>
           </div>
         </div>
-      </CustomModal>
+      </CustomModal> */}
       {isSuccessful && (
         <div className="absolute px-8 py-2 rounded-md bg-green-600 top-0 right-0">
           <p className="text-white">Guardian Information Saved Successfully</p>
