@@ -3,15 +3,13 @@ import React, { useState, useEffect } from "react";
 import PersonalRecord from "./PersonalRecord";
 import GuardianRecord from "./GuardianRecord";
 import MedicalProvider from "./MedicalProvider";
-import NewMedicalRecordCheckList from "./NewMedicalRecordCheckList";
-import AllergyRecord from "./AllergyRecord";
-import MedicalRecordsSuccess from "./MedicalRecordsSuccess";
 import { useStateContext } from "@/state/AppContext";
 import protocolDefinition from "@/protocols/healthRecord.json";
 import TopComponent from "./TopComponent";
+import HealthRecord from "./HealthRecord";
 
 const UserInfo = () => {
-  const { web5, myDid, user } = useStateContext();
+  // const { web5, myDid, user } = useStateContext();
   //   const handleDelete = async () => {
   //     //Query records with plain text data format
   //     try {
@@ -28,7 +26,11 @@ const UserInfo = () => {
   //       const record = response.records[0];
 
   //       // Delete the record
-  //       const deleteResult = await record.delete();
+  //  const deleteResult = await web5.dwn.records.delete({
+  //   message: {
+  //     recordId: recordId
+  //   },
+  // });
   //       console.log("offline >", deleteResult);
   //       const deleteOnline = await web5.dwn.records.delete({
   //         from: myDid,
@@ -49,6 +51,7 @@ const UserInfo = () => {
       <PersonalRecord />
       <GuardianRecord />
       <MedicalProvider />
+      <HealthRecord />
       {/* 
 			<NewMedicalRecordCheckList />
 			<AllergyRecord />
