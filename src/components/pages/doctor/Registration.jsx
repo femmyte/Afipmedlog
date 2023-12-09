@@ -87,7 +87,7 @@ const Registration = () => {
         },
       });
 
-      console.log(records);
+      // console.log(records);
       // add entry to userInfo
       for (let record of records) {
         const data = await record.data.json();
@@ -99,7 +99,7 @@ const Registration = () => {
           return user;
         });
       }
-      console.log(doctorInfo);
+      // console.log(doctorInfo);
       if (doctorInfo.length > 0) {
         setUser({
           firstName: doctorInfo[0].data.personalInfo.firstName || "",
@@ -155,14 +155,14 @@ const Registration = () => {
         },
       });
       setUserRecord(record);
-      console.log(status);
+      // console.log(status);
       if (status.code === 202) {
         getUser();
         setIsLoading(false);
         setSuccessModal(true);
       }
       const { status: myDidStatus } = await record.send(myDid);
-      console.log("status of online dwd >", myDidStatus);
+      // console.log("status of online dwd >", myDidStatus);
       setFormEdited(false);
     } catch (error) {
       console.log(error);
@@ -191,12 +191,11 @@ const Registration = () => {
       // Update the record
       const { status } = await record.update({ data: updatedDoctorInfo });
 
-      console.log(status);
+      // console.log(status);
       if (status.code === 202) {
-        window.location.reload();
         // getUser();
-        // setIsLoading(false);
-        // setSuccessModal(true);
+        setIsLoading(false);
+        setSuccessModal(true);
       }
     } catch (error) {
       console.error("unable to update record", error);
@@ -225,7 +224,10 @@ const Registration = () => {
       <h1 className="font-[500] text-[2rem] leading-[2.5rem] text-[#151515] tracking-[0.04rem] my-[2.5rem]">
         Update Your Profile
       </h1>
-      <div className="w-[10.75rem] h-[10.75rem] py-[2.4375rem] px-[2.5rem] flex justify-center items-center rounded-[1.125rem] bg-[#f2f2f2] mb-[2.5rem]"></div>
+      <div className="w-[10.75rem] h-[10.75rem] py-[2.4375rem] px-[2.5rem] flex justify-center items-center rounded-[1.125rem] bg-[#f2f2f2] mb-[2.5rem]">
+        {" "}
+        <img src="/images/user.svg" alt="user placeholder" className="" />
+      </div>
       <p className="text-[1.25rem] text-primaryBlue leading-[1.75rem] font-[500] tracking-[0.025rem] mb-[1.5rem]">
         Personal Information
       </p>
@@ -392,7 +394,8 @@ const Registration = () => {
             <button
               className="w-[14.125rem] py-[0.5rem] px-4 rounded-[0.25rem] bg-primaryBlue text-white flex justify-center items-center font-[500] leading-6 tracking-[0.02rem disabled:bg-[#DCE6FB]"
               onClick={() => {
-                setSuccessModal(false);
+                // setSuccessModal(false);
+                window.location.reload();
               }}
             >
               Done
