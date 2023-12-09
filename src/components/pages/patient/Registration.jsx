@@ -182,11 +182,12 @@ const Registration = () => {
           stateOfOrigin: userInfo[0].data.medicalProvider.stateOfOrigin || "",
           city: userInfo[0].data.medicalProvider.city || "",
         });
+        // set the create mode to false if the user has already created account, this will enable to know if we are updating the record or we are creating a record
+        setIsCreateMode(false);
       }
       if (records) {
         setIsGettingUser(false);
       }
-      setIsCreateMode(false);
       return userInfo;
     } catch (error) {
       console.log("error getting user", error);
