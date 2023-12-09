@@ -1,6 +1,8 @@
 import TopComponent from '@/components/pages/doctor/TopComponent';
 import UserInfo from '@/components/pages/medicalRecords/UserInfo';
 import MedicalRecordPage from '@/components/pages/doctor/DoctorMedicalRecordPage/MedicalRecordPage';
+import SharedRecord from '@/components/pages/doctor/DoctorMedicalRecordPage/SharedRecord';
+import { AddedMedicalRecords } from '@/components/pages/doctor/DoctorMedicalRecordPage/AddedMedicalRecords';
 import React from 'react';
 
 const page = () => {
@@ -8,7 +10,9 @@ const page = () => {
 		<div>
 			{/* <UserInfo /> */}
 			<TopComponent />
-			<MedicalRecordPage />
+			{/* <MedicalRecordPage /> */}
+			<SharedRecord />
+			<AddedMedicalRecords />
 		</div>
 	);
 };

@@ -1,10 +1,12 @@
 import React from 'react'
 import SharedMedicalRecords from './SharedMedicalRecords'
 
-export const AddedMedicalRecords = () => {
+const SharedRecord = () => {
   return (
     <div className=''>
-        <SharedMedicalRecords heading="Added Patients’ Medical Records" />
+        <SharedMedicalRecords heading="Shared Patients’ Medical Records" />
     </div>
   )
 }
+
+export default SharedRecord
