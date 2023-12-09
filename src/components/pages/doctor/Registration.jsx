@@ -99,7 +99,7 @@ const Registration = () => {
           return user;
         });
       }
-      // console.log(doctorInfo);
+      console.log(doctorInfo);
       if (doctorInfo.length > 0) {
         setUser({
           firstName: doctorInfo[0].data.personalInfo.firstName || "",
