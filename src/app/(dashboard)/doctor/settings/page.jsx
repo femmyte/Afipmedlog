@@ -1,4 +1,4 @@
-import Registration from "@/components/pages/patient/Registration";
+import Registration from "@/components/pages/doctor/Registration";
 import React from "react";
 
 const page = () => {

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import HeroImageText from "./HeroImageText";
 import CustomModal from "@/components/common/CustomModal";
@@ -8,20 +8,63 @@ import { useRouter } from "next/navigation";
 
 const Hero = () => {
   const router = useRouter();
-  let { authModal, setAuthModal } = useStateContext();
+  let { authModal, setAuthModal, setWeb5, setMyDid, setUserRole, userRole } =
+    useStateContext();
+
   const [did, setDid] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const [role, setRole] = useState("");
   const [congratulationModal, setCongratulationModal] = useState(false);
   const [registrationModal, setRegistrationModal] = useState(false);
+  const [checkUserExist, setCheckUserExist] = useState(false);
+  useEffect(() => {
+    const existingDid = localStorage.getItem("myDid");
+    if (existingDid) {
+      // router.push(`/${userRole}/settings`);
+      setCheckUserExist(true);
+    }
+  }, []);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setAuthModal(false);
     // setCongratulationModal(true);
   };
-  const handleRegistration = (e) => {
+  const handleRegistration = async (e) => {
     e.preventDefault();
-    router.push(`/${role}/overview`);
+    setIsLoading(true);
+    // const existingDid = localStorage.getItem("myDid");
+    // if (existingDid) {
+    //   router.push(`/${userRole}/settings`);
+    // }
+    try {
+      const { Web5 } = await import("@web5/api/browser");
+      const { web5, did } = await Web5.connect({ sync: "5s" });
+      localStorage.setItem("myDid", did);
+      setWeb5(web5);
+      setMyDid(did);
+      setUserRole(role);
+      router.push(`/${role}/settings`);
+    } catch (error) {
+      console.error("Error Singning up:", error);
+    } finally {
+      setIsLoading(false);
+    }
   };
+  const handleGetStarted = () => {
+    if (checkUserExist) {
+      router.push(`/${userRole}/settings`);
+    } else {
+      setAuthModal(true);
+    }
+  };
+  if (isLoading) {
+    return (
+      <div className="h-screen w-screen flex justify-center items-center">
+        <p className="text-xl">Loading..</p>
+      </div>
+    );
+  }
   return (
     <div className="px-[6.25rem] py-[3rem]">
       <div className="flex justify-between items-center">
@@ -35,7 +78,7 @@ const Hero = () => {
             purposes
           </p>
           <button
-            onClick={() => setAuthModal(true)}
+            onClick={handleGetStarted}
             className="w-[11.875rem] py-[0.5rem] px-[1rem] rounded-[0.25rem] bg-primaryBlue text-white flex justify-center items-center font-[500] leading-6 tracking-[0.02rem "
           >
             Get started

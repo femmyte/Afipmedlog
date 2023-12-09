@@ -30,6 +30,7 @@ export const AppContextProvider = ({ children }) => {
   const [guardianRecord, setguardianRecord] = useState([]);
   const [guardianInfo, setGuardianInfo] = useState("");
   const [authModal, setAuthModal] = useState(false);
+  const [doctorInfo, setDoctorInfo] = useState([]);
 
   // web5
   const [web5, setWeb5] = useState(null);
@@ -152,7 +153,7 @@ export const AppContextProvider = ({ children }) => {
         myDid,
         protocolDefinition
       );
-      //   console.log({ result });
+      // console.log({ result });
       console.log("Protocol installed remotely", remoteResult);
     }
   }, [web5, myDid]);
@@ -230,82 +231,81 @@ export const AppContextProvider = ({ children }) => {
   // 	}
   // }, [web5, myDid]);
   // Memoize the getUser function
-  const getUser = useCallback(async () => {
-    setIsGettingUser(true);
-    console.log("getting user");
-    const { records } = await web5.dwn.records.query({
-      message: {
-        filter: {
-          schema: protocolDefinition.types.patientInfo.schema,
-        },
-      },
-    });
+  // const getUser = useCallback(async () => {
+  //   setIsGettingUser(true);
+  //   console.log("getting user");
+  //   const { records } = await web5.dwn.records.query({
+  //     message: {
+  //       filter: {
+  //         schema: protocolDefinition.types.patientInfo.schema,
+  //       },
+  //     },
+  //   });
 
-    // add entry to userInfo
-    for (let record of records) {
-      const data = await record.data.json();
-      const list = { record, data, id: record.id };
-      setUserInfo((user) => {
-        if (!user.some((item) => item.id === list.id)) {
-          return [...user, list];
-        }
-        return user;
-      });
-    }
+  //   // add entry to userInfo
+  //   for (let record of records) {
+  //     const data = await record.data.json();
+  //     const list = { record, data, id: record.id };
+  //     setUserInfo((user) => {
+  //       if (!user.some((item) => item.id === list.id)) {
+  //         return [...user, list];
+  //       }
+  //       return user;
+  //     });
+  //   }
 
-    if (records) {
-      setIsGettingUser(false);
-    }
-    return userInfo;
-  }, [web5, userInfo]); // Dependency array includes web5
-  const getGuardianInfo = useCallback(async () => {
-    setIsGettingUser(true);
-    console.log("getting guardain info");
-    const { records } = await web5.dwn.records.query({
-      message: {
-        filter: {
-          schema: protocolDefinition.types.guardianInfo.schema,
-        },
-      },
-    });
+  //   if (records) {
+  //     setIsGettingUser(false);
+  //   }
+  //   return userInfo;
+  // }, [web5, userInfo]); // Dependency array includes web5
+  // const getGuardianInfo = useCallback(async () => {
+  //   setIsGettingUser(true);
+  //   console.log("getting guardain info");
+  //   const { records } = await web5.dwn.records.query({
+  //     message: {
+  //       filter: {
+  //         schema: protocolDefinition.types.guardianInfo.schema,
+  //       },
+  //     },
+  //   });
 
-    // add entry to userInfo
-    for (let record of records) {
-      const data = await record.data.json();
-      const list = { record, data, id: record.id };
-      setguardianRecord((user) => {
-        if (!user.some((item) => item.id === list.id)) {
-          return [...user, list];
-        }
-        return user;
-      });
-    }
+  //   // add entry to userInfo
+  //   for (let record of records) {
+  //     const data = await record.data.json();
+  //     const list = { record, data, id: record.id };
+  //     setguardianRecord((user) => {
+  //       if (!user.some((item) => item.id === list.id)) {
+  //         return [...user, list];
+  //       }
+  //       return user;
+  //     });
+  //   }
 
-    if (records) {
-      setIsGettingUser(false);
-    }
-  }, [web5]); // Dependency array includes web5
+  //   if (records) {
+  //     setIsGettingUser(false);
+  //   }
+  // }, [web5]); // Dependency array includes web5
 
   // Trigger the getUser function on mount
-  useEffect(() => {
-    if (web5) {
-      getUser();
-      getGuardianInfo();
-    }
-  }, [getUser, getGuardianInfo, web5]);
+  // useEffect(() => {
+  //   if (web5) {
+  //     getUser();
+  //     getGuardianInfo();
+  //   }
+  // }, [getUser, getGuardianInfo, web5]);
 
-  useEffect(() => {
-    console.log(userInfo);
-    console.log(guardianRecord);
-    if (userInfo.length > 0) {
-      setUser(userInfo[0].data);
-      setUserRole(userInfo[0].data.personalInfo.role);
-    }
-    if (guardianRecord && guardianRecord.length > 0) {
-      console.log(guardianRecord);
-      setGuardianInfo(guardianRecord[0].data.guardianInfo);
-    }
-  }, [userInfo, guardianRecord]);
+  // useEffect(() => {
+  //   console.log(userInfo);
+  //   if (userInfo.length > 0) {
+  //     // setUser(userInfo[0].data);
+  //     // setUserRole(userInfo[0].data.personalInfo.role);
+  //   }
+  //   // if (guardianRecord && guardianRecord.length > 0) {
+  //   //   console.log(guardianRecord);
+  //   //   setGuardianInfo(guardianRecord[0].data.guardianInfo);
+  //   // }
+  // }, [userInfo]);
   const handleClick = (clicked) => {
     setIsClicked({ ...isClicked, [clicked]: true });
   };
@@ -335,7 +335,7 @@ export const AppContextProvider = ({ children }) => {
         setMyDid,
         userRole,
         setUserRole,
-        getUser,
+        // getUser,
         isGettingUser,
         userRecord,
         setUserRecord,
@@ -344,9 +344,12 @@ export const AppContextProvider = ({ children }) => {
         guardianInfo,
         setGuardianInfo,
         userInfo,
-        getGuardianInfo,
+        setUserInfo,
+        // getGuardianInfo,
         authModal,
         setAuthModal,
+        doctorInfo,
+        setDoctorInfo,
       }}
     >
       {children}

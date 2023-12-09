@@ -7,7 +7,7 @@
       "dataFormats": ["application/json"]
     },
     "doctorInfo": {
-      "schema": "https://example.com/doctorInfoSchema",
+      "schema": "https://example.com/guardianInfoSchema",
       "dataFormats": ["application/json"]
     },
     "medicalHistory": {
@@ -59,11 +59,7 @@
           "who": "anyone",
           "can": "write"
         },
-        {
-          "who": "author",
-          "of": "patientInfo",
-          "can": "update"
-        },
+
         {
           "who": "recipient",
           "of": "patientInfo",
@@ -74,23 +70,26 @@
     "doctorInfo": {
       "$actions": [
         {
-          "who": "anyone",
-          "can": "write"
-        },
-        {
-          "who": "anyone",
+          "who": "recipient",
+          "of": "patientInfo",
           "can": "read"
         },
         {
           "who": "author",
-          "of": "doctorInfo",
-          "can": "update"
+          "of": "patientInfo",
+          "can": "read"
+        },
+        {
+          "who": "author",
+          "of": "patientInfo",
+          "can": "write"
         }
       ]
     },
     "medicalHistory": {
       "$actions": [
         { "who": "author", "of": "patientInfo", "can": "read" },
+
         {
           "who": "recipient",
           "of": "patientInfo",
