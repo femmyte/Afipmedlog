@@ -41,6 +41,7 @@ const Hero = () => {
       const { Web5 } = await import("@web5/api/browser");
       const { web5, did } = await Web5.connect({ sync: "5s" });
       localStorage.setItem("myDid", did);
+      localStorage.setItem("role", role);
       setWeb5(web5);
       setMyDid(did);
       setUserRole(role);
@@ -53,7 +54,8 @@ const Hero = () => {
   };
   const handleGetStarted = () => {
     if (checkUserExist) {
-      router.push(`/${userRole}/settings`);
+      const storedRole = localStorage.getItem("role");
+      router.push(`/${storedRole}/settings`);
     } else {
       setAuthModal(true);
     }

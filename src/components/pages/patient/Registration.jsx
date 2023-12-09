@@ -1,9 +1,6 @@
 "use client";
 import CustomInput from "@/components/common/CustomInput";
 import React, { useState, useEffect, useCallback } from "react";
-import CustomFormField from "./CustomField";
-import CountrySelect from "@/components/common/CountrySelect";
-import StateSelect from "@/components/common/StateSelect";
 import protocolDefinition from "@/protocols/healthRecord.json";
 import { useRouter } from "next/navigation";
 import { useStateContext } from "@/state/AppContext";
@@ -15,6 +12,8 @@ const Registration = () => {
   // console.log(web5)
   const [isLoading, setIsLoading] = useState(false);
   const [successModal, setSuccessModal] = useState(false);
+  const [formEdited, setFormEdited] = useState(false);
+  const [isCreateMode, setIsCreateMode] = useState(true);
   const [isGettingUser, setIsGettingUser] = useState(false);
   const [user, setUser] = useState({
     firstName: "",
@@ -64,18 +63,21 @@ const Registration = () => {
       ...prevFormData,
       [fieldName]: value,
     }));
+    setFormEdited(true);
   };
   const handleGuardianInputChange = (fieldName, value) => {
     setGuardian((prevFormData) => ({
       ...prevFormData,
       [fieldName]: value,
     }));
+    setFormEdited(true);
   };
   const handleProviderInputChange = (fieldName, value) => {
     setProvider((prevFormData) => ({
       ...prevFormData,
       [fieldName]: value,
     }));
+    setFormEdited(true);
   };
   const validate = () => {
     if (
@@ -129,7 +131,7 @@ const Registration = () => {
         },
       });
 
-      console.log(records);
+      // console.log(records);
       // add entry to userInfo
       for (let record of records) {
         const data = await record.data.json();
@@ -141,7 +143,7 @@ const Registration = () => {
           return user;
         });
       }
-      console.log(userInfo);
+      // console.log(userInfo);
       if (userInfo.length > 0) {
         setUser({
           firstName: userInfo[0].data.personalInfo.firstName || "",
@@ -184,6 +186,7 @@ const Registration = () => {
       if (records) {
         setIsGettingUser(false);
       }
+      setIsCreateMode(false);
       return userInfo;
     } catch (error) {
       console.log("error getting user", error);
@@ -192,14 +195,14 @@ const Registration = () => {
   useEffect(() => {
     if (web5) getUser();
   }, [getUser, web5]);
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsLoading(true);
+
+  const handleCreate = async () => {
     try {
       console.log("running");
+      const storedRole = localStorage.getItem("role");
       const userInfoProtocol = protocolDefinition;
       const patientInfo = {
-        role: userRole,
+        role: storedRole,
         personalInfo: user,
         guardianInfo: guardian,
         medicalProvider: provider,
@@ -214,18 +217,64 @@ const Registration = () => {
         },
       });
       setUserRecord(record);
-      console.log(status);
+      //  console.log(status);
       if (status.code === 202) {
         getUser();
         setIsLoading(false);
         setSuccessModal(true);
       }
       const { status: myDidStatus } = await record.send(myDid);
-      console.log("status of online dwd >", myDidStatus);
+      //  console.log("status of online dwd >", myDidStatus);
+      setFormEdited(false);
     } catch (error) {
       console.log(error);
     }
   };
+  const handleUpdate = async () => {
+    //Query records with plain text data format
+    try {
+      const recordId = userInfo[0].id;
+      const storedRole = localStorage.getItem("role");
+
+      const patientInfo = {
+        role: storedRole,
+        personalInfo: user,
+        guardianInfo: guardian,
+        medicalProvider: provider,
+      };
+      // Get the record
+      const { record } = await web5.dwn.records.read({
+        message: {
+          filter: {
+            recordId: recordId,
+          },
+        },
+      });
+
+      // Update the record
+      const { status } = await record.update({ data: patientInfo });
+
+      // console.log(status);
+      if (status.code === 202) {
+        // window.location.reload();
+        // getUser();
+        setIsLoading(false);
+        setSuccessModal(true);
+      }
+    } catch (error) {
+      console.error("unable to update record", error);
+    }
+  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    if (isCreateMode) {
+      handleCreate();
+    } else {
+      handleUpdate();
+    }
+  };
+  const isFormDisabled = !formEdited || validate();
 
   if (isLoading) {
     return (
@@ -239,7 +288,9 @@ const Registration = () => {
       <h1 className="font-[500] text-[2rem] leading-[2.5rem] text-[#151515] tracking-[0.04rem] my-[2.5rem]">
         Update Your Profile
       </h1>
-      <div className="w-[10.75rem] h-[10.75rem] py-[2.4375rem] px-[2.5rem] flex justify-center items-center rounded-[1.125rem] bg-[#f2f2f2] mb-[2.5rem]"></div>
+      <div className="w-[10.75rem] h-[10.75rem] py-[2.4375rem] px-[2.5rem] flex justify-center items-center rounded-[1.125rem] bg-[#f2f2f2] mb-[2.5rem]">
+        <img src="/images/user.svg" alt="user placeholder" className="" />
+      </div>
       <p className="text-[1.25rem] text-primaryBlue leading-[1.75rem] font-[500] tracking-[0.025rem] mb-[1.5rem]">
         Personal Information
       </p>
@@ -328,7 +379,7 @@ const Registration = () => {
               onChange={(value) => setSelectedCountry(value)}
             /> */}
             <CustomInput
-              label="State"
+              label="Nationality"
               value={user.nationality}
               onChange={(value) => handleUserInputChange("nationality", value)}
             />
@@ -412,7 +463,7 @@ const Registration = () => {
               onChange={(value) => setSelectedCountry(value)}
             /> */}
             <CustomInput
-              label="State"
+              label="Nationality"
               value={guardian.nationality}
               onChange={(value) =>
                 handleGuardianInputChange("nationality", value)
@@ -498,7 +549,7 @@ const Registration = () => {
               onChange={(value) => setSelectedCountry(value)}
             /> */}
             <CustomInput
-              label="State"
+              label="Nigeria"
               value={provider.nationality}
               onChange={(value) =>
                 handleProviderInputChange("nationality", value)
@@ -510,9 +561,12 @@ const Registration = () => {
           <button
             type="submit"
             className="w-[15.25rem] py-[0.5rem] px-4 rounded-[0.25rem] bg-primaryBlue text-white flex justify-center items-center font-[500] leading-6 tracking-[0.02rem disabled:bg-[#DCE6FB]"
-            disabled={validate()}
+            disabled={isFormDisabled}
           >
-            {isLoading ? "Saving..." : "Save Changes"}
+            {/* {isLoading ? "Saving..." : "Save Changes"} */}
+            {isCreateMode
+              ? "Create Profile"
+              : "Save Changes" || (isLoading && "Saving...")}
           </button>
         </div>
       </form>
@@ -528,7 +582,8 @@ const Registration = () => {
             <button
               className="w-[14.125rem] py-[0.5rem] px-4 rounded-[0.25rem] bg-primaryBlue text-white flex justify-center items-center font-[500] leading-6 tracking-[0.02rem disabled:bg-[#DCE6FB]"
               onClick={() => {
-                setSuccessModal(false);
+                // setSuccessModal(false);
+                window.location.reload();
               }}
             >
               Done
