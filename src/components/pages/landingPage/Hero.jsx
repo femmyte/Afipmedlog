@@ -24,7 +24,16 @@ const Hero = () => {
       setCheckUserExist(true);
     }
   }, []);
-
+  const handleCongratulation = () => {
+    const existingDid = localStorage.getItem("myDid");
+    const storedRole = localStorage.getItem("role");
+    if (existingDid) {
+      router.push(`/${storedRole}/settings`);
+      setCongratulationModal(false);
+    } else {
+      setRegistrationModal(true);
+    }
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
     setAuthModal(false);
@@ -174,10 +183,7 @@ const Hero = () => {
           <div className="flex flex-col items-center gap-6 justify-center ">
             <button
               className="w-[14.125rem] py-[0.5rem] px-4 rounded-[0.25rem] bg-primaryBlue text-white flex justify-center items-center font-[500] leading-6 tracking-[0.02rem disabled:bg-[#DCE6FB]"
-              onClick={() => {
-                setCongratulationModal(false);
-                setRegistrationModal(true);
-              }}
+              onClick={handleCongratulation}
             >
               Continue
             </button>

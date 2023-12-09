@@ -74,7 +74,7 @@ const Registration = () => {
       return false;
     }
   };
-
+  console.log(isCreateMode);
   const getUser = useCallback(async () => {
     setIsGettingUser(true);
     console.log("getting user");
@@ -122,11 +122,12 @@ const Registration = () => {
           failedCases: doctorInfo[0].data.careerInfo.failedCases || "",
           successCases: doctorInfo[0].data.careerInfo.successCases || "",
         });
+        // set the create mode to false if the user has already created account, this will enable to know if we are updating the record or we are creating a record
+        setIsCreateMode(false);
       }
       if (records) {
         setIsGettingUser(false);
       }
-      setIsCreateMode(false);
     } catch (error) {
       console.log("error getting user", error);
     }
@@ -160,10 +161,10 @@ const Registration = () => {
         getUser();
         setIsLoading(false);
         setSuccessModal(true);
+        setFormEdited(false);
       }
       const { status: myDidStatus } = await record.send(myDid);
       // console.log("status of online dwd >", myDidStatus);
-      setFormEdited(false);
     } catch (error) {
       console.log(error);
     }
@@ -196,6 +197,7 @@ const Registration = () => {
         // getUser();
         setIsLoading(false);
         setSuccessModal(true);
+        setFormEdited(false);
       }
     } catch (error) {
       console.error("unable to update record", error);
