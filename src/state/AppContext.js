@@ -32,6 +32,7 @@ export const AppContextProvider = ({ children }) => {
   const [authModal, setAuthModal] = useState(false);
   const [doctorInfo, setDoctorInfo] = useState([]);
   const [sharedHealthRecord, setSharedHealthRecord] = useState([]);
+  const [currentUser, setCurrentUser] = useState("user");
   // web5
   const [web5, setWeb5] = useState(null);
   const [myDid, setMyDid] = useState(null);
@@ -394,6 +395,8 @@ export const AppContextProvider = ({ children }) => {
         doctorInfo,
         setDoctorInfo,
         initWeb5,
+        currentUser,
+        setCurrentUser,
       }}
     >
       {children}

@@ -3,7 +3,7 @@ import React from "react";
 const PersonalInformation = ({ userInfo }) => {
   return (
     <div
-      className="w-full p-[1.25rem] mt-[1.25rem]"
+      className="w-full p-[1.25rem] mt-[1.25rem] rounded"
       style={{ boxShadow: "4px 4px 24px 0px rgba(206, 206, 206, 0.24)" }}
     >
       <h3 className="text-[#151515] text-[1rem]">Personal Information</h3>
@@ -35,10 +35,6 @@ const PersonalInformation = ({ userInfo }) => {
             <td>{userInfo?.address}</td>
             <td className="pl-[2.06rem]">{userInfo?.city}</td>
           </tr>
-        </tbody>
-      </table>
-      <table className="w-full ">
-        <thead>
           <tr className="text-left text-[0.875rem] text-[#727272]">
             <th className="font-normal pr-[3.10rem] pt-[1.25rem] pb-[0.5rem]">
               State
@@ -56,8 +52,6 @@ const PersonalInformation = ({ userInfo }) => {
               Registered on
             </th>
           </tr>
-        </thead>
-        <tbody>
           <tr className="text-left text-[#151515] text-[1rem]">
             <td>{userInfo?.stateOfOrigin}</td>
             <td>{userInfo?.nationality}</td>

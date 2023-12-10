@@ -6,7 +6,7 @@ import CustomModal from "@/components/common/CustomModal";
 import { useStateContext } from "@/state/AppContext";
 import { useRouter } from "next/navigation";
 
-const Hero = () => {
+const Hero = ({ checkUserExist, handleGetStarted }) => {
   const router = useRouter();
   let { authModal, setAuthModal, setMyDid, myDid, setUserRole, userRole } =
     useStateContext();
@@ -16,7 +16,7 @@ const Hero = () => {
   const [role, setRole] = useState("");
   const [congratulationModal, setCongratulationModal] = useState(false);
   const [registrationModal, setRegistrationModal] = useState(false);
-  const [checkUserExist, setCheckUserExist] = useState(false);
+  // const [checkUserExist, setCheckUserExist] = useState(false);
   const [web5, setWeb5] = useState();
   const initializer = async () => {
     const { Web5 } = await import("@web5/api/browser");
@@ -24,28 +24,29 @@ const Hero = () => {
     setWeb5(web5);
     setMyDid(did);
   };
-  useEffect(() => {
-    const existingDid = localStorage.getItem("myDid");
-    if (existingDid) {
-      // router.push(`/${userRole}/settings`);
-      setCheckUserExist(true);
-    }
-  }, []);
-
+  // useEffect(() => {
+  //   const existingDid = localStorage.getItem("myDid");
+  //   if (existingDid && existingDid) {
+  //     // router.push(`/${userRole}/settings`);
+  //     setCheckUserExist(true);
+  //   }
+  // }, []);
   const handleSubmit = (e) => {
     e.preventDefault();
     setAuthModal(false);
     // setCongratulationModal(true);
   };
 
-  const handleGetStarted = () => {
-    if (checkUserExist) {
-      const storedRole = localStorage.getItem("role");
-      router.push(`/${storedRole}/settings`);
-    } else {
-      setAuthModal(true);
-    }
-  };
+  // const handleGetStarted = () => {
+  //   if (checkUserExist) {
+  //     const storedRole = localStorage.getItem("role");
+  //     if (storedRole) {
+  //       router.push(`/${storedRole}/settings`);
+  //     }
+  //   } else {
+  //     setAuthModal(true);
+  //   }
+  // };
   const handleGenerateDid = () => {
     setAuthModal(false);
     setCongratulationModal(true);
@@ -100,7 +101,7 @@ const Hero = () => {
             onClick={handleGetStarted}
             className="w-[11.875rem] py-[0.5rem] px-[1rem] rounded-[0.25rem] bg-primaryBlue text-white flex justify-center items-center font-[500] leading-6 tracking-[0.02rem "
           >
-            Get started
+            {checkUserExist ? "Go to Dashboard" : "Get started"}
           </button>
         </div>
         <div className="w-[28.625rem h-[27.5625]  pt-[2rem] px-[4.0625rem] bg-[#DCE6FB] rounded-[0.75rem] mr-[6.25rem] relative">

@@ -3,7 +3,7 @@ import React from "react";
 const CareerInformation = ({ careerInfo }) => {
   return (
     <div
-      className="w-full mt-[2rem]"
+      className="w-full mt-[2rem] p-[1.5rem] rounded"
       style={{ boxShadow: "4px 4px 24px 0px rgba(206, 206, 206, 0.24)" }}
     >
       <h3 className="text-[#151515] text-[1rem]">Career Information</h3>

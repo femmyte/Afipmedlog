@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
-
+import { render } from "@react-email/render";
+import SendDidEmail from "@/email/send-did-email";
 export async function POST(request) {
   try {
     const { name, userDid, email } = await request.json();
@@ -12,16 +13,17 @@ export async function POST(request) {
         pass: process.env.NODEMAILER_PW,
       },
     });
-
+    const emailHtml = render(<SendDidEmail name={name} did={userDid} />);
     const mailOption = {
       from: "afipmedlog.com",
       to: email,
-      subject: "AFIP MEDLOG NESSAGE",
-      html: `
-        <h3>Hello </h3>
-         <p> Dr. ${name} will like you to share your medical record using the below DID</p>
-        <p> <strong> ${userDid} </strong> </p> 
-        `,
+      subject: "AFIP MEDLOG",
+      html: emailHtml,
+      // html: `
+      //   <h3>Hello </h3>
+      //    <p> Dr. ${name} will like you to share your medical record using the below DID</p>
+      //   <p> <strong> ${userDid} </strong> </p>
+      //   `,
     };
 
     await transporter.sendMail(mailOption);

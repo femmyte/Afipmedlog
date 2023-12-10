@@ -5,7 +5,7 @@ import { FiPhoneCall } from "react-icons/fi";
 const DoctorsProfile = ({ userInfo }) => {
   return (
     <div
-      className="w-full p-[1.25rem]"
+      className="w-full p-[1.25rem] rounded"
       style={{ boxShadow: "4px 4px 24px 0px rgba(206, 206, 206, 0.24)" }}
     >
       {/* <h2 className="font-medium text-[2rem]">Profile</h2> */}
