@@ -32,29 +32,32 @@ export const AppContextProvider = ({ children }) => {
   const [authModal, setAuthModal] = useState(false);
   const [doctorInfo, setDoctorInfo] = useState([]);
   const [sharedHealthRecord, setSharedHealthRecord] = useState([]);
+  const [currentUser, setCurrentUser] = useState("user");
   // web5
   const [web5, setWeb5] = useState(null);
   const [myDid, setMyDid] = useState(null);
   const [didDocument, setDidDocument] = useState({});
-  useEffect(() => {
+
+  const initWeb5 = useCallback(async () => {
     const existingDid = localStorage.getItem("myDid");
 
-    const initWeb5 = async () => {
-      // @ts-ignore
-      const { Web5 } = await import("@web5/api/browser");
-      try {
-        const { web5, did } = await Web5.connect(existingDid);
+    // @ts-ignore
+    const { Web5 } = await import("@web5/api/browser");
+    try {
+      const { web5, did } = await Web5.connect(existingDid);
 
-        setWeb5(web5);
-        setMyDid(did);
+      setWeb5(web5);
+      setMyDid(did);
 
-        if (web5 && did) {
-          console.log("Web5 initialized");
-        }
-      } catch (error) {
-        console.error("Error initializing Web5:", error);
+      if (web5 && did) {
+        console.log("Web5 initialized");
       }
-    };
+    } catch (error) {
+      console.error("Error initializing Web5:", error);
+    }
+  }, []);
+  useEffect(() => {
+    const existingDid = localStorage.getItem("myDid");
     if (existingDid) initWeb5();
   }, []);
   // const getObject = useCallback(async () => {
@@ -391,6 +394,9 @@ export const AppContextProvider = ({ children }) => {
         setAuthModal,
         doctorInfo,
         setDoctorInfo,
+        initWeb5,
+        currentUser,
+        setCurrentUser,
       }}
     >
       {children}
