@@ -1,10 +1,10 @@
-// "use client";
+"use client";
 import { useStateContext } from "@/state/AppContext";
 import Link from "next/link";
 import React from "react";
 
 const HeroNavBar = () => {
-  let { authModal, setAuthModal } = useStateContext();
+  let { setAuthModal } = useStateContext();
   return (
     <>
       <nav className="flex justify-between items-center shadow-sm shadow-gray-200 w-full h-[5.5rem] py-[1.5rem] px-[6.25rem]">
