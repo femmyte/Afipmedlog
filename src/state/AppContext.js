@@ -31,7 +31,7 @@ export const AppContextProvider = ({ children }) => {
   const [guardianInfo, setGuardianInfo] = useState("");
   const [authModal, setAuthModal] = useState(false);
   const [doctorInfo, setDoctorInfo] = useState([]);
-
+  const [sharedHealthRecord, setSharedHealthRecord] = useState([]);
   // web5
   const [web5, setWeb5] = useState(null);
   const [myDid, setMyDid] = useState(null);
@@ -385,7 +385,8 @@ export const AppContextProvider = ({ children }) => {
         setGuardianInfo,
         userInfo,
         setUserInfo,
-        // getGuardianInfo,
+        sharedHealthRecord,
+        setSharedHealthRecord,
         authModal,
         setAuthModal,
         doctorInfo,

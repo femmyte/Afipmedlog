@@ -8,7 +8,14 @@ import NewMedicalRecordCheckList from "../medicalRecords/NewMedicalRecordCheckLi
 import AllergyRecord from "../medicalRecords/AllergyRecord";
 import protocolDefinition from "@/protocols/healthRecord.json";
 const TopComponent = () => {
-  let { myDid, web5, userRole, user } = useStateContext();
+  let {
+    myDid,
+    web5,
+    userRole,
+    user,
+    sharedHealthRecord,
+    setSharedHealthRecord,
+  } = useStateContext();
   const [copiedDid, setCopiedDid] = useState(false);
   const [clicked, setClicked] = useState(false);
   const [openModal, setOpenModal] = useState(false);
@@ -40,20 +47,23 @@ const TopComponent = () => {
       message: {
         filter: {
           protocol: userInfoProtocol.protocol,
-          schema: userInfoProtocol.types.patientInfo.schema,
+          schema: userInfoProtocol.types.doctorInfo.schema,
         },
       },
     });
 
     if (response.status.code === 200) {
-      const receivedDings = await Promise.all(
+      const receivedRecord = await Promise.all(
         response.records.map(async (record) => {
           const data = await record.data.json();
           return data;
         })
       );
-      console.log(receivedDings, "I received these dings");
-      return receivedDings;
+      // console.log(response.record.timestamp);
+      console.log(receivedRecord.slice(2), "I received these dings");
+
+      setSharedHealthRecord(receivedRecord.slice(2));
+      // return receivedDings;
     } else {
       console.log("error", response.status);
     }
@@ -117,6 +127,8 @@ const TopComponent = () => {
       }, 4000);
     }
   };
+
+  // console.log(sharedHealthRecord[0]);
   let form = selectedItem === "Allergy Record" && <AllergyRecord />;
   return (
     <div className="flex flex-wrap items-center justify-between mb-[2.5rem] relative">

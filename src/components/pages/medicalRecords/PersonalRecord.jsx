@@ -19,6 +19,7 @@ const PersonalRecord = () => {
   const [userDid, setUserDid] = useState("");
   const [did, setDid] = useState("");
   const [clicked, setClicked] = useState(false);
+  console.log(userInfo);
   const handleClick = async (e) => {
     e.preventDefault();
 
@@ -39,31 +40,41 @@ const PersonalRecord = () => {
     e.preventDefault();
 
     // const { status } = await userInfo[0].record.send(userDid);
-    console.log(status);
+    // console.log(status);
     // Check the status of the request
-    const patientData = [guardianRecord[0].record, userInfo[0].record];
-    const userInfoProtocol = protocolDefinition;
-    const { record } = await web5.dwn.records.write({
-      data: patientData,
-      message: {
-        protocol: userInfoProtocol.protocol,
-        protocolPath: "patientInfo",
-        schema: userInfoProtocol.types.patientInfo.schema,
-        dataFormat: "application/json",
-        recipient: userDid,
-      },
-    });
-    const { status } = await record.send(userDid);
-    if (status.code === 202) {
-      console.log("Record successfully sent to the recipient");
-      setOpenModal(false);
-      setUserDid("");
-      setClicked(true);
-      setTimeout(() => {
-        setClicked(false);
-      }, 4000);
-    } else {
-      console.log("Error sending the record");
+    const currentDate = new Date().toLocaleDateString();
+    const currentTime = new Date().toLocaleTimeString();
+    const patientData = {
+      data: userInfo[0].data,
+      timeSent: currentTime,
+      dateSent: currentDate,
+    };
+    try {
+      const userInfoProtocol = protocolDefinition;
+      const { record } = await web5.dwn.records.write({
+        data: patientData,
+        message: {
+          protocol: userInfoProtocol.protocol,
+          protocolPath: "doctorInfo",
+          schema: userInfoProtocol.types.doctorInfo.schema,
+          dataFormat: "application/json",
+          recipient: userDid,
+        },
+      });
+      const { status } = await record.send(userDid);
+      if (status.code === 202) {
+        console.log("Record successfully sent to the recipient");
+        setOpenModal(false);
+        setUserDid("");
+        setClicked(true);
+        setTimeout(() => {
+          setClicked(false);
+        }, 4000);
+      } else {
+        console.log("Error sending the record");
+      }
+    } catch (error) {
+      console.error("error occured", error);
     }
   };
   return (
@@ -80,16 +91,15 @@ const PersonalRecord = () => {
           <p className="text-[1.25rem] text-primaryBlue leading-[1.75rem] font-[500] tracking-[0.025rem]">
             Personal Information
           </p>
-          {userRole === "patient" && (
-            <div className="flex gap-x-4">
-              <button
-                className="text-[0.875rem] text-primaryBlue leading-[1.75rem] font-[400] tracking-[0.025rem]"
-                onClick={handleOpenModal}
-              >
-                Share Record
-              </button>
-            </div>
-          )}
+
+          <div className="flex gap-x-4">
+            <button
+              className="text-[0.875rem] text-primaryBlue leading-[1.75rem] font-[400] tracking-[0.025rem]"
+              onClick={handleOpenModal}
+            >
+              Share Record
+            </button>
+          </div>
           {userRole === "doctor" && (
             <div className="flex gap-x-4">
               <button

@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 
 const Hero = () => {
   const router = useRouter();
-  let { authModal, setAuthModal, setWeb5, setMyDid, setUserRole, userRole } =
+  let { authModal, setAuthModal, setMyDid, myDid, setUserRole, userRole } =
     useStateContext();
 
   const [did, setDid] = useState("");
@@ -17,6 +17,13 @@ const Hero = () => {
   const [congratulationModal, setCongratulationModal] = useState(false);
   const [registrationModal, setRegistrationModal] = useState(false);
   const [checkUserExist, setCheckUserExist] = useState(false);
+  const [web5, setWeb5] = useState();
+  const initializer = async () => {
+    const { Web5 } = await import("@web5/api/browser");
+    const { web5, did } = await Web5.connect({ sync: "5s" });
+    setWeb5(web5);
+    setMyDid(did);
+  };
   useEffect(() => {
     const existingDid = localStorage.getItem("myDid");
     if (existingDid) {
@@ -44,10 +51,10 @@ const Hero = () => {
     setCongratulationModal(true);
   };
   const handleCongratulation = () => {
+    setCongratulationModal(false);
     const existingDid = localStorage.getItem("myDid");
     const storedRole = localStorage.getItem("role");
     if (existingDid && storedRole) {
-      setCongratulationModal(false);
       router.push(`/${storedRole}/settings`);
     } else {
       setRegistrationModal(true);
@@ -57,12 +64,9 @@ const Hero = () => {
     e.preventDefault();
 
     try {
-      const { Web5 } = await import("@web5/api/browser");
-      const { web5, did } = await Web5.connect({ sync: "5s" });
-      localStorage.setItem("myDid", did);
+      initializer();
+      localStorage.setItem("myDid", myDid);
       localStorage.setItem("role", role);
-      setWeb5(web5);
-      setMyDid(did);
       setUserRole(role);
       setRegistrationModal(false);
       // console.log(did, role);
