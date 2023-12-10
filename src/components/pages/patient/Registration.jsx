@@ -5,9 +5,10 @@ import protocolDefinition from "@/protocols/healthRecord.json";
 import { useRouter } from "next/navigation";
 import { useStateContext } from "@/state/AppContext";
 import CustomModal from "@/components/common/CustomModal";
+import { generateUUID } from "@/utils/utilities";
 const Registration = () => {
   const router = useRouter();
-  const { web5, myDid, userRole, setUserRecord } = useStateContext();
+  const { web5, myDid, userRole, setUserRecord, initWeb5 } = useStateContext();
   // console.log(web5)
   const [isLoading, setIsLoading] = useState(false);
   const [successModal, setSuccessModal] = useState(false);
@@ -15,6 +16,8 @@ const Registration = () => {
   const [isCreateMode, setIsCreateMode] = useState(true);
   const [userInfo, setUserInfo] = useState([]);
   const [isGettingUser, setIsGettingUser] = useState(false);
+  const currentDate = new Date().toLocaleDateString();
+  const currentTime = new Date().toLocaleTimeString();
   const [user, setUser] = useState({
     firstName: "",
     lastName: "",
@@ -58,6 +61,10 @@ const Registration = () => {
   //     const { name, value } = event.target;
   //     setUser({ ...user, [name]: value });
   //   };
+  useEffect(() => {
+    const existingDid = localStorage.getItem("myDid");
+    if (existingDid) initWeb5();
+  }, [initWeb5]);
   const handleUserInputChange = (fieldName, value) => {
     setUser((prevFormData) => ({
       ...prevFormData,
@@ -207,6 +214,9 @@ const Registration = () => {
         personalInfo: user,
         guardianInfo: guardian,
         medicalProvider: provider,
+        createdDate: currentDate,
+        createdTime: currentTime,
+        userId: generateUUID(),
       };
       const { record, status } = await web5.dwn.records.create({
         data: patientInfo,
@@ -242,6 +252,8 @@ const Registration = () => {
         personalInfo: user,
         guardianInfo: guardian,
         medicalProvider: provider,
+        updatedDate: currentDate,
+        updatedTime: currentTime,
       };
       // Get the record
       const { record } = await web5.dwn.records.read({

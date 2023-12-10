@@ -3,7 +3,7 @@ import React from "react";
 
 const PatientProfile = () => {
   return (
-    <div>
+    <div className="w-full p-[1.25rem]">
       <div className="flex gap-x-4 items-center">
         <Link
           href={"#"}
