@@ -4,11 +4,15 @@ import Image from "next/image";
 import { GoChevronDown } from "react-icons/go";
 import doctorsData from "@/utils/doctorsData";
 import { useStateContext } from "@/state/AppContext";
+import { useRouter } from "next/navigation";
 
 const PatientsFilterPage = () => {
+  const router = useRouter();
   let { web5, myDid, userRole, user, userInfo, sharedHealthRecord } =
     useStateContext();
-  console.log(sharedHealthRecord);
+  const handleShowUserRecord = (id) => {
+    router.push(`/doctor/patients/${id}`);
+  };
   return (
     <div>
       <div>
@@ -28,15 +32,17 @@ const PatientsFilterPage = () => {
           <button className="text-[0.875rem] ">Filter</button>
         </div>
         <div className="flex items-center text-[0.875rem] text-[#7F7F7F] border-[0.4px] bg-[#F9F9F9] border-[#D1D1D1]  mr-[1rem] p-[0.5rem]  rounded-[0.25rem]">
-          <button className="text-[0.875rem] mr-[0.8rem]">Doctor’s name</button>
+          <button className="text-[0.875rem] mr-[0.8rem]">
+            Patients’ name
+          </button>
           <GoChevronDown />
         </div>
         <div className="flex items-center text-[0.875rem] text-[#7F7F7F] border-[0.4px] bg-[#F9F9F9] border-[#D1D1D1]  mr-[1rem] p-[0.5rem] rounded-[0.25rem]">
-          <button className="text-[0.875rem] mr-[0.8rem]">Specialty</button>
+          <button className="text-[0.875rem] mr-[0.8rem]">Treatment</button>
           <GoChevronDown />
         </div>
         <div className="flex items-center text-[0.875rem] text-[#7F7F7F] border-[0.4px] bg-[#F9F9F9] border-[#D1D1D1]  mr-[1rem] p-[0.5rem] rounded-[0.25rem]">
-          <button className="text-[0.875rem] mr-[0.8rem]">Department</button>
+          <button className="text-[0.875rem] mr-[0.8rem]">Date Added</button>
           <GoChevronDown />
         </div>
       </div>
@@ -45,13 +51,7 @@ const PatientsFilterPage = () => {
           <thead>
             <tr className="text-[0.875rem]">
               <td className="font-normal py-[0.88rem] border-b-[1px]">
-                Doctors’ name
-              </td>
-              <td className="font-normal py-[0.88rem] border-b-[1px]">
-                Specialty
-              </td>
-              <td className="font-normal py-[0.88rem] border-b-[1px]">
-                Department
+                Patients’ name
               </td>
               <td className="font-normal py-[0.88rem] border-b-[1px]">
                 Phone number
@@ -62,46 +62,56 @@ const PatientsFilterPage = () => {
               <td className="font-normal py-[0.88rem] border-b-[1px]">
                 Country
               </td>
+              <td className="font-normal py-[0.88rem] border-b-[1px]">city</td>
+              <td className="font-normal py-[0.88rem] border-b-[1px]">
+                Gender
+              </td>
               <td className="font-normal py-[0.88rem] border-b-[1px]">
                 Date added
               </td>
               <td className="font-normal py-[0.88rem] border-b-[1px]">
                 Status
               </td>
+              <td className="font-normal py-[0.88rem] border-b-[1px]"></td>
             </tr>
           </thead>
           <tbody>
-            {doctorsData.map((item) => (
-              <tr key={item.id} className="text-[#151515] text-[0.75rem]">
-                <td className="py-[0.88rem] border-b-[1px] border-[#F2F2F2]">
-                  {item.doctorsName}
-                </td>
-                <td className="py-[0.88rem] border-b-[1px] border-[#F2F2F2]">
-                  {item.specialty}
-                </td>
-                <td className="py-[0.88rem] border-b-[1px] border-[#F2F2F2]">
-                  {item.department}
-                </td>
-                <td className="py-[0.88rem] border-b-[1px] border-[#F2F2F2]">
-                  {item.phoneNumber}
-                </td>
-                <td className="py-[0.88rem] border-b-[1px] border-[#F2F2F2]">
-                  {item.emailAddress}
-                </td>
-                <td className="py-[0.88rem] border-b-[1px] border-[#F2F2F2]">
-                  {item.country}
-                </td>
-                <td className="py-[0.88rem] border-b-[1px] border-[#F2F2F2]">
-                  {item.dateAdded}
-                </td>
-                <td className="py-[0.88rem] border-b-[1px] border-[#F2F2F2] text-[#16B61C]">
-                  {item.status}
-                </td>
-                <td className="py-[0.88rem] border-b-[1px] border-[#F2F2F2]">
-                  ...
-                </td>
-              </tr>
-            ))}
+            {sharedHealthRecord &&
+              sharedHealthRecord.map((item, id) => (
+                <tr
+                  key={id}
+                  className="text-[#151515] text-[0.75rem] cursor-pointer"
+                  onClick={() => handleShowUserRecord(id)}
+                >
+                  <td className="py-[0.88rem] border-b-[1px] border-[#F2F2F2]">
+                    {`${item.data.personalInfo.firstName} ${item.data.personalInfo.lastName}`}
+                  </td>
+                  <td className="py-[0.88rem] border-b-[1px] border-[#F2F2F2]">
+                    {item.data.personalInfo.phoneNumber}
+                  </td>
+                  <td className="py-[0.88rem] border-b-[1px] border-[#F2F2F2]">
+                    {item.data.personalInfo.email}
+                  </td>
+                  <td className="py-[0.88rem] border-b-[1px] border-[#F2F2F2]">
+                    {item.data.personalInfo.nationality}
+                  </td>
+                  <td className="py-[0.88rem] border-b-[1px] border-[#F2F2F2]">
+                    {item.data.personalInfo.city}
+                  </td>
+                  <td className="py-[0.88rem] border-b-[1px] border-[#F2F2F2]">
+                    {item.data.personalInfo.gender}
+                  </td>
+                  <td className="py-[0.88rem] border-b-[1px] border-[#F2F2F2]">
+                    {item.dateSent}
+                  </td>
+                  <td className="py-[0.88rem] border-b-[1px] border-[#F2F2F2] text-[#16B61C]">
+                    Active
+                  </td>
+                  <td className="py-[0.88rem] border-b-[1px] border-[#F2F2F2]">
+                    ...
+                  </td>
+                </tr>
+              ))}
           </tbody>
         </table>
       </div>

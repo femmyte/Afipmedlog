@@ -31,22 +31,24 @@ const NavButton = ({ title, customFunc, icon, color, dotColor, num }) => (
 
 const Navbar = () => {
   let nav = "";
-  const { setActiveMenu, screenSize, setScreenSize, setDarkToggle } =
+  const { setActiveMenu, screenSize, setScreenSize, setDarkToggle, userName } =
     useStateContext();
   const [isDropdownOpen, setDropdownOpen] = useState(false);
   const [storedRole, setStoredRole] = useState("");
+  const [user, setUser] = useState("");
+  const { doctorInfo, userInfo } = useStateContext();
+  const [dropDown, setDropDown] = useState(false);
+  const [notificationdropDown, setNotificationdropDown] = useState(false);
+  const pathname = usePathname();
   useEffect(() => {
     const storedRole = localStorage.getItem("role");
     setStoredRole(storedRole);
   }, []);
+
   const toggleDropdown = () => {
     setDropdownOpen(!isDropdownOpen);
   };
 
-  const [dropDown, setDropDown] = useState(false);
-  const [notificationdropDown, setNotificationdropDown] = useState(false);
-  const [user, setUser] = useState("");
-  const pathname = usePathname();
   const handleDropDown = () => {
     if (dropDown) {
       setDropDown(false);
@@ -136,7 +138,7 @@ const Navbar = () => {
                 width={32}
                 className="rounded-full w-8 h-8 ml-4"
               />
-              <p className="text-gray-400 font-bold ml-1">name</p>
+              <p className="text-gray-400 font-bold ml-1">{userName}</p>
             </div>
 
             {isDropdownOpen && (

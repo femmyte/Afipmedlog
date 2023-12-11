@@ -25,12 +25,12 @@ const FindDoctor = () => {
         </p>
       </div>
       <div className="flex justify-center items-center">
-        <FindDoctorCards />
-        <FindDoctorCards />
-        <FindDoctorCards />
-        <FindDoctorCards />
-        <FindDoctorCards />
-        <FindDoctorCards />
+        <FindDoctorCards img={"doctor1"} />
+        <FindDoctorCards img={"doctor2"} />
+        <FindDoctorCards img={"doctor3"} />
+        <FindDoctorCards img={"doctor4"} />
+        <FindDoctorCards img={"doctor5"} />
+        <FindDoctorCards img={"doctor6"} />
       </div>
     </div>
   );

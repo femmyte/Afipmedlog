@@ -1,7 +1,12 @@
 import { HiOutlineUserGroup } from "react-icons/hi";
 import { AiFillHome } from "react-icons/ai";
 import { FiTwitter } from "react-icons/fi";
-
+import { TbReceipt } from "react-icons/tb";
+import { LuUsers2 } from "react-icons/lu";
+import { LuCalendarCheck } from "react-icons/lu";
+import { RxCounterClockwiseClock } from "react-icons/rx";
+import { RiMessage3Line } from "react-icons/ri";
+import { LuLayoutDashboard } from "react-icons/lu";
 export const patient = [
   {
     title: "Dashboard",
@@ -9,7 +14,7 @@ export const patient = [
       {
         name: "overview",
         address: "overview",
-        icon: <AiFillHome />,
+        icon: <LuLayoutDashboard />,
       },
     ],
   },
@@ -20,27 +25,27 @@ export const patient = [
       {
         name: "Medical Records",
         address: "medical-records",
-        icon: <FiTwitter />,
+        icon: <TbReceipt />,
       },
       {
         name: "History",
         address: "history",
-        icon: <FiTwitter />,
+        icon: <RxCounterClockwiseClock />,
       },
       {
         name: "Doctors",
         address: "doctors",
-        icon: <FiTwitter />,
+        icon: <LuUsers2 />,
       },
       {
         name: "Appointments",
         address: "appointments",
-        icon: <FiTwitter />,
+        icon: <LuCalendarCheck />,
       },
       {
         name: "Messages",
         address: "messages",
-        icon: <FiTwitter />,
+        icon: <RiMessage3Line />,
       },
     ],
   },
@@ -53,7 +58,7 @@ export const doctor = [
       {
         name: "overview",
         address: "overview",
-        icon: <AiFillHome />,
+        icon: <LuLayoutDashboard />,
       },
     ],
   },
@@ -64,27 +69,27 @@ export const doctor = [
       {
         name: "Medical Records",
         address: "medical-records",
-        icon: <FiTwitter />,
+        icon: <TbReceipt />,
       },
       {
         name: "Patients",
         address: "patients",
-        icon: <FiTwitter />,
+        icon: <LuUsers2 />,
       },
       {
         name: "Appointments",
         address: "appointments",
-        icon: <FiTwitter />,
+        icon: <LuCalendarCheck />,
       },
       {
         name: "History",
         address: "history",
-        icon: <FiTwitter />,
+        icon: <RxCounterClockwiseClock />,
       },
       {
         name: "Messages",
         address: "messages",
-        icon: <FiTwitter />,
+        icon: <RiMessage3Line />,
       },
     ],
   },

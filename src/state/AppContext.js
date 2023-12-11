@@ -16,6 +16,7 @@ const AppContext = createContext();
 export const AppContextProvider = ({ children }) => {
   let login = false;
   const [user, setUser] = useState("");
+  const [userName, setUserName] = useState("");
   const scrollContainerRef = useRef(null);
   const [activeMenu, setActiveMenu] = useState(true);
   const [isClicked, setIsClicked] = useState();
@@ -41,7 +42,6 @@ export const AppContextProvider = ({ children }) => {
   const initWeb5 = useCallback(async () => {
     const existingDid = localStorage.getItem("myDid");
 
-    // @ts-ignore
     const { Web5 } = await import("@web5/api/browser");
     try {
       const { web5, did } = await Web5.connect(existingDid);
@@ -207,7 +207,90 @@ export const AppContextProvider = ({ children }) => {
   useEffect(() => {
     if (web5) getUser();
   }, [getUser, web5]);
+  const getDoctor = useCallback(async () => {
+    setIsGettingUser(true);
+    console.log("getting user");
+    try {
+      const { records } = await web5.dwn.records.query({
+        message: {
+          filter: {
+            schema: protocolDefinition.types.doctorInfo.schema,
+          },
+        },
+      });
 
+      // console.log(records);
+      // add entry to doctorInfo
+      for (let record of records) {
+        const data = await record.data.json();
+        const list = { record, data, id: record.id };
+        setDoctorInfo((user) => {
+          if (!user.some((item) => item.id === list.id)) {
+            return [...user, list];
+          }
+          return user;
+        });
+      }
+      // console.log(userInfo);
+      if (doctorInfo.length > 0) {
+        setUser(doctorInfo[0].data);
+      }
+      if (records) {
+        setIsGettingUser(false);
+      }
+      return doctorInfo;
+    } catch (error) {
+      console.log("error getting user", error);
+    }
+  }, [web5, doctorInfo]);
+  useEffect(() => {
+    if (web5) getDoctor();
+  }, [getDoctor, web5]);
+  useEffect(() => {
+    const storedRole = localStorage.getItem("role");
+    if (storedRole === "patient") {
+      setUserName(userInfo[0]?.data?.personalInfo?.lastName);
+    } else if (storedRole === "doctor") {
+      setUserName(doctorInfo[0]?.data?.personalInfo?.lastName);
+    }
+  }, [doctorInfo, userInfo]);
+  //  get the shared record for Doctors
+  const getRecordSharedWithDoctor = useCallback(async () => {
+    const userInfoProtocol = protocolDefinition;
+
+    console.log("running");
+
+    const response = await web5.dwn.records.query({
+      from: myDid,
+      message: {
+        filter: {
+          protocol: userInfoProtocol.protocol,
+          schema: userInfoProtocol.types.patientInfo.schema,
+        },
+      },
+    });
+
+    if (response.status.code === 200) {
+      const receivedRecord = await Promise.all(
+        response.records.map(async (record) => {
+          const data = await record.data.json();
+          return data;
+        })
+      );
+      // console.log(response.record.timestamp);
+      // console.log(receivedRecord, "I received these records");
+
+      setSharedHealthRecord(receivedRecord);
+      // return receivedDings;
+    } else {
+      console.log("error", response.status);
+    }
+  }, [web5, myDid]);
+  useEffect(() => {
+    if (web5) {
+      getRecordSharedWithDoctor();
+    }
+  }, [getRecordSharedWithDoctor, web5]);
   // const configureProtocol = async (web5, did) => {
   // 	// this is where we configure our protocol
   // 	const protocolUrl = protocolDefinition.protocol;
@@ -358,6 +441,7 @@ export const AppContextProvider = ({ children }) => {
         login,
         // setUser,
         user,
+        userName,
         activeMenu,
         setActiveMenu,
         isClicked,
