@@ -10,20 +10,20 @@
       "schema": "https://example.com/doctorInfoSchema",
       "dataFormats": ["application/json"]
     },
-    "medicalHistory": {
-      "schema": "https://example.com/medicalHistorySchema",
+    "immunisationHistory": {
+      "schema": "https://example.com/immunisationHistorySchema",
       "dataFormats": ["application/json"]
     },
     "vitalSigns": {
       "schema": "https://example.com/vitalSignsSchema",
       "dataFormats": ["application/json"]
     },
-    "medicationInformation": {
-      "schema": "https://example.com/medicationInformationSchema",
+    "CardiologyRecord": {
+      "schema": "https://example.com/CardiologyRecordSchema",
       "dataFormats": ["application/json"]
     },
-    "immunisationHistory": {
-      "schema": "https://example.com/immunisationHistorySchema",
+    "medicationInformation": {
+      "schema": "https://example.com/medicationInformationSchema",
       "dataFormats": ["application/json"]
     },
     "labTestResults": {
@@ -34,12 +34,12 @@
       "schema": "https://example.com/diagnosisAndTreatmentInformationSchema",
       "dataFormats": ["application/json"]
     },
-    "healthcareProviderInformation": {
-      "schema": "https://example.com/healthcareProviderInformationSchema",
+    "AllergyRecord": {
+      "schema": "https://example.com/AllergyRecordSchema",
       "dataFormats": ["application/json"]
     },
-    "appointmentAndVisitHistory": {
-      "schema": "https://example.com/appointmentAndVisitHistorySchema",
+    "SurgeryRecord": {
+      "schema": "https://example.com/SurgeryRecordSchema",
       "dataFormats": ["application/json"]
     },
     "insuranceInformation": {
@@ -48,6 +48,14 @@
     },
     "emergencyContactInformation": {
       "schema": "https://example.com/emergencyContactInformationSchema",
+      "dataFormats": ["application/json"]
+    },
+    "MedicalHistory": {
+      "schema": "https://example.com/MedicalHistorySchema",
+      "dataFormats": ["application/json"]
+    },
+    "others": {
+      "schema": "https://example.com/othersSchema",
       "dataFormats": ["application/json"]
     }
   },
@@ -88,7 +96,7 @@
         }
       ]
     },
-    "medicalHistory": {
+    "immunisationHistory": {
       "$actions": [
         { "who": "author", "of": "patientInfo", "can": "read" },
         {
@@ -119,7 +127,7 @@
         }
       ]
     },
-    "medicationInformation": {
+    "CardiologyRecord": {
       "$actions": [
         { "who": "author", "of": "patientInfo", "can": "read" },
 
@@ -135,7 +143,7 @@
         }
       ]
     },
-    "immunisationHistory": {
+    "AllergyRecord": {
       "$actions": [
         { "who": "author", "of": "patientInfo", "can": "read" },
 
@@ -183,7 +191,7 @@
         }
       ]
     },
-    "healthcareProviderInformation": {
+    "SurgeryRecord": {
       "$actions": [
         { "who": "author", "of": "patientInfo", "can": "read" },
 
@@ -232,6 +240,54 @@
       ]
     },
     "emergencyContactInformation": {
+      "$actions": [
+        { "who": "author", "of": "patientInfo", "can": "read" },
+
+        {
+          "who": "recipient",
+          "of": "patientInfo",
+          "can": "read"
+        },
+        {
+          "who": "recipient",
+          "of": "patientInfo",
+          "can": "write"
+        }
+      ]
+    },
+    "medicationInformation": {
+      "$actions": [
+        { "who": "author", "of": "patientInfo", "can": "read" },
+
+        {
+          "who": "recipient",
+          "of": "patientInfo",
+          "can": "read"
+        },
+        {
+          "who": "recipient",
+          "of": "patientInfo",
+          "can": "write"
+        }
+      ]
+    },
+    "MedicalHistory": {
+      "$actions": [
+        { "who": "author", "of": "patientInfo", "can": "read" },
+
+        {
+          "who": "recipient",
+          "of": "patientInfo",
+          "can": "read"
+        },
+        {
+          "who": "recipient",
+          "of": "patientInfo",
+          "can": "write"
+        }
+      ]
+    },
+    "others": {
       "$actions": [
         { "who": "author", "of": "patientInfo", "can": "read" },
 

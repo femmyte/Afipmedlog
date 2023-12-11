@@ -4,18 +4,25 @@ import { useStateContext } from "@/state/AppContext";
 import { copyToClipboard } from "@/utils/utilities";
 import React, { useEffect, useState, useCallback } from "react";
 import { FiClipboard } from "react-icons/fi";
-import NewMedicalRecordCheckList from "../medicalRecords/NewMedicalRecordCheckList";
-import AllergyRecord from "../medicalRecords/AllergyRecord";
+import NewMedicalRecordCheckList from "../patient/medicalRecords/NewMedicalRecordCheckList";
+import AllergyForm from "./Forms/AllergyForm";
 import protocolDefinition from "@/protocols/healthRecord.json";
+// import GeneralHealthRecord from "./Forms/GeneralHealthRecord";
+import ImmunizationRecord from "./Forms/ImmunizationRecord";
+import CardiologyRecord from "./Forms/CardiologyRecord";
+import AllergyRecord from "./Forms/AllergyForm";
+import SurgeryRecord from "./Forms/SurgeryRecord";
+// import FamilyHealthRecords from "./Forms/FamilyHealthRecords";
+import DiagnosisAndTreatmentInformation from "./Forms/DiagnosisAndTreatmentInformation";
+import LabTestResults from "./Forms/LabTestResults";
+import MedicationInformation from "./Forms/MedicationInformation";
+import MedicalHistory from "./Forms/MedicalHistory";
+import VitalSigns from "./Forms/VitalSigns";
+import InsuranceInformation from "./Forms/InsuranceInformation";
+import checklistData from "@/utils/checklistData";
+
 const TopComponent = () => {
-  let {
-    myDid,
-    web5,
-    userRole,
-    user,
-    sharedHealthRecord,
-    setSharedHealthRecord,
-  } = useStateContext();
+  let { myDid, web5, user, setSharedHealthRecord } = useStateContext();
   const [copiedDid, setCopiedDid] = useState(false);
   const [clicked, setClicked] = useState(false);
   const [openModal, setOpenModal] = useState(false);
@@ -27,6 +34,43 @@ const TopComponent = () => {
   const [sendDidModal, setsendDidModal] = useState(false);
   const [emailSentMessage, setEmailSentMessage] = useState("");
   const [sendMessage, setSendMessage] = useState(false);
+
+  const [selectedRecord, setSelectedRecord] = useState(null);
+
+  const renderSelectedComponent = () => {
+    switch (selectedRecord) {
+      // case "GeneralHealthRecord":
+      //   return <GeneralHealthRecord />;
+      case "ImmunizationRecord":
+        return <ImmunizationRecord />;
+      case "CardiologyRecord":
+        return <CardiologyRecord />;
+      case "AllergyRecord":
+        return <AllergyRecord />;
+      case "SurgeryRecord":
+        return <SurgeryRecord />;
+      // case "FamilyHealthRecords":
+      //   return <FamilyHealthRecords />;
+      case "DiagnosisAndTreatmentInformation":
+        return <DiagnosisAndTreatmentInformation />;
+      case "LabTestResults":
+        return <LabTestResults />;
+      case "MedicationInformation":
+        return <MedicationInformation />;
+      case "MedicalHistory":
+        return <MedicalHistory />;
+      case "VitalSigns":
+        return <VitalSigns />;
+      case "InsuranceInformation":
+        return <InsuranceInformation />;
+      default:
+        return null;
+    }
+  };
+
+  const handleRecordChange = (record) => {
+    setSelectedRecord(record);
+  };
   const handleClick = () => {
     setOpenModal(true);
   };
@@ -47,7 +91,7 @@ const TopComponent = () => {
       message: {
         filter: {
           protocol: userInfoProtocol.protocol,
-          schema: userInfoProtocol.types.doctorInfo.schema,
+          schema: userInfoProtocol.types.patientInfo.schema,
         },
       },
     });
@@ -60,32 +104,13 @@ const TopComponent = () => {
         })
       );
       // console.log(response.record.timestamp);
-      console.log(receivedRecord.slice(2), "I received these dings");
+      console.log(receivedRecord, "I received these records");
 
-      setSharedHealthRecord(receivedRecord.slice(2));
+      setSharedHealthRecord(receivedRecord);
       // return receivedDings;
     } else {
       console.log("error", response.status);
     }
-    // const response = await web5.dwn.records.query({
-    //   message: {
-    //     filter: {
-    //       protocol: userInfoProtocol.protocol,
-    //     },
-    //   },
-    // });
-
-    // if (response.status.code === 200) {
-    //   const fetchedSharedRecords = await Promise.all(
-    //     response.records.map(async (record) => {
-    //       const data = await record.data.json();
-    //       return data;
-    //     })
-    //   );
-    //   return fetchedSharedRecords;
-    // } else {
-    //   console.log("error", response.status);
-    // }
   }, [web5]);
   useEffect(() => {
     if (web5) {
@@ -98,7 +123,7 @@ const TopComponent = () => {
 
   const handleOpenModal = (item) => {
     // console.log(item);
-    setSelectedItem(item);
+    // setSelectedItem(item);
     setOpenModal(!openModal);
     setOpenFormModal(true);
   };
@@ -128,8 +153,7 @@ const TopComponent = () => {
     }
   };
 
-  // console.log(sharedHealthRecord[0]);
-  let form = selectedItem === "Allergy Record" && <AllergyRecord />;
+  let form = selectedItem === "Allergy Record" && <AllergyForm />;
   return (
     <div className="flex flex-wrap items-center justify-between mb-[2.5rem] relative">
       <div className="">
@@ -141,43 +165,65 @@ const TopComponent = () => {
         </p>
       </div>
       <div className="flex items-center gap-x-[2rem]">
-        <button
+        {/* <button
           className="w-[10.125rem] py-[0.5rem] px-4 rounded-[0.25rem] bg-primaryBlue text-white flex gap-x-3 items-center font-[500] leading-6 tracking-[0.02rem"
           onClick={handleCopyDid}
         >
           <FiClipboard />
           <span>Copy Did </span>
-        </button>
-        {userRole === "doctor" && (
-          <div className="flex items-center gap-x-[2rem]">
-            <button className="w-[10.125rem] py-[0.5rem] px-4 rounded-[0.25rem] border border-[#16B61C]  flex justify-center items-center text-[#16b61c] font-[500] leading-6 tracking-[0.02rem]">
-              Edit Record
-            </button>
-            <button
-              className="w-[10.125rem] py-[0.5rem] px-4 rounded-[0.25rem] bg-primaryBlue text-white flex justify-center items-center font-[500] leading-6 tracking-[0.02rem"
-              onClick={handleClick}
-            >
-              Add New Record
-            </button>
-          </div>
-        )}
-        {userRole === "doctor" && (
-          <div className="flex gap-x-4">
-            <button
-              className="text-[0.875rem] text-primaryBlue leading-[1.75rem] font-[400] tracking-[0.025rem]"
-              onClick={handleOpenModalSendDid}
-            >
-              Send Did
-            </button>
-          </div>
-        )}
+        </button> */}
+        <div className="flex items-center gap-x-[2rem]">
+          <button className="w-[10.125rem] py-[0.5rem] px-4 rounded-[0.25rem] border border-[#16B61C]  flex justify-center items-center text-[#16b61c] font-[500] leading-6 tracking-[0.02rem]">
+            Edit Record
+          </button>
+          <button
+            className="w-[10.125rem] py-[0.5rem] px-4 rounded-[0.25rem] bg-primaryBlue text-white flex justify-center items-center font-[500] leading-6 tracking-[0.02rem"
+            onClick={handleClick}
+          >
+            Add New Record
+          </button>
+        </div>
       </div>
       <CustomModal modalIsOpen={openModal} setIsOpen={setOpenModal}>
-        <NewMedicalRecordCheckList handleOpenModal={handleOpenModal} />
+        {/* <NewMedicalRecordCheckList handleOpenModal={handleOpenModal} /> */}
+        <div className="w-[25rem] rounded-sm p-5">
+          <h3 className="text-center font-semibold">Add New Medical Records</h3>
+          <div>
+            <p className="py-2">What type of medical record</p>
+            <div>
+              {checklistData.map((record) => (
+                <div key={record.id} className="flex py-2 text-sm">
+                  <input
+                    type="radio"
+                    id={record.component}
+                    name="healthRecord"
+                    value={record.component}
+                    checked={selectedRecord === record.component}
+                    onChange={() => handleRecordChange(record.component)}
+                  />
+                  <label className="px-3" htmlFor={record.component}>
+                    {record.records}
+                  </label>
+                </div>
+              ))}
+
+              <div className="flex items-center justify-center py-2">
+                <button
+                  className="w-[10.125rem] py-[0.5rem] px-4 rounded-[0.25rem] bg-primaryBlue text-white flex justify-center items-center font-[500] leading-6 tracking-[0.02rem disabled:bg-[#DCE6FB]"
+                  disabled={!selectedRecord}
+                  onClick={() => handleOpenModal()}
+                >
+                  Continue
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       </CustomModal>
       <CustomModal modalIsOpen={openFormModal} setIsOpen={setOpenFormModal}>
         {/* <NewMedicalRecordCheckList handleOpenModal={handleOpenModal} /> */}
-        {form}
+        {/* {form} */}
+        {renderSelectedComponent()}
       </CustomModal>
       <CustomModal modalIsOpen={sendDidModal} setIsOpen={setsendDidModal}>
         <div className="py-[2.5rem] px-[3.62rem] relative">

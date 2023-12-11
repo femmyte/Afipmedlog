@@ -16,8 +16,7 @@ const Registration = () => {
   const [isCreateMode, setIsCreateMode] = useState(true);
   const [userInfo, setUserInfo] = useState([]);
   const [isGettingUser, setIsGettingUser] = useState(false);
-  const currentDate = new Date().toLocaleDateString();
-  const currentTime = new Date().toLocaleTimeString();
+
   const [user, setUser] = useState({
     firstName: "",
     lastName: "",
@@ -207,6 +206,8 @@ const Registration = () => {
   const handleCreate = async () => {
     try {
       console.log("running");
+      const currentDate = new Date().toLocaleDateString();
+      const currentTime = new Date().toLocaleTimeString();
       const storedRole = localStorage.getItem("role");
       const userInfoProtocol = protocolDefinition;
       const patientInfo = {
@@ -243,6 +244,8 @@ const Registration = () => {
   };
   const handleUpdate = async () => {
     //Query records with plain text data format
+    const currentDate = new Date().toLocaleDateString();
+    const currentTime = new Date().toLocaleTimeString();
     try {
       const recordId = userInfo[0].id;
       const storedRole = localStorage.getItem("role");

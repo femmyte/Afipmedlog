@@ -119,10 +119,12 @@ const Navbar = () => {
             className="md:mr-[40px]  relative cursor-pointer hover:bg-light-gray rounded-lg "
             onClick={() => setDropDown(!dropDown)}
           > */}
-          <div className="relative group cursor-pointer">
+          <div
+            className="relative group cursor-pointer"
+            onClick={toggleDropdown}
+          >
             <div
               className={`flex items-center gap-x-2 `}
-              onClick={toggleDropdown}
               // onMouseEnter={handleDropDown}
               // onMouseLeave={() => setDropDown(false)}
               // onClick={() => handleClick("userProfile")}

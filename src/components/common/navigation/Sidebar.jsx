@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { MdOutlineCancel } from "react-icons/md";
 import { FiLogOut, FiSettings } from "react-icons/fi";
-import { links } from "../../../../links";
+import { patient, doctor } from "../../../../links";
 import Link from "next/link";
 import { useStateContext } from "@/state/AppContext";
 import { usePathname, useRouter } from "next/navigation";
@@ -20,10 +20,16 @@ const Sidebar = () => {
   const pathname = usePathname();
   const [showSettings, setShowSettings] = useState(false);
   const [storedRole, setStoredRole] = useState("");
+  const [links, setLinks] = useState([]);
   // console.log(userRole);
   useEffect(() => {
     const storedRole = localStorage.getItem("role");
     setStoredRole(storedRole);
+    if (storedRole === "patient") {
+      setLinks(patient);
+    } else {
+      setLinks(doctor);
+    }
   }, []);
   const handleCloseSidebar = () => {
     if (activeMenu && screenSize <= 900) {
@@ -100,7 +106,18 @@ const Sidebar = () => {
 
       <div className="  flex items-end">
         <div className="">
-          <button
+          <Link
+            href={`/${storedRole}/settings`}
+            onClick={handleCloseSidebar}
+            className={pathname.includes("settings") ? activeLink : normalLink}
+          >
+            <FiSettings />
+            <span className="capitalize font-space font-[500] text-[14px] ">
+              {/* {link.name == '/' ? 'overview' : link.name} */}
+              Settings
+            </span>
+          </Link>
+          {/* <button
             onClick={() => {
               handleShowModal();
               handleCloseSidebar();
@@ -111,8 +128,8 @@ const Sidebar = () => {
           >
             <FiSettings />
             <span className="capitalize">Settings</span>
-          </button>
-          <button
+          </button> */}
+          {/* <button
             onClick={() => {
               handleShowModal();
               handleCloseSidebar();
@@ -123,7 +140,7 @@ const Sidebar = () => {
           >
             <FiLogOut />
             <span className="capitalize">logout</span>
-          </button>
+          </button> */}
         </div>
       </div>
     </div>
