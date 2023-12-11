@@ -1,10 +1,10 @@
-import ComingSoon from "@/components/common/ComingSoon";
 import React from "react";
+import PatientsFilterPage from "@/components/pages/patient/PatientPage/PatientsFilterPage";
 
 const page = () => {
   return (
     <div>
-      <ComingSoon />
+      <PatientsFilterPage />
     </div>
   );
 };

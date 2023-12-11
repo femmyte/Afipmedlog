@@ -6,7 +6,10 @@ import { useRouter } from "next/navigation";
 import { useStateContext } from "@/state/AppContext";
 import CustomModal from "@/components/common/CustomModal";
 import { generateUUID } from "@/utils/utilities";
+import { collection, addDoc } from "firebase/firestore";
+import { app, database } from "@/service/firebaseConfig";
 const Registration = () => {
+  const dbInstance = collection(database, "doctorDid");
   const router = useRouter();
   const { web5, myDid, userRole, setUserRecord, initWeb5 } = useStateContext();
   const [isLoading, setIsLoading] = useState(false);
@@ -149,12 +152,17 @@ const Registration = () => {
       const currentDate = new Date().toLocaleDateString();
       const currentTime = new Date().toLocaleTimeString();
       const userInfoProtocol = protocolDefinition;
+      addDoc(dbInstance, {
+        did: myDid,
+      });
       const doctorInfo = {
         role: storedRole,
         personalInfo: user,
         careerInfo: careerInfo,
         createdDate: currentDate,
         createdTime: currentTime,
+        doctorDId: myDid,
+        userId: generateUUID(),
       };
       const { record, status } = await web5.dwn.records.create({
         data: doctorInfo,
@@ -163,7 +171,6 @@ const Registration = () => {
           protocolPath: "doctorInfo",
           schema: userInfoProtocol.types.doctorInfo.schema,
           recipient: myDid,
-          userId: generateUUID(),
         },
       });
       setUserRecord(record);
