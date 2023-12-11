@@ -1,6 +1,7 @@
 import React from 'react'
 import historyTableData from '@/utils/historytableData';
 import TestTable from './TestTable';
+import PrescriptionTable from './PrescriptionTable';
 
 const HistoryTable = () => {
   return (
@@ -30,7 +31,15 @@ const HistoryTable = () => {
                 ))}
             </tbody>
         </table>
-        <TestTable />
+        <div className='col-span-full grid grid-cols-12 gap-[2rem]'>
+            <div className='col-span-7'>
+                <TestTable />
+            </div>
+            <div className='col-span-5'>
+                <PrescriptionTable />
+            </div>
+        </div>
+        
     </div>
   )
 }
