@@ -7,10 +7,12 @@ import { useStateContext } from "@/state/AppContext";
 import protocolDefinition from "@/protocols/healthRecord.json";
 import QrCodeComponent from "@/service/QrCode";
 import Link from "next/link";
+import { useParams } from "next/navigation";
 
 const PersonalRecord = () => {
+  const { id } = useParams();
   const ref = useRef();
-  let { web5, myDid, userRole, user, userInfo, guardianRecord } =
+  let { web5, myDid, userRole, user, userInfo, sharedHealthRecord } =
     useStateContext();
   const [authPhrase, setAuthPhrase] = useState(myDid);
   const [openModal, setOpenModal] = useState(false);
@@ -19,7 +21,6 @@ const PersonalRecord = () => {
   const [userDid, setUserDid] = useState("");
   const [did, setDid] = useState("");
   const [clicked, setClicked] = useState(false);
-  console.log(userInfo);
   const handleClick = async (e) => {
     e.preventDefault();
 
@@ -79,72 +80,49 @@ const PersonalRecord = () => {
   };
   return (
     <section className="relative">
-      {/* <div>
-        <h1>Scan the QR Code to Authenticate other device</h1>
-        <QrCodeComponent phrase={myDid} />
-        {/* <Link href={`/${userRole}/otherDevice?phrase=${authPhrase}`}>
-          Continue to Other Device
-        </Link> *
-      </div> */}
       <div>
         <div className="flex items-center justify-between mb-[1.5rem]">
           <p className="text-[1.25rem] text-primaryBlue leading-[1.75rem] font-[500] tracking-[0.025rem]">
             Personal Information
           </p>
-
-          <div className="flex gap-x-4">
-            <button
-              className="text-[0.875rem] text-primaryBlue leading-[1.75rem] font-[400] tracking-[0.025rem]"
-              onClick={handleOpenModal}
-            >
-              Share Record
-            </button>
-          </div>
-          {userRole === "doctor" && (
-            <div className="flex gap-x-4">
-              <button
-                className="text-[0.875rem] text-primaryBlue leading-[1.75rem] font-[400] tracking-[0.025rem]"
-                onClick={handleOpenModalSendDid}
-              >
-                Send Did
-              </button>
-            </div>
-          )}
         </div>
         <div className="grid grid-cols-12 w-full h-max">
           <div className="col col-span-8">
             <ContentBox
               title={"Name"}
-              text={`${user?.personalInfo?.firstName} ${user?.personalInfo?.lastName}`}
+              text={`${sharedHealthRecord[id]?.data?.personalInfo?.firstName} ${sharedHealthRecord[id]?.data?.personalInfo?.lastName}`}
             />
           </div>
           <div className="col-span-2">
             <ContentBox
               title={"Date of Birth"}
-              text={user?.personalInfo?.dateOfBirth}
+              text={sharedHealthRecord[id]?.data?.personalInfo?.dateOfBirth}
             />
           </div>
           <div className="col-span-2">
-            <ContentBox title={"Gender:"} text={user?.personalInfo?.gender} />
+            <ContentBox
+              title={"Gender:"}
+              text={sharedHealthRecord[id]?.data?.personalInfo?.gender}
+            />
           </div>
         </div>
         <div className="grid grid-cols-12 w-full h-max">
           <div className="col col-span-2">
             <ContentBox
               title={"Marital Status:"}
-              text={user?.personalInfo?.maritalStatus}
+              text={sharedHealthRecord[id]?.data?.personalInfo?.maritalStatus}
             />
           </div>
           <div className="col-span-5">
             <ContentBox
               title={"Phone Number:"}
-              text={user?.personalInfo?.phoneNumber}
+              text={sharedHealthRecord[id]?.data?.personalInfo?.phoneNumber}
             />
           </div>
           <div className="col-span-5">
             <ContentBox
               title={"Email Address:"}
-              text={user?.personalInfo?.email}
+              text={sharedHealthRecord[id]?.data?.personalInfo?.email}
             />
           </div>
         </div>
@@ -152,62 +130,29 @@ const PersonalRecord = () => {
           <div className="col col-span-5">
             <ContentBox
               title={"Home Address:"}
-              text={user?.personalInfo?.address}
+              text={sharedHealthRecord[id]?.data?.personalInfo?.address}
             />
           </div>
           <div className="col-span-1">
-            <ContentBox title={"City:"} text={user?.personalInfo?.city} />
+            <ContentBox
+              title={"City:"}
+              text={sharedHealthRecord[id]?.data?.personalInfo?.city}
+            />
           </div>
           <div className="col-span-3">
             <ContentBox
               title={"State"}
-              text={user?.personalInfo?.stateOfOrigin}
+              text={sharedHealthRecord[id]?.data?.personalInfo?.stateOfOrigin}
             />
           </div>
           <div className="col-span-3">
             <ContentBox
               title={"Country:"}
-              text={user?.personalInfo?.nationality}
+              text={sharedHealthRecord[id]?.data?.personalInfo?.nationality}
             />
           </div>
         </div>
       </div>
-      <CustomModal modalIsOpen={openModal} setIsOpen={setOpenModal}>
-        <div className="py-[2.5rem] px-[3.62rem]">
-          <p className="font-[600] text-[1.25rem] leading-[2.375rem] text-[#2E3646] text-center mb-8">
-            Share Medical Record
-          </p>
-          {/* <p className='my-[1.5rem] font-[400] text-[0.875rem] leading-[1.5rem] text-[#5F6D7E] text-center'>
-						What type of medical record ?
-					</p> */}
-          <form className="">
-            <label
-              htmlFor="userDid"
-              className="block font-[400] text-[0.875rem] text-[#151515] mb-[0.5rem] "
-            >
-              Enter Recipients’ DID{" "}
-            </label>
-            <input
-              className="w-[25rem] py-[0.75rem] px-4 rounded-[0.25rem] border border-[#E8E8E8] focus:border-blue-500 block	"
-              placeholder="Recipients’ DID "
-              id="userDid"
-              type="text"
-              name="userDid"
-              value={userDid}
-              onChange={(e) => setUserDid(e.target.value)}
-            />
-            <div className="flex flex-col items-center gap-6 justify-center mt-8">
-              <button
-                className="w-[10.125rem] py-[0.5rem] px-4 rounded-[0.25rem] bg-primaryBlue text-white flex justify-center items-center font-[500] leading-6 tracking-[0.02rem disabled:bg-[#DCE6FB]"
-                disabled={!userDid}
-                onClick={handleSendRecord}
-              >
-                Share Record
-              </button>
-            </div>
-          </form>
-        </div>
-      </CustomModal>
       <CustomModal modalIsOpen={sendDidModal} setIsOpen={setsendDidModal}>
         <div className="py-[2.5rem] px-[3.62rem] relative">
           <p className="font-[600] text-[1.25rem] leading-[2.375rem] text-[#2E3646] text-center mb-8">

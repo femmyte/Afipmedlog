@@ -1,10 +1,16 @@
 "use client";
-import React, { useState } from "react";
+import { useStateContext } from "@/state/AppContext";
+import React, { useEffect, useState } from "react";
 import { MdChevronRight } from "react-icons/md";
 
-const Accordion = ({ title, children, handleClick }) => {
+const Accordion = ({ title, children, handleClick, protocol }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [storedRole, setStoredRole] = useState("");
 
+  useEffect(() => {
+    const storedRole = localStorage.getItem("role");
+    setStoredRole(storedRole);
+  }, []);
   const toggleAccordion = () => {
     setIsOpen(!isOpen);
   };
@@ -25,15 +31,27 @@ const Accordion = ({ title, children, handleClick }) => {
           <MdChevronRight size={30} className="text-black" />
         )}
       </div>
-      {isOpen && (
+      {isOpen && storedRole === "patient" ? (
         <div className="my-[1.5rem] flex justify-end">
           <button
             className="text-[0.875rem] text-primaryGreen font-[400] leading-[1.25rem]"
-            onClick={handleClick}
+            onClick={() => handleClick(protocol)}
           >
             Share Record
           </button>
         </div>
+      ) : (
+        isOpen &&
+        storedRole === "doctor" && (
+          <div className="my-[1.5rem] flex justify-end">
+            {/* <button
+              className="text-[0.875rem] text-primaryGreen font-[400] leading-[1.25rem]"
+              onClick={handleClick}
+            >
+              Edit Record
+            </button> */}
+          </div>
+        )
       )}
       {isOpen && <div className="">{children}</div>}
     </div>

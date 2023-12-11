@@ -6,7 +6,14 @@ import { useRouter } from "next/navigation";
 import { useStateContext } from "@/state/AppContext";
 import CustomModal from "@/components/common/CustomModal";
 import { generateUUID } from "@/utils/utilities";
+// import { useCollectionData } from "react-firebase-hooks/firestore";
+// import firebase from "firebase/app";
+import { collection, addDoc } from "firebase/firestore";
+import { app, database } from "@/service/firebaseConfig";
+
 const Registration = () => {
+  const dbInstance = collection(database, "patientDid");
+
   const router = useRouter();
   const { web5, myDid, userRole, setUserRecord, initWeb5 } = useStateContext();
   // console.log(web5)
@@ -16,8 +23,7 @@ const Registration = () => {
   const [isCreateMode, setIsCreateMode] = useState(true);
   const [userInfo, setUserInfo] = useState([]);
   const [isGettingUser, setIsGettingUser] = useState(false);
-  const currentDate = new Date().toLocaleDateString();
-  const currentTime = new Date().toLocaleTimeString();
+
   const [user, setUser] = useState({
     firstName: "",
     lastName: "",
@@ -125,7 +131,7 @@ const Registration = () => {
       return false;
     }
   };
-
+  console.log(web5);
   const getUser = useCallback(async () => {
     setIsGettingUser(true);
     console.log("getting user");
@@ -150,7 +156,7 @@ const Registration = () => {
           return user;
         });
       }
-      // console.log(userInfo);
+      console.log(userInfo);
       if (userInfo.length > 0) {
         setUser({
           firstName: userInfo[0].data.personalInfo.firstName || "",
@@ -207,8 +213,14 @@ const Registration = () => {
   const handleCreate = async () => {
     try {
       console.log("running");
+      const currentDate = new Date().toLocaleDateString();
+      const currentTime = new Date().toLocaleTimeString();
       const storedRole = localStorage.getItem("role");
       const userInfoProtocol = protocolDefinition;
+
+      addDoc(dbInstance, {
+        did: myDid,
+      });
       const patientInfo = {
         role: storedRole,
         personalInfo: user,
@@ -216,7 +228,7 @@ const Registration = () => {
         medicalProvider: provider,
         createdDate: currentDate,
         createdTime: currentTime,
-        userId: generateUUID(),
+        patientDId: myDid,
       };
       const { record, status } = await web5.dwn.records.create({
         data: patientInfo,
@@ -243,6 +255,8 @@ const Registration = () => {
   };
   const handleUpdate = async () => {
     //Query records with plain text data format
+    const currentDate = new Date().toLocaleDateString();
+    const currentTime = new Date().toLocaleTimeString();
     try {
       const recordId = userInfo[0].id;
       const storedRole = localStorage.getItem("role");

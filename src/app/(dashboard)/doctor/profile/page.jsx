@@ -159,7 +159,7 @@ const Profile = () => {
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>
-            <div className="">
+            {/* <div className="">
               <label
                 htmlFor="did"
                 className="block font-[400] text-[0.875rem] text-[#151515] mb-[0.5rem] "
@@ -176,7 +176,7 @@ const Profile = () => {
                 onChange={(e) => setUserDid(e.target.value)}
                 required
               />
-            </div>
+            </div> */}
             <div className="flex flex-col items-center gap-6 justify-center mt-8">
               <button className="w-[10.125rem] py-[0.5rem] px-4 rounded-[0.25rem] bg-primaryBlue text-white flex justify-center items-center font-[500] leading-6 tracking-[0.02rem disabled:bg-[#DCE6FB]">
                 Send DID
