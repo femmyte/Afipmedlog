@@ -13,8 +13,7 @@ const Registration = () => {
   const [successModal, setSuccessModal] = useState(false);
   const [isGettingUser, setIsGettingUser] = useState(false);
   const [doctorInfo, setDoctorInfo] = useState([]);
-  const currentDate = new Date().toLocaleDateString();
-  const currentTime = new Date().toLocaleTimeString();
+
   const [user, setUser] = useState({
     firstName: "",
     lastName: "",
@@ -39,6 +38,7 @@ const Registration = () => {
   });
   useEffect(() => {
     const existingDid = localStorage.getItem("myDid");
+
     if (existingDid) initWeb5();
   }, [initWeb5]);
 
@@ -146,6 +146,8 @@ const Registration = () => {
     try {
       console.log("running");
       const storedRole = localStorage.getItem("role");
+      const currentDate = new Date().toLocaleDateString();
+      const currentTime = new Date().toLocaleTimeString();
       const userInfoProtocol = protocolDefinition;
       const doctorInfo = {
         role: storedRole,
@@ -181,6 +183,8 @@ const Registration = () => {
   const handleUpdate = async () => {
     //Query records with plain text data format
     try {
+      const currentDate = new Date().toLocaleDateString();
+      const currentTime = new Date().toLocaleTimeString();
       const recordId = doctorInfo[0].id;
       const storedRole = localStorage.getItem("role");
       const updatedDoctorInfo = {
