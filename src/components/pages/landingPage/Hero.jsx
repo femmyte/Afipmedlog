@@ -16,6 +16,7 @@ const Hero = ({ checkUserExist, handleGetStarted }) => {
   const [role, setRole] = useState("");
   const [congratulationModal, setCongratulationModal] = useState(false);
   const [registrationModal, setRegistrationModal] = useState(false);
+  const [scanQrCodeModa, setScanQrCodeModa] = useState(false);
   // const [checkUserExist, setCheckUserExist] = useState(false);
   const [web5, setWeb5] = useState();
   const initializer = async () => {
@@ -78,6 +79,10 @@ const Hero = ({ checkUserExist, handleGetStarted }) => {
       setIsLoading(false);
     }
   };
+  const handleScanQRCode = () => {
+    setAuthModal(false);
+    setScanQrCodeModa(true);
+  };
   if (isLoading) {
     return (
       <div className="h-screen w-screen flex justify-center items-center">
@@ -139,7 +144,12 @@ const Hero = ({ checkUserExist, handleGetStarted }) => {
           </p>
           <p className="my-[1.5rem] font-[400] text-[0.875rem] leading-[1.5rem] text-[#5F6D7E] text-center">
             Kindly enter your DID to login or{" "}
-            <span className="text-primaryBlue cursor-pointer">click here</span>{" "}
+            <button
+              onClick={handleScanQRCode}
+              className="text-primaryBlue cursor-pointer"
+            >
+              click here
+            </button>{" "}
             to scan
           </p>
           <form className="" onSubmit={handleSubmit}>
@@ -247,6 +257,83 @@ const Hero = ({ checkUserExist, handleGetStarted }) => {
               </button>
             </div>
           </form>
+        </div>
+      </CustomModal>
+      <CustomModal modalIsOpen={scanQrCodeModa} setIsOpen={setScanQrCodeModa}>
+        <div className="py-[2.5rem] px-[3.62rem] relative w-full h-full">
+          <p className="font-[600] text-[1.25rem] leading-[2.375rem] text-[#2E3646] text-center mb-8">
+            Scan your DID
+          </p>
+          <p className="my-[2rem] font-[400] text-[0.875rem] leading-[1.5rem] text-[#5F6D7E] text-center">
+            To access your AFIPMedLog on your other device
+          </p>
+          <div className="w-[21rem] mx-auto">
+            <div className="flex gap-x-4 items-center my-3">
+              <input
+                type="checkbox"
+                name=""
+                id="first"
+                className="w-[0.75rem] h-[0.75rem]"
+              />
+              <label
+                htmlFor="first"
+                className="font-[400] text-[0.75rem] leading-[1rem] text-[#090909]"
+              >
+                Login to your AFIPMedLog desktop app
+              </label>
+            </div>
+            <div className="flex gap-x-4 items-center my-3">
+              <input
+                type="checkbox"
+                name=""
+                id="second"
+                className="w-[0.75rem] h-[0.75rem]"
+              />
+              <label
+                htmlFor="second"
+                className="font-[400] text-[0.75rem] leading-[1rem] text-[#090909]"
+              >
+                Click on the dropdown arrow close to profile picture at the top
+                right hand side of your dashboard
+              </label>
+            </div>
+            <div className="flex gap-x-4 items-center my-3">
+              <input
+                type="checkbox"
+                name=""
+                id="third"
+                className="w-[0.75rem] h-[0.75rem]"
+              />
+              <label
+                htmlFor="third"
+                className="font-[400] text-[0.75rem] leading-[1rem] text-[#090909]"
+              >
+                Click on your profile
+              </label>
+            </div>
+            <div className="flex gap-x-4 items-center my-3">
+              <input
+                type="checkbox"
+                name=""
+                id="fourth"
+                className="w-[0.75rem] h-[0.75rem]"
+              />
+              <label
+                htmlFor="fourth"
+                className="font-[400] text-[0.75rem] leading-[1rem] text-[#090909]"
+              >
+                Scan the DID code on your profile page using your other device
+              </label>
+            </div>
+          </div>
+          <div className="flex flex-col items-center gap-6 justify-center ">
+            <button
+              className="w-[14.125rem] py-[0.5rem] mt-[2rem] px-4 rounded-[0.25rem] bg-primaryBlue text-white flex justify-center items-center font-[500] leading-6 tracking-[0.02rem disabled:bg-[#DCE6FB]"
+              onClick={() => setScanQrCodeModa(false)}
+            >
+              Feature Not Available Yet
+            </button>
+          </div>
         </div>
       </CustomModal>
     </div>
