@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useRef, useEffect } from "react";
-import { QrReader } from "react-qr-reader";
+// import { QrReader } from "react-qr-reader";
 
 const QrScanner = ({ onScan }) => {
   const [isScanning, setIsScanning] = useState(true);
@@ -34,7 +34,7 @@ const QrScanner = ({ onScan }) => {
 
   return (
     <div className="relative">
-      {isScanning && (
+      {/* {isScanning && (
         <QrReader
           ref={qrReaderRef}
           key={facingMode} // Force remount when facingMode changes
@@ -44,7 +44,7 @@ const QrScanner = ({ onScan }) => {
           style={{ width: "100%" }}
           facingMode={facingMode}
         />
-      )}
+      )} */}
       {!isScanning && (
         <button
           onClick={resetScanner}

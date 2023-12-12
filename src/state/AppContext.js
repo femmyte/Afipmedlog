@@ -136,11 +136,11 @@ export const AppContextProvider = ({ children }) => {
     const { protocols: localProtocols, status: localProtocolStatus } =
       await queryLocalProtocol(web5, protocolUrl);
 
-    if (localProtocolStatus.code !== 200 || localProtocols.length === 0) {
-      const result = await installLocalProtocol(web5, protocolDefinition);
-      // console.log({ result });
-      console.log("Protocol installed locally");
-    }
+    // if (localProtocolStatus.code !== 200 || localProtocols.length === 0) {
+    const result = await installLocalProtocol(web5, protocolDefinition);
+    // console.log({ result });
+    console.log("Protocol installed locally");
+    // }
 
     if (localProtocols.length > 0) {
       console.log("Protocol already exists");
@@ -150,15 +150,15 @@ export const AppContextProvider = ({ children }) => {
     const { protocols: remoteProtocols, status: remoteProtocolStatus } =
       await queryRemoteProtocol(web5, myDid, protocolUrl);
 
-    if (remoteProtocolStatus.code !== 200 || remoteProtocols.length === 0) {
-      const { result: remoteResult } = await installRemoteProtocol(
-        web5,
-        myDid,
-        protocolDefinition
-      );
-      // console.log({ result });
-      console.log("Protocol installed remotely", remoteResult);
-    }
+    // if (remoteProtocolStatus.code !== 200 || remoteProtocols.length === 0) {
+    const { result: remoteResult } = await installRemoteProtocol(
+      web5,
+      myDid,
+      protocolDefinition
+    );
+    // console.log({ result });
+    console.log("Protocol installed remotely", remoteResult);
+    // }
   }, [web5, myDid]);
 
   // Run configureProtocol when web5 or myDid changes

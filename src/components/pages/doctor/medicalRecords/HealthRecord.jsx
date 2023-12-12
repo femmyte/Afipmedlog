@@ -3,12 +3,28 @@ import React, { useState } from "react";
 import ContentBox from "./ContentBox";
 import Accordion from "@/components/common/Accordion";
 import CustomModal from "@/components/common/CustomModal";
+import { useParams } from "next/navigation";
+import { useStateContext } from "@/state/AppContext";
+import ImmunizationRecord from "../Forms/ImmunizationRecord";
+import CardiologyRecord from "../Forms/CardiologyRecord";
+import AllergyRecord from "../Forms/AllergyForm";
+import SurgeryRecord from "../Forms/SurgeryRecord";
+import DiagnosisAndTreatmentInformation from "../Forms/DiagnosisAndTreatmentInformation";
+import LabTestResults from "../Forms/LabTestResults";
+import MedicationInformation from "../Forms/MedicationInformation";
+import VitalSigns from "../Forms/VitalSigns";
+import InsuranceInformation from "../Forms/InsuranceInformation";
 
 const HealthRecord = () => {
+  const { id } = useParams();
+  let { web5, sharedHealthRecord } = useStateContext();
   const [openModal, setOpenModal] = useState(false);
   const [openSuccessModal, setOpenSuccessModal] = useState(false);
+  const [selectedRecord, setSelectedRecord] = useState(null);
   const [userDid, setUserDid] = useState("");
-  const handleOpenModal = () => {
+  const handleOpenModal = (title) => {
+    console.log(title);
+    setSelectedRecord(title);
     setOpenModal(true);
   };
   const handleSendRecord = (e) => {
@@ -16,80 +32,69 @@ const HealthRecord = () => {
     setOpenModal(false);
     setOpenSuccessModal(true);
   };
+  const renderSelectedComponent = () => {
+    switch (selectedRecord) {
+      // case "GeneralHealthRecord":
+      //   return <GeneralHealthRecord />;
+      case "immunizationRecord":
+        return <ImmunizationRecord />;
+      case "cardiologyRecord":
+        return <CardiologyRecord />;
+      case "allergyRecord":
+        return (
+          <AllergyRecord patientDid={sharedHealthRecord[id]?.patientDid} />
+        );
+      case "surgeryRecord":
+        return <SurgeryRecord />;
+      // case "FamilyHealthRecords":
+      //   return <FamilyHealthRecords />;
+      case "diagnosisAndTreatmentInformation":
+        return <DiagnosisAndTreatmentInformation />;
+      case "labTestResults":
+        return <LabTestResults />;
+      case "medicationInformation":
+        return <MedicationInformation />;
+      //  case "MedicalHistory":
+      //    return <MedicalHistory />;
+      case "vitalSigns":
+        return <VitalSigns />;
+      case "insuranceInformation":
+        return <InsuranceInformation />;
+      default:
+        return null;
+    }
+  };
   return (
     <div className="">
-      <Accordion title="General Health Record" handleClick={handleOpenModal}>
-        <div className="grid grid-cols-12 w-full h-max">
-          <div className="col col-span-3">
-            <ContentBox title={"Height"} text={`140Cm`} />
-          </div>
-          <div className="col-span-3">
-            <ContentBox title={"Weight:"} text={`140Cm`} />
-          </div>
-          <div className="col-span-3">
-            <ContentBox title={"Blood Group:"} text={`140Cm`} />
-          </div>
-          <div className="col-span-3">
-            <ContentBox title={"Genotype:"} text={`140Cm`} />
-          </div>
-        </div>
-        <div className="grid grid-cols-12 w-full h-max">
-          <div className="col col-span-4">
-            <ContentBox
-              title={"Resting Heart Rate: (Normal 60-100bmp)"}
-              text={`140Cm`}
-            />
-          </div>
-          <div className="col-span-4">
-            <ContentBox
-              title={"Blood Pressure: (Normal < 120/80mmHg)"}
-              text={`140Cm`}
-            />
-          </div>
-          <div className="col-span-4">
-            <ContentBox
-              title={"Body Mass Index BMI: (Normal 26.3)"}
-              text={`140Cm`}
-            />
-          </div>
-        </div>
-        <div className="grid grid-cols-12 w-full h-max">
-          <div className="col col-span-full">
-            <ContentBox
-              title={"Glucose Level: (Normal 60-80mm/dl"}
-              text={`60mm/dl`}
-            />
-          </div>
-        </div>
-      </Accordion>
-      <Accordion title="Immunization Records" handleClick={handleOpenModal}>
-        <div className="grid grid-cols-12 w-full h-max">
-          <div className="col col-span-3">
-            <ContentBox title={"Name of Vaccine:"} text={`140Cm`} />
-          </div>
-          <div className="col-span-3">
-            <ContentBox title={"Age::"} text={`140Cm`} />
-          </div>
-          <div className="col-span-2">
-            <ContentBox title={"Method of Administration:"} text={`140Cm`} />
-          </div>
-          <div className="col-span-2">
-            <ContentBox title={"Dose:"} text={`140Cm`} />
-          </div>
-          <div className="col-span-2">
-            <ContentBox title={"Value:"} text={`140Cm`} />
-          </div>
-        </div>
-      </Accordion>
+      <div className="">
+        {sharedHealthRecord[id]?.healthRecord &&
+          sharedHealthRecord[id]?.healthRecord.map((item, i) => {
+            const category = Object.keys(item)[0]; // Extract the category (e.g., "allergyRecord")
+            const properties = item[category]; // Extract the properties object
+
+            return (
+              <div className="" key={i}>
+                <Accordion title={category} handleClick={handleOpenModal}>
+                  <div className="grid grid-cols-12 w-full h-max">
+                    {Object.entries(properties).map(([property, value]) => (
+                      <div key={property} className="col col-span-3">
+                        <ContentBox
+                          title={property}
+                          text={value ? value : "Nill"}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </Accordion>
+              </div>
+            );
+          })}
+      </div>
+
       <CustomModal modalIsOpen={openModal} setIsOpen={setOpenModal}>
         <div className="py-[2.5rem] px-[3.62rem]">
-          <p className="font-[600] text-[1.25rem] leading-[2.375rem] text-[#2E3646] text-center mb-8">
-            Share Medical Record
-          </p>
-          {/* <p className='my-[1.5rem] font-[400] text-[0.875rem] leading-[1.5rem] text-[#5F6D7E] text-center'>
-						What type of medical record ?
-					</p> */}
-          <form className="">
+          {renderSelectedComponent()}
+          {/* <form className="">
             <label
               htmlFor="userDid"
               className="block font-[400] text-[0.875rem] text-[#151515] mb-[0.5rem] "
@@ -114,7 +119,7 @@ const HealthRecord = () => {
                 Share Record
               </button>
             </div>
-          </form>
+          </form> */}
         </div>
       </CustomModal>
       <CustomModal

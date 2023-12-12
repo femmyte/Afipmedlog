@@ -172,7 +172,7 @@ const TopComponent = () => {
           <FiClipboard />
           <span>Copy Did </span>
         </button> */}
-        <div className="flex items-center gap-x-[2rem]">
+        {/* <div className="flex items-center gap-x-[2rem]">
           <button className="w-[10.125rem] py-[0.5rem] px-4 rounded-[0.25rem] border border-[#16B61C]  flex justify-center items-center text-[#16b61c] font-[500] leading-6 tracking-[0.02rem]">
             Edit Record
           </button>
@@ -182,7 +182,7 @@ const TopComponent = () => {
           >
             Add New Record
           </button>
-        </div>
+        </div> */}
       </div>
       <CustomModal modalIsOpen={openModal} setIsOpen={setOpenModal}>
         {/* <NewMedicalRecordCheckList handleOpenModal={handleOpenModal} /> */}

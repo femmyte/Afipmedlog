@@ -7,7 +7,7 @@ const HeroNavBar = ({ checkUserExist, handleGetStarted }) => {
   let { setAuthModal } = useStateContext();
 
   return (
-    <>
+    <header>
       <nav className="flex justify-between items-center shadow-sm shadow-gray-200 w-full h-[5.5rem] py-[1.5rem] px-[6.25rem]">
         <Link href={"/"} className="text-[#145AE2] text-[1.5rem] ">
           AFIP MedLog
@@ -25,7 +25,7 @@ const HeroNavBar = ({ checkUserExist, handleGetStarted }) => {
           {checkUserExist ? "Go to Dashboard" : "Get started"}
         </button>
       </nav>
-    </>
+    </header>
   );
 };
 

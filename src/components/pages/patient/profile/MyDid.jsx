@@ -72,10 +72,12 @@ const MyDid = ({ handleSendDidModal }) => {
       className="w-[22.25rem] p-[1.25rem]"
       style={{ boxShadow: "4px 4px 24px 0px rgba(206, 206, 206, 0.24)" }}
     >
-      <h4 className="text-[#151515] font-[400] text-[1rem] mb-4">My DID</h4>
+      <h4 className="text-[#151515]  font-[400] text-[1rem] mb-4">My DID</h4>
       <input
         type="text"
         placeholder="thyuoidcjjdjkksiiaidhd"
+        readOnly
+        value={authPhrase}
         className="p-[0.75rem] w-[17rem] rounded-[0.25rem] border-[1px] border-[#E8E8E8]"
       />
       <div className="flex justify-between text-[0.75rem] mt-[1rem] mb-[1.5rem]">

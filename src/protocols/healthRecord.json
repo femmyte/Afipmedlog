@@ -108,6 +108,11 @@
           "who": "recipient",
           "of": "patientInfo",
           "can": "write"
+        },
+        {
+          "who": "recipient",
+          "of": "patientInfo",
+          "can": "update"
         }
       ]
     },
@@ -124,6 +129,11 @@
           "who": "recipient",
           "of": "patientInfo",
           "can": "write"
+        },
+        {
+          "who": "recipient",
+          "of": "patientInfo",
+          "can": "update"
         }
       ]
     },
@@ -140,6 +150,11 @@
           "who": "recipient",
           "of": "patientInfo",
           "can": "write"
+        },
+        {
+          "who": "recipient",
+          "of": "patientInfo",
+          "can": "update"
         }
       ]
     },
@@ -156,6 +171,11 @@
           "who": "recipient",
           "of": "patientInfo",
           "can": "write"
+        },
+        {
+          "who": "recipient",
+          "of": "patientInfo",
+          "can": "update"
         }
       ]
     },
@@ -172,6 +192,11 @@
           "who": "recipient",
           "of": "patientInfo",
           "can": "write"
+        },
+        {
+          "who": "recipient",
+          "of": "patientInfo",
+          "can": "update"
         }
       ]
     },
@@ -188,6 +213,11 @@
           "who": "recipient",
           "of": "patientInfo",
           "can": "write"
+        },
+        {
+          "who": "recipient",
+          "of": "patientInfo",
+          "can": "update"
         }
       ]
     },
@@ -204,6 +234,11 @@
           "who": "recipient",
           "of": "patientInfo",
           "can": "write"
+        },
+        {
+          "who": "recipient",
+          "of": "patientInfo",
+          "can": "update"
         }
       ]
     },
@@ -220,6 +255,11 @@
           "who": "recipient",
           "of": "patientInfo",
           "can": "write"
+        },
+        {
+          "who": "recipient",
+          "of": "patientInfo",
+          "can": "update"
         }
       ]
     },
@@ -236,6 +276,11 @@
           "who": "recipient",
           "of": "patientInfo",
           "can": "write"
+        },
+        {
+          "who": "recipient",
+          "of": "patientInfo",
+          "can": "update"
         }
       ]
     },
@@ -252,6 +297,11 @@
           "who": "recipient",
           "of": "patientInfo",
           "can": "write"
+        },
+        {
+          "who": "recipient",
+          "of": "patientInfo",
+          "can": "update"
         }
       ]
     },
@@ -268,6 +318,11 @@
           "who": "recipient",
           "of": "patientInfo",
           "can": "write"
+        },
+        {
+          "who": "recipient",
+          "of": "patientInfo",
+          "can": "update"
         }
       ]
     },
@@ -284,6 +339,11 @@
           "who": "recipient",
           "of": "patientInfo",
           "can": "write"
+        },
+        {
+          "who": "recipient",
+          "of": "patientInfo",
+          "can": "update"
         }
       ]
     },
@@ -300,6 +360,11 @@
           "who": "recipient",
           "of": "patientInfo",
           "can": "write"
+        },
+        {
+          "who": "recipient",
+          "of": "patientInfo",
+          "can": "update"
         }
       ]
     }

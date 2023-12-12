@@ -1,5 +1,6 @@
 "use client";
 import { useStateContext } from "@/state/AppContext";
+import { splitCamelCase } from "@/utils/splitCamelCase";
 import React, { useEffect, useState } from "react";
 import { MdChevronRight } from "react-icons/md";
 
@@ -23,7 +24,7 @@ const Accordion = ({ title, children, handleClick, protocol }) => {
         style={{ cursor: "pointer" }}
       >
         <p className="text-[1.25rem] text-primaryGreen leading-[1.75rem] font-[500] tracking-[0.025rem]">
-          {title}
+          {splitCamelCase(title)}
         </p>
         {isOpen ? (
           <MdChevronRight size={30} className="text-primaryGreen" />
@@ -33,23 +34,23 @@ const Accordion = ({ title, children, handleClick, protocol }) => {
       </div>
       {isOpen && storedRole === "patient" ? (
         <div className="my-[1.5rem] flex justify-end">
-          <button
+          {/* <button
             className="text-[0.875rem] text-primaryGreen font-[400] leading-[1.25rem]"
             onClick={() => handleClick(protocol)}
           >
             Share Record
-          </button>
+          </button> */}
         </div>
       ) : (
         isOpen &&
         storedRole === "doctor" && (
           <div className="my-[1.5rem] flex justify-end">
-            {/* <button
+            <button
               className="text-[0.875rem] text-primaryGreen font-[400] leading-[1.25rem]"
-              onClick={handleClick}
+              onClick={() => handleClick(title)}
             >
               Edit Record
-            </button> */}
+            </button>
           </div>
         )
       )}

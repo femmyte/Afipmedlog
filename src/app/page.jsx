@@ -15,7 +15,8 @@ const Home = () => {
   const [checkUserExist, setCheckUserExist] = useState(false);
   useEffect(() => {
     const existingDid = localStorage.getItem("myDid");
-    if (existingDid && existingDid) {
+    const userRole = localStorage.getItem("role");
+    if (existingDid && userRole) {
       // router.push(`/${userRole}/settings`);
       setCheckUserExist(true);
     }
@@ -31,7 +32,7 @@ const Home = () => {
     }
   };
   return (
-    <div className="h-screen w-full">
+    <>
       <HeroNavBar
         checkUserExist={checkUserExist}
         handleGetStarted={handleGetStarted}
@@ -45,7 +46,7 @@ const Home = () => {
       <HowItWorks />
       <FindDoctor />
       <Footer />
-    </div>
+    </>
   );
 };
 

@@ -5,11 +5,20 @@ import HeroImageText from "./HeroImageText";
 import CustomModal from "@/components/common/CustomModal";
 import { useStateContext } from "@/state/AppContext";
 import { useRouter } from "next/navigation";
+// import { Web5 } from "@web5/api/browser";
 
 const Hero = ({ checkUserExist, handleGetStarted }) => {
   const router = useRouter();
-  let { authModal, setAuthModal, setMyDid, myDid, setUserRole, userRole } =
-    useStateContext();
+  let {
+    authModal,
+    setAuthModal,
+    web5,
+    myDid,
+    setWeb5,
+    setMyDid,
+    setUserRole,
+    userRole,
+  } = useStateContext();
 
   const [did, setDid] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -18,20 +27,21 @@ const Hero = ({ checkUserExist, handleGetStarted }) => {
   const [registrationModal, setRegistrationModal] = useState(false);
   const [scanQrCodeModa, setScanQrCodeModa] = useState(false);
   // const [checkUserExist, setCheckUserExist] = useState(false);
-  const [web5, setWeb5] = useState();
-  const initializer = async () => {
-    const { Web5 } = await import("@web5/api/browser");
-    const { web5, did } = await Web5.connect({ sync: "5s" });
-    setWeb5(web5);
-    setMyDid(did);
-  };
-  // useEffect(() => {
-  //   const existingDid = localStorage.getItem("myDid");
-  //   if (existingDid && existingDid) {
-  //     // router.push(`/${userRole}/settings`);
-  //     setCheckUserExist(true);
-  //   }
-  // }, []);
+  // const [web5, setWeb5] = useState();
+  // const [myDid, setMyDid] = useState("");
+  useEffect(() => {
+    const initializer = async () => {
+      const { Web5 } = await import("@web5/api/browser");
+      const { web5, did } = await Web5.connect({ sync: "5s" });
+      setWeb5(web5);
+      setMyDid(did);
+      localStorage.setItem("myDid", did);
+    };
+    const existingDid = localStorage.getItem("myDid");
+    if (!existingDid) {
+      initializer();
+    }
+  }, [setMyDid, setWeb5]);
   const handleSubmit = (e) => {
     e.preventDefault();
     setAuthModal(false);
@@ -66,11 +76,14 @@ const Hero = ({ checkUserExist, handleGetStarted }) => {
     e.preventDefault();
 
     try {
-      initializer();
-      localStorage.setItem("myDid", myDid);
-      localStorage.setItem("role", role);
+      // initializer();
+      // const { web5, did } = await Web5.connect({ sync: "5s" });
+      // setWeb5(web5);
+      // setMyDid(did);
+      // localStorage.setItem("myDid", did);
       setUserRole(role);
       setRegistrationModal(false);
+      localStorage.setItem("role", role);
       // console.log(did, role);
       router.push(`/${role}/settings`);
     } catch (error) {
