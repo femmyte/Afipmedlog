@@ -30,7 +30,6 @@ const PersonalRecord = () => {
       setClicked(false);
     }, 4000);
   };
-  console.log(sharedHealthRecord);
   const handleOpenModal = () => {
     setOpenModal(true);
   };

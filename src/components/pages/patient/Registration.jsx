@@ -15,7 +15,8 @@ const Registration = () => {
   const dbInstance = collection(database, "patientDid");
 
   const router = useRouter();
-  const { web5, myDid, userRole, setUserRecord, initWeb5 } = useStateContext();
+  const { web5, myDid, setWeb5, setMyDid, userRole, setUserRecord } =
+    useStateContext();
   // console.log(web5)
   const [isLoading, setIsLoading] = useState(false);
   const [successModal, setSuccessModal] = useState(false);
@@ -67,6 +68,24 @@ const Registration = () => {
   //     const { name, value } = event.target;
   //     setUser({ ...user, [name]: value });
   //   };
+
+  const initWeb5 = useCallback(async () => {
+    const existingDid = localStorage.getItem("myDid");
+
+    const { Web5 } = await import("@web5/api/browser");
+    try {
+      const { web5, did } = await Web5.connect(existingDid);
+
+      setWeb5(web5);
+      setMyDid(did);
+
+      if (web5 && did) {
+        console.log("Web5 initialized");
+      }
+    } catch (error) {
+      console.error("Error initializing Web5:", error);
+    }
+  }, []);
   useEffect(() => {
     const existingDid = localStorage.getItem("myDid");
     if (existingDid) initWeb5();
@@ -114,17 +133,17 @@ const Registration = () => {
       guardian.relationship === "" ||
       guardian.nationality === "" ||
       guardian.stateOfOrigin === "" ||
-      guardian.city === "" ||
-      provider.firstName === "" ||
-      provider.lastName === "" ||
-      provider.email === "" ||
-      provider.address === "" ||
-      provider.phoneNumber === "" ||
-      provider.gender === "" ||
-      provider.specialty === "" ||
-      provider.nationality === "" ||
-      provider.stateOfOrigin === "" ||
-      provider.city === ""
+      guardian.city === ""
+      // provider.firstName === "" ||
+      // provider.lastName === "" ||
+      // provider.email === "" ||
+      // provider.address === "" ||
+      // provider.phoneNumber === "" ||
+      // provider.gender === "" ||
+      // provider.specialty === "" ||
+      // provider.nationality === "" ||
+      // provider.stateOfOrigin === "" ||
+      // provider.city === ""
     ) {
       return true;
     } else {

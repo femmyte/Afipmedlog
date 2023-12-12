@@ -3,7 +3,6 @@ import React, { useState, useEffect, useCallback } from "react";
 import PatientProfile from "./PatientProfile";
 import PersonalInformation from "./PersonalInformation";
 import { useStateContext } from "@/state/AppContext";
-import { useParams } from "next/navigation";
 import protocolDefinition from "@/protocols/healthRecord.json";
 import GuardianInformation from "./GuardianInformation";
 import PrimaryHealthInformation from "./PrimaryHealthInformation";
@@ -12,7 +11,6 @@ import MyDid from "./MyDid";
 import CustomModal from "@/components/common/CustomModal";
 import DocumentComponent from "./DocumentsComponent";
 const Profile = () => {
-  const { id } = useParams();
   const { web5 } = useStateContext();
   const [user, setUser] = useState([]);
   const [guardianInfo, setGuardianInfo] = useState([]);

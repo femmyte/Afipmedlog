@@ -41,7 +41,9 @@ const HealthRecord = () => {
       case "cardiologyRecord":
         return <CardiologyRecord />;
       case "allergyRecord":
-        return <AllergyRecord sharedHealthRecord={sharedHealthRecord} />;
+        return (
+          <AllergyRecord patientDid={sharedHealthRecord[id]?.patientDid} />
+        );
       case "surgeryRecord":
         return <SurgeryRecord />;
       // case "FamilyHealthRecords":
@@ -65,27 +67,28 @@ const HealthRecord = () => {
   return (
     <div className="">
       <div className="">
-        {sharedHealthRecord[id]?.healthRecord.map((item, i) => {
-          const category = Object.keys(item)[0]; // Extract the category (e.g., "allergyRecord")
-          const properties = item[category]; // Extract the properties object
+        {sharedHealthRecord[id]?.healthRecord &&
+          sharedHealthRecord[id]?.healthRecord.map((item, i) => {
+            const category = Object.keys(item)[0]; // Extract the category (e.g., "allergyRecord")
+            const properties = item[category]; // Extract the properties object
 
-          return (
-            <div className="" key={i}>
-              <Accordion title={category} handleClick={handleOpenModal}>
-                <div className="grid grid-cols-12 w-full h-max">
-                  {Object.entries(properties).map(([property, value]) => (
-                    <div key={property} className="col col-span-3">
-                      <ContentBox
-                        title={property}
-                        text={value ? value : "Nill"}
-                      />
-                    </div>
-                  ))}
-                </div>
-              </Accordion>
-            </div>
-          );
-        })}
+            return (
+              <div className="" key={i}>
+                <Accordion title={category} handleClick={handleOpenModal}>
+                  <div className="grid grid-cols-12 w-full h-max">
+                    {Object.entries(properties).map(([property, value]) => (
+                      <div key={property} className="col col-span-3">
+                        <ContentBox
+                          title={property}
+                          text={value ? value : "Nill"}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </Accordion>
+              </div>
+            );
+          })}
       </div>
 
       <CustomModal modalIsOpen={openModal} setIsOpen={setOpenModal}>
