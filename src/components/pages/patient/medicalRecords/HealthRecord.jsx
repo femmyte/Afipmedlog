@@ -5,6 +5,7 @@ import Accordion from "@/components/common/Accordion";
 import CustomModal from "@/components/common/CustomModal";
 import protocolDefinition from "@/protocols/healthRecord.json";
 import checklistData from "@/utils/checklistData";
+import { healthRecord } from "@/utils/healthRecordModel";
 const HealthRecord = () => {
   const [openModal, setOpenModal] = useState(false);
   const [openSuccessModal, setOpenSuccessModal] = useState(false);
@@ -66,79 +67,26 @@ const HealthRecord = () => {
   }
   return (
     <div className="">
-      {checklistData.map((item) => {
-        return (
-          <div className="" key={item.id}>
-            <Accordion
-              title={item.records}
-              protocol={item.component}
-              handleClick={handleOpenModal}
-            >
-              <div className="grid grid-cols-12 w-full h-max">
-                <div className="col col-span-3">
-                  <ContentBox title={"Height"} text={`140Cm`} />
+      <div className="">
+        {healthRecord.map((item, i) => {
+          const category = Object.keys(item)[0]; // Extract the category (e.g., "allergyRecord")
+          const properties = item[category]; // Extract the properties object
+
+          return (
+            <div className="" key={i}>
+              <Accordion title={category} handleClick={handleOpenModal}>
+                <div className="grid grid-cols-12 w-full h-max">
+                  {Object.entries(properties).map(([property, value]) => (
+                    <div key={property} className="col col-span-3">
+                      <ContentBox title={property} text={value} />
+                    </div>
+                  ))}
                 </div>
-                <div className="col-span-3">
-                  <ContentBox title={"Weight:"} text={`140Cm`} />
-                </div>
-                <div className="col-span-3">
-                  <ContentBox title={"Blood Group:"} text={`140Cm`} />
-                </div>
-                <div className="col-span-3">
-                  <ContentBox title={"Genotype:"} text={`140Cm`} />
-                </div>
-              </div>
-              <div className="grid grid-cols-12 w-full h-max">
-                <div className="col col-span-4">
-                  <ContentBox
-                    title={"Resting Heart Rate: (Normal 60-100bmp)"}
-                    text={`140Cm`}
-                  />
-                </div>
-                <div className="col-span-4">
-                  <ContentBox
-                    title={"Blood Pressure: (Normal < 120/80mmHg)"}
-                    text={`140Cm`}
-                  />
-                </div>
-                <div className="col-span-4">
-                  <ContentBox
-                    title={"Body Mass Index BMI: (Normal 26.3)"}
-                    text={`140Cm`}
-                  />
-                </div>
-              </div>
-              <div className="grid grid-cols-12 w-full h-max">
-                <div className="col col-span-full">
-                  <ContentBox
-                    title={"Glucose Level: (Normal 60-80mm/dl"}
-                    text={`60mm/dl`}
-                  />
-                </div>
-              </div>
-            </Accordion>
-          </div>
-        );
-      })}
-      {/* <Accordion title="Immunization Records" handleClick={handleOpenModal}>
-        <div className="grid grid-cols-12 w-full h-max">
-          <div className="col col-span-3">
-            <ContentBox title={"Name of Vaccine:"} text={`140Cm`} />
-          </div>
-          <div className="col-span-3">
-            <ContentBox title={"Age::"} text={`140Cm`} />
-          </div>
-          <div className="col-span-2">
-            <ContentBox title={"Method of Administration:"} text={`140Cm`} />
-          </div>
-          <div className="col-span-2">
-            <ContentBox title={"Dose:"} text={`140Cm`} />
-          </div>
-          <div className="col-span-2">
-            <ContentBox title={"Value:"} text={`140Cm`} />
-          </div>
-        </div>
-      </Accordion> */}
+              </Accordion>
+            </div>
+          );
+        })}
+      </div>
       <CustomModal modalIsOpen={openModal} setIsOpen={setOpenModal}>
         <div className="py-[2.5rem] px-[3.62rem]">
           <p className="font-[600] text-[1.25rem] leading-[2.375rem] text-[#2E3646] text-center mb-8">

@@ -25,7 +25,7 @@ const TopComponent = () => {
   let { myDid, web5, user, setSharedHealthRecord } = useStateContext();
   const [copiedDid, setCopiedDid] = useState(false);
   const [clicked, setClicked] = useState(false);
-  const [openModal, setOpenModal] = useState(false);
+  const [openModal, setOpenModal] = useState(true);
   const [openFormModal, setOpenFormModal] = useState(false);
   const [selectedItem, setSelectedItem] = useState("");
   const [sharedInfo, setSharedInfo] = useState(null);

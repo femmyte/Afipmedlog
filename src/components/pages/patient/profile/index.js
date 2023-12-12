@@ -1,33 +1,38 @@
 "use client";
-import React, { useState, useCallback, useEffect } from "react";
-import DoctorsProfile from "@/components/common/doctorsProfile/DoctorsProfile";
-import MyDid from "@/components/common/doctorsProfile/MyDid";
-import PersonalInformation from "@/components/common/doctorsProfile/PersonalInformation";
-import CareerInformation from "@/components/common/doctorsProfile/CareerInformation";
-import UpcomingAppointments from "@/components/common/doctorsProfile/UpcomingAppointments";
-import Link from "next/link";
+import React, { useState, useEffect, useCallback } from "react";
+import PatientProfile from "./PatientProfile";
+import PersonalInformation from "./PersonalInformation";
 import { useStateContext } from "@/state/AppContext";
+import { useParams } from "next/navigation";
 import protocolDefinition from "@/protocols/healthRecord.json";
+import GuardianInformation from "./GuardianInformation";
+import PrimaryHealthInformation from "./PrimaryHealthInformation";
+import { FiChevronsRight } from "react-icons/fi";
+import MyDid from "./MyDid";
 import CustomModal from "@/components/common/CustomModal";
-import DocumentComponent from "@/components/common/doctorsProfile/DocumentsComponent";
+import DocumentComponent from "./DocumentsComponent";
 const Profile = () => {
+  const { id } = useParams();
   const { web5 } = useStateContext();
-  const [user, setUser] = useState(null);
-  const [doctorInfo, setDoctorInfo] = useState([]);
-  const [careerInfo, setCareerInfo] = useState(null);
+  const [user, setUser] = useState([]);
+  const [guardianInfo, setGuardianInfo] = useState([]);
+  const [medicalProviderinfo, setMedicalProviderinfo] = useState([]);
+  const [patientInfo, setPatientInfo] = useState([]);
+  const [isGettingUser, setIsGettingUser] = useState(false);
   const [sendDidModal, setSendDidModal] = useState(false);
   const [email, setEmail] = useState("");
   const [userDid, setUserDid] = useState("");
   const [emailSentMessage, setEmailSentMessage] = useState("");
   const [sendMessage, setSendMessage] = useState(false);
-  const getUser = useCallback(async () => {
+  const [clicked, setClicked] = useState(false);
+  const getPatientProfileDetails = useCallback(async () => {
     // setIsGettingUser(true);
     console.log("getting user");
     try {
       const { records } = await web5.dwn.records.query({
         message: {
           filter: {
-            schema: protocolDefinition.types.doctorInfo.schema,
+            schema: protocolDefinition.types.patientInfo.schema,
           },
         },
       });
@@ -35,38 +40,56 @@ const Profile = () => {
       for (let record of records) {
         const data = await record.data.json();
         const list = { record, data, id: record.id };
-        setDoctorInfo((user) => {
+        setPatientInfo((user) => {
           if (!user.some((item) => item.id === list.id)) {
             return [...user, list];
           }
           return user;
         });
       }
-      console.log(doctorInfo);
-      if (doctorInfo.length > 0) {
+      console.log(patientInfo);
+      if (patientInfo.length > 0) {
         setUser({
-          firstName: doctorInfo[0].data.personalInfo.firstName || "",
-          lastName: doctorInfo[0].data.personalInfo.lastName || "",
-          email: doctorInfo[0].data.personalInfo.email || "",
-          address: doctorInfo[0].data.personalInfo.address || "",
-          phoneNumber: doctorInfo[0].data.personalInfo.phoneNumber || "",
-          gender: doctorInfo[0].data.personalInfo.gender || "",
-          dateOfBirth: doctorInfo[0].data.personalInfo.dateOfBirth || "",
-          maritalStatus: doctorInfo[0].data.personalInfo.maritalStatus || "",
-          nationality: doctorInfo[0].data.personalInfo.nationality || "",
-          stateOfOrigin: doctorInfo[0].data.personalInfo.stateOfOrigin || "",
-          city: doctorInfo[0].data.personalInfo.city || "",
+          firstName: patientInfo[0].data.personalInfo.firstName || "",
+          lastName: patientInfo[0].data.personalInfo.lastName || "",
+          email: patientInfo[0].data.personalInfo.email || "",
+          address: patientInfo[0].data.personalInfo.address || "",
+          phoneNumber: patientInfo[0].data.personalInfo.phoneNumber || "",
+          gender: patientInfo[0].data.personalInfo.gender || "",
+          dateOfBirth: patientInfo[0].data.personalInfo.dateOfBirth || "",
+          maritalStatus: patientInfo[0].data.personalInfo.maritalStatus || "",
+          nationality: patientInfo[0].data.personalInfo.nationality || "",
+          stateOfOrigin: patientInfo[0].data.personalInfo.stateOfOrigin || "",
+          city: patientInfo[0].data.personalInfo.city || "",
         });
-        setCareerInfo({
-          yearOfExperience:
-            doctorInfo[0].data.careerInfo.yearOfExperience || "",
-          specialty: doctorInfo[0].data.careerInfo.specialty || "",
-          numberOfCases: doctorInfo[0].data.careerInfo.numberOfCases || "",
-          failedCases: doctorInfo[0].data.careerInfo.failedCases || "",
-          successCases: doctorInfo[0].data.careerInfo.successCases || "",
+        setGuardianInfo({
+          firstName: patientInfo[0].data.guardianInfo.firstName || "",
+          lastName: patientInfo[0].data.guardianInfo.lastName || "",
+          email: patientInfo[0].data.guardianInfo.email || "",
+          address: patientInfo[0].data.guardianInfo.address || "",
+          phoneNumber: patientInfo[0].data.guardianInfo.phoneNumber || "",
+          gender: patientInfo[0].data.guardianInfo.gender || "",
+          dateOfBirth: patientInfo[0].data.guardianInfo.dateOfBirth || "",
+          maritalStatus: patientInfo[0].data.guardianInfo.maritalStatus || "",
+          nationality: patientInfo[0].data.guardianInfo.nationality || "",
+          stateOfOrigin: patientInfo[0].data.guardianInfo.stateOfOrigin || "",
+          city: patientInfo[0].data.guardianInfo.city || "",
         });
-        // set the create mode to false if the user has already created account, this will enable to know if we are updating the record or we are creating a record
-        setIsCreateMode(false);
+        setMedicalProviderinfo({
+          firstName: patientInfo[0].data.medicalProvider.firstName || "",
+          lastName: patientInfo[0].data.medicalProvider.lastName || "",
+          email: patientInfo[0].data.medicalProvider.email || "",
+          address: patientInfo[0].data.medicalProvider.address || "",
+          phoneNumber: patientInfo[0].data.medicalProvider.phoneNumber || "",
+          gender: patientInfo[0].data.medicalProvider.gender || "",
+          dateOfBirth: patientInfo[0].data.medicalProvider.dateOfBirth || "",
+          maritalStatus:
+            patientInfo[0].data.medicalProvider.maritalStatus || "",
+          nationality: patientInfo[0].data.medicalProvider.nationality || "",
+          stateOfOrigin:
+            patientInfo[0].data.medicalProvider.stateOfOrigin || "",
+          city: patientInfo[0].data.medicalProvider.city || "",
+        });
       }
       if (records) {
         setIsGettingUser(false);
@@ -74,18 +97,19 @@ const Profile = () => {
     } catch (error) {
       console.log("error getting user", error);
     }
-  }, [web5, doctorInfo]);
+  }, [web5, patientInfo]);
   useEffect(() => {
     const existingDid = localStorage.getItem("myDid");
     setUserDid(existingDid);
-    if (web5) getUser();
-  }, [getUser, web5]);
+    if (web5) getPatientProfileDetails();
+  }, [getPatientProfileDetails, web5]);
 
   const handleSendDidModal = () => {
     setSendDidModal(!sendDidModal);
   };
   const handleSendMail = async (e) => {
     e.preventDefault();
+    setClicked(true);
     const response = await fetch("/api/sendEmail", {
       method: "POST",
       headers: {
@@ -102,6 +126,7 @@ const Profile = () => {
     handleSendDidModal();
     setEmail("");
     setUserDid("");
+    setClicked(false);
     if (result) {
       setSendMessage(true);
       // console.log(result);
@@ -112,29 +137,25 @@ const Profile = () => {
     }
   };
   return (
-    <section className="bg-[#FAFCFF]">
-      {/* <div className="flex gap-x-4 items-center">
-        <Link
-          href={"#"}
-          className="text-[#b6b6b6] font-[500] text-1.25rem] leading-7"
-        >
-          Patients
-        </Link>
-        <p className="text-[1.25rem] font-[500] leading-[1.75rem] text-[#151515]">
-          Ms. Phoebe’s profile
-        </p>
-      </div> */}
-      <h2 className="font-medium text-[2rem]">Profile</h2>
+    <div>
+      <div className="flex gap-x-4 items-center">
+        <h2 className="font-medium text-[1.25rem] text-[#B6B6B6]">Patients</h2>
+        <FiChevronsRight size={20} color="#B6B6B6" />
+        <h2 className="font-medium text-[1.25rem]">
+          {" "}
+          {user?.firstName} {user?.lastName}
+        </h2>
+      </div>
       <div className="grid grid-cols-12 gap-x-8 ">
         <div className=" col-span-8">
-          <DoctorsProfile userInfo={user} />
+          <PatientProfile userInfo={user} />
           <PersonalInformation userInfo={user} />
-          <CareerInformation careerInfo={careerInfo} />
-          {/* <UpcomingAppointments /> */}
+          <GuardianInformation userInfo={guardianInfo} />
+          <PrimaryHealthInformation userInfo={medicalProviderinfo} />
         </div>
         <div className=" col-span-4 flex flex-col gap-y-[1.5rem]">
           <MyDid handleSendDidModal={handleSendDidModal} />
-          <DocumentComponent title="Document" />
+          <DocumentComponent title={"Document"} />
         </div>
       </div>
       <CustomModal modalIsOpen={sendDidModal} setIsOpen={setSendDidModal}>
@@ -184,7 +205,7 @@ const Profile = () => {
             </div>
             <div className="flex flex-col items-center gap-6 justify-center mt-8">
               <button className="w-[10.125rem] py-[0.5rem] px-4 rounded-[0.25rem] bg-primaryBlue text-white flex justify-center items-center font-[500] leading-6 tracking-[0.02rem disabled:bg-[#DCE6FB]">
-                Send DID
+                {clicked ? "Sending DID..." : "Send DID"}
               </button>
             </div>
           </form>
@@ -195,7 +216,7 @@ const Profile = () => {
           <p className="text-white">{emailSentMessage}</p>
         </div>
       )}
-    </section>
+    </div>
   );
 };
 
