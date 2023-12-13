@@ -35,6 +35,7 @@ export const AppContextProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState("user");
   const [didDocument, setDidDocument] = useState({});
   const { web5, myDid, initWeb5 } = useWeb5();
+  const [isLoading, setIsLoading] = useState(false);
   // const getObject = useCallback(async () => {
   //   // Local dwN
   //   // const { web5, did } = await Web5.connect({
@@ -332,6 +333,7 @@ export const AppContextProvider = ({ children }) => {
         currentUser,
         setCurrentUser,
         myDid,
+        isGettingUser,
         web5,
       }}
     >

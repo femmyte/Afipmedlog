@@ -27,7 +27,7 @@ const Doctors = () => {
               <OverviewDoctors
                 key={id}
                 img="/images/user.png"
-                name={record?.data.personalInfo.lastName}
+                name={record?.data?.personalInfo?.lastName}
               />
             ))
         ) : (

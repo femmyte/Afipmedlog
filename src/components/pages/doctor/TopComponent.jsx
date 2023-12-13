@@ -36,7 +36,7 @@ const TopComponent = () => {
   const [sendDidModal, setsendDidModal] = useState(false);
   const [emailSentMessage, setEmailSentMessage] = useState("");
   const [sendMessage, setSendMessage] = useState(false);
-
+  const [isSending, setIsSending] = useState(false);
   const [selectedRecord, setSelectedRecord] = useState(null);
 
   const renderSelectedComponent = () => {
@@ -130,6 +130,7 @@ const TopComponent = () => {
 
   const handleSendMail = async (e) => {
     e.preventDefault();
+    setIsSending(true);
     const response = await fetch("/api/sendEmail", {
       method: "POST",
       headers: {
@@ -143,6 +144,7 @@ const TopComponent = () => {
     });
     const result = await response.json();
     setsendDidModal(false);
+    setIsSending(false);
     if (result) {
       setSendMessage(true);
       // console.log(result);
@@ -153,7 +155,6 @@ const TopComponent = () => {
     }
   };
 
-  let form = selectedItem === "Allergy Record" && <AllergyForm />;
   return (
     <div className="flex flex-wrap items-center justify-between mb-[2.5rem] relative">
       <div className="">
@@ -279,7 +280,7 @@ const TopComponent = () => {
             </div>
             <div className="flex flex-col items-center gap-6 justify-center mt-8">
               <button className="w-[10.125rem] py-[0.5rem] px-4 rounded-[0.25rem] bg-primaryBlue text-white flex justify-center items-center font-[500] leading-6 tracking-[0.02rem disabled:bg-[#DCE6FB]">
-                Send DID
+                {isSending ? "Sending..." : "Send DID"}
               </button>
             </div>
           </form>
