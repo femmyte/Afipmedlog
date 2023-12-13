@@ -12,6 +12,7 @@ const SharedMedicalRecords = (props) => {
   const handleShowUserRecord = (id) => {
     router.push(`/doctor/medical-records/${id}`);
   };
+  console.log(sharedHealthRecord);
   return (
     <div
       className="w-full mb-[1.5rem] px-4 py-6"
@@ -40,12 +41,12 @@ const SharedMedicalRecords = (props) => {
                 className="text-[0.75rem] cursor-pointer"
                 onClick={() => handleShowUserRecord(id)}
               >
-                <td className="py-[0.88rem]">{`${item.data.personalInfo.firstName} ${item.data.personalInfo.lastName}`}</td>
+                <td className="py-[0.88rem]">{`${item?.data?.personalInfo?.firstName} ${item?.data?.personalInfo?.lastName}`}</td>
                 <td className="py-[0.88rem]">
-                  {item.data.personalInfo.gender}
+                  {item?.data?.personalInfo?.gender}
                 </td>
-                <td className="py-[0.88rem]">{item.dateSent}</td>
-                <td className="py-[0.88rem]">{item.timeSent}</td>
+                <td className="py-[0.88rem]">{item?.dateSent}</td>
+                <td className="py-[0.88rem]">{item?.timeSent}</td>
                 <td className="py-[0.88rem] text-[1rem] text-[#145AE2]">
                   {" "}
                   <HiOutlineDocumentArrowDown />

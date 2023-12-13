@@ -150,7 +150,6 @@ const Registration = () => {
       return false;
     }
   };
-  console.log(web5);
   const getUser = useCallback(async () => {
     setIsGettingUser(true);
     console.log("getting user");
@@ -175,7 +174,6 @@ const Registration = () => {
           return user;
         });
       }
-      console.log(userInfo);
       if (userInfo.length > 0) {
         setUser({
           firstName: userInfo[0].data.personalInfo.firstName || "",
@@ -595,7 +593,7 @@ const Registration = () => {
               onChange={(value) => setSelectedCountry(value)}
             /> */}
             <CustomInput
-              label="Nigeria"
+              label="Nationality"
               value={provider.nationality}
               onChange={(value) =>
                 handleProviderInputChange("nationality", value)

@@ -25,7 +25,6 @@ const Profile = () => {
   const [clicked, setClicked] = useState(false);
   const getPatientProfileDetails = useCallback(async () => {
     // setIsGettingUser(true);
-    console.log("getting user");
     try {
       const { records } = await web5.dwn.records.query({
         message: {
@@ -45,7 +44,7 @@ const Profile = () => {
           return user;
         });
       }
-      console.log(patientInfo);
+      // console.log(patientInfo);
       if (patientInfo.length > 0) {
         setUser({
           firstName: patientInfo[0].data.personalInfo.firstName || "",

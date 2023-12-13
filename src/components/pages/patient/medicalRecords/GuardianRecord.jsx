@@ -62,7 +62,6 @@ const GuardianRecord = () => {
 
     setIsLoading(true);
     try {
-      console.log("running");
       const userInfoProtocol = protocolDefinition;
       const userData = {
         guardianInfo: {
@@ -91,7 +90,6 @@ const GuardianRecord = () => {
         },
       });
       // setguardianRecord(record);
-      console.log(status, record);
       if (record) {
         getGuardianInfo();
         setIsSuccessful(true);
@@ -101,7 +99,7 @@ const GuardianRecord = () => {
         }, 4000);
         const { status: myDidStatus } = await record.send(myDid);
 
-        console.log("status of online dwd >", myDidStatus);
+        // console.log("status of online dwd >", myDidStatus);
       }
     } catch (error) {
       console.log(error);

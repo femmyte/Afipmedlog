@@ -1,5 +1,5 @@
 import React from "react";
-import PatientsFilterPage from "@/components/pages/patient/PatientPage/PatientsFilterPage";
+import PatientsFilterPage from "@/components/pages/doctor/patienthealthDetails/PatientsFilterPage";
 
 const page = () => {
   return (

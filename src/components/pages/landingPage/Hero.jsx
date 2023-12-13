@@ -5,20 +5,13 @@ import HeroImageText from "./HeroImageText";
 import CustomModal from "@/components/common/CustomModal";
 import { useStateContext } from "@/state/AppContext";
 import { useRouter } from "next/navigation";
+import useWeb5 from "@/state/useWeb5";
 // import { Web5 } from "@web5/api/browser";
 
 const Hero = ({ checkUserExist, handleGetStarted }) => {
   const router = useRouter();
-  let {
-    authModal,
-    setAuthModal,
-    web5,
-    myDid,
-    setWeb5,
-    setMyDid,
-    setUserRole,
-    userRole,
-  } = useStateContext();
+  let { authModal, setAuthModal, setWeb5, setMyDid, setUserRole, userRole } =
+    useStateContext();
 
   const [did, setDid] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -29,6 +22,8 @@ const Hero = ({ checkUserExist, handleGetStarted }) => {
   // const [checkUserExist, setCheckUserExist] = useState(false);
   // const [web5, setWeb5] = useState();
   // const [myDid, setMyDid] = useState("");
+  const { web5, myDid, initWeb5 } = useWeb5();
+
   useEffect(() => {
     const initializer = async () => {
       const { Web5 } = await import("@web5/api/browser");

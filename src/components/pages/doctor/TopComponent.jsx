@@ -84,8 +84,6 @@ const TopComponent = () => {
   const getDoctorRecord = useCallback(async () => {
     const userInfoProtocol = protocolDefinition;
 
-    console.log("running");
-
     const response = await web5.dwn.records.query({
       from: myDid,
       message: {
@@ -104,7 +102,7 @@ const TopComponent = () => {
         })
       );
       // console.log(response.record.timestamp);
-      console.log(receivedRecord, "I received these records");
+      // console.log(receivedRecord, "I received these records");
 
       setSharedHealthRecord(receivedRecord);
       // return receivedDings;

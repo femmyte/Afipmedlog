@@ -11,7 +11,7 @@ import { FiChevronsRight } from "react-icons/fi";
 import DocumentComponent from "./DocumentsComponent";
 const PatientHealthDetails = () => {
   const { id } = useParams();
-  const { web5 } = useStateContext();
+  const { web5, sharedHealthRecord } = useStateContext();
   const [user, setUser] = useState([]);
   const [guardianInfo, setGuardianInfo] = useState([]);
   const [medicalProviderinfo, setMedicalProviderinfo] = useState([]);
@@ -21,74 +21,87 @@ const PatientHealthDetails = () => {
     // setIsGettingUser(true);
     console.log("getting user");
     try {
-      const { records } = await web5.dwn.records.query({
-        message: {
-          filter: {
-            schema: protocolDefinition.types.patientInfo.schema,
-          },
-        },
-      });
+      // const { records } = await web5.dwn.records.query({
+      //   message: {
+      //     filter: {
+      //       schema: protocolDefinition.types.patientInfo.schema,
+      //     },
+      //   },
+      // });
 
-      for (let record of records) {
-        const data = await record.data.json();
-        const list = { record, data, id: record.id };
-        setPatientInfo((user) => {
-          if (!user.some((item) => item.id === list.id)) {
-            return [...user, list];
-          }
-          return user;
-        });
-      }
-      console.log(patientInfo[id]);
-      if (patientInfo.length > 0) {
-        setUser({
-          firstName: patientInfo[id].data.data.personalInfo.firstName || "",
-          lastName: patientInfo[id].data.data.personalInfo.lastName || "",
-          email: patientInfo[id].data.data.personalInfo.email || "",
-          address: patientInfo[id].data.data.personalInfo.address || "",
-          phoneNumber: patientInfo[id].data.data.personalInfo.phoneNumber || "",
-          gender: patientInfo[id].data.data.personalInfo.gender || "",
-          dateOfBirth: patientInfo[id].data.data.personalInfo.dateOfBirth || "",
-          maritalStatus:
-            patientInfo[id].data.data.personalInfo.maritalStatus || "",
-          nationality: patientInfo[id].data.data.personalInfo.nationality || "",
-          stateOfOrigin:
-            patientInfo[id].data.data.personalInfo.stateOfOrigin || "",
-          city: patientInfo[id].data.data.personalInfo.city || "",
-        });
-        setGuardianInfo({
-          firstName: patientInfo[id].data.data.guardianInfo.firstName || "",
-          lastName: patientInfo[id].data.data.guardianInfo.lastName || "",
-          email: patientInfo[id].data.data.guardianInfo.email || "",
-          address: patientInfo[id].data.data.guardianInfo.address || "",
-          phoneNumber: patientInfo[id].data.data.guardianInfo.phoneNumber || "",
-          gender: patientInfo[id].data.data.guardianInfo.gender || "",
-          dateOfBirth: patientInfo[id].data.data.guardianInfo.dateOfBirth || "",
-          maritalStatus:
-            patientInfo[id].data.data.guardianInfo.maritalStatus || "",
-          nationality: patientInfo[id].data.data.guardianInfo.nationality || "",
-          stateOfOrigin:
-            patientInfo[id].data.data.guardianInfo.stateOfOrigin || "",
-          city: patientInfo[id].data.data.guardianInfo.city || "",
-        });
-        setMedicalProviderinfo({
-          firstName: patientInfo[id].data.data.medicalProvider.firstName || "",
-          lastName: patientInfo[id].data.data.medicalProvider.lastName || "",
-          email: patientInfo[id].data.data.medicalProvider.email || "",
-          address: patientInfo[id].data.data.medicalProvider.address || "",
-          phoneNumber:
-            patientInfo[id].data.data.medicalProvider.phoneNumber || "",
-          gender: patientInfo[id].data.data.medicalProvider.gender || "",
-          dateOfBirth:
-            patientInfo[id].data.data.medicalProvider.dateOfBirth || "",
-          maritalStatus:
-            patientInfo[id].data.data.medicalProvider.maritalStatus || "",
-          nationality:
-            patientInfo[id].data.data.medicalProvider.nationality || "",
-          stateOfOrigin:
-            patientInfo[id].data.data.medicalProvider.stateOfOrigin || "",
-          city: patientInfo[id].data.data.medicalProvider.city || "",
-        });
+      // for (let record of records) {
+      //   const data = await record.data.json();
+      //   const list = { record, data, id: record.id };
+      //   setPatientInfo((user) => {
+      //     if (!user.some((item) => item.id === list.id)) {
+      //       return [...user, list];
+      //     }
+      //     return user;
+      //   });
+      // }
+      console.log(sharedHealthRecord[id]);
+      if (sharedHealthRecord[id]) {
+        // if (sharedHealthRecord.length > 0) {
+        //   setUser({
+        //     firstName: sharedHealthRecord[id].data.personalInfo.firstName || "",
+        //     lastName: sharedHealthRecord[id].data.personalInfo.lastName || "",
+        //     email: sharedHealthRecord[id].data.personalInfo.email || "",
+        //     address: sharedHealthRecord[id].data.personalInfo.address || "",
+        //     phoneNumber:
+        //       sharedHealthRecord[id].data.personalInfo.phoneNumber || "",
+        //     gender: sharedHealthRecord[id].data.personalInfo.gender || "",
+        //     dateOfBirth:
+        //       sharedHealthRecord[id].data.personalInfo.dateOfBirth || "",
+        //     maritalStatus:
+        //       sharedHealthRecord[id].data.personalInfo.maritalStatus || "",
+        //     nationality:
+        //       sharedHealthRecord[id].data.personalInfo.nationality || "",
+        //     stateOfOrigin:
+        //       sharedHealthRecord[id].data.personalInfo.stateOfOrigin || "",
+        //     city: sharedHealthRecord[id].data.personalInfo.city || "",
+        //   });
+        //   setGuardianInfo({
+        //     firstName: sharedHealthRecord[id].data.guardianInfo.firstName || "",
+        //     lastName: sharedHealthRecord[id].data.guardianInfo.lastName || "",
+        //     email: sharedHealthRecord[id].data.guardianInfo.email || "",
+        //     address: sharedHealthRecord[id].data.guardianInfo.address || "",
+        //     phoneNumber:
+        //       sharedHealthRecord[id].data.guardianInfo.phoneNumber || "",
+        //     gender: sharedHealthRecord[id].data.guardianInfo.gender || "",
+        //     dateOfBirth:
+        //       sharedHealthRecord[id].data.guardianInfo.dateOfBirth || "",
+        //     maritalStatus:
+        //       sharedHealthRecord[id].data.guardianInfo.maritalStatus || "",
+        //     nationality:
+        //       sharedHealthRecord[id].data.guardianInfo.nationality || "",
+        //     stateOfOrigin:
+        //       sharedHealthRecord[id].data.guardianInfo.stateOfOrigin || "",
+        //     city: sharedHealthRecord[id].data.guardianInfo.city || "",
+        //   });
+        //   setMedicalProviderinfo({
+        //     firstName:
+        //       sharedHealthRecord[id]?.data?.medicalProvider?.firstName || "",
+        //     lastName:
+        //       sharedHealthRecord[id]?.data?.medicalProvider?.lastName || "",
+        //     email: sharedHealthRecord[id]?.data?.medicalProvider?.email || "",
+        //     address:
+        //       sharedHealthRecord[id]?.data?.medicalProvider?.address || "",
+        //     phoneNumber:
+        //       sharedHealthRecord[id]?.data?.medicalProvider?.phoneNumber || "",
+        //     gender: sharedHealthRecord[id]?.data?.medicalProvider?.gender || "",
+        //     dateOfBirth:
+        //       sharedHealthRecord[id]?.data?.medicalProvider?.dateOfBirth || "",
+        //     maritalStatus:
+        //       sharedHealthRecord[id]?.data?.data?.medicaler?.maritalStatus ||
+        //       "",
+        //     nationality:
+        //       sharedHealthRecord[id]?.data?.medicalProvider?.nationality || "",
+        //     stateOfOrigin:
+        //       sharedHealthRecord[id]?.data?.data?.medicaler?.stateOfOrigin ||
+        //       "",
+        //     city: sharedHealthRecord[id]?.data?.medicalProvider?.city || "",
+        //   });
+        // }
       }
       if (records) {
         setIsGettingUser(false);
