@@ -182,36 +182,36 @@ const PersonalRecord = () => {
           )}
         </div>
         <div className="grid grid-cols-12 w-full h-max">
-          <div className="col col-span-8">
+          <div className="col col-span-full md:col-span-8">
             <ContentBox
               title={"Name"}
               text={`${user?.personalInfo?.firstName} ${user?.personalInfo?.lastName}`}
             />
           </div>
-          <div className="col-span-2">
+          <div className="col col-span-full md:col-span-2">
             <ContentBox
               title={"Date of Birth"}
               text={user?.personalInfo?.dateOfBirth}
             />
           </div>
-          <div className="col-span-2">
+          <div className="col col-span-full md:col-span-2">
             <ContentBox title={"Gender:"} text={user?.personalInfo?.gender} />
           </div>
         </div>
         <div className="grid grid-cols-12 w-full h-max">
-          <div className="col col-span-2">
+          <div className="col col col-span-full md:col-span-2">
             <ContentBox
               title={"Marital Status:"}
               text={user?.personalInfo?.maritalStatus}
             />
           </div>
-          <div className="col-span-5">
+          <div className="col col-span-full md:col-span-5">
             <ContentBox
               title={"Phone Number:"}
               text={user?.personalInfo?.phoneNumber}
             />
           </div>
-          <div className="col-span-5">
+          <div className="col col-span-full md:col-span-5">
             <ContentBox
               title={"Email Address:"}
               text={user?.personalInfo?.email}
@@ -219,22 +219,22 @@ const PersonalRecord = () => {
           </div>
         </div>
         <div className="grid grid-cols-12 w-full h-max">
-          <div className="col col-span-5">
+          <div className="col col col-span-full md:col-span-5">
             <ContentBox
               title={"Home Address:"}
               text={user?.personalInfo?.address}
             />
           </div>
-          <div className="col-span-1">
+          <div className="col col-span-full md:col-span-1">
             <ContentBox title={"City:"} text={user?.personalInfo?.city} />
           </div>
-          <div className="col-span-3">
+          <div className="col col-span-full md:col-span-3">
             <ContentBox
               title={"State"}
               text={user?.personalInfo?.stateOfOrigin}
             />
           </div>
-          <div className="col-span-3">
+          <div className="col col-span-full md:col-span-3">
             <ContentBox
               title={"Country:"}
               text={user?.personalInfo?.nationality}

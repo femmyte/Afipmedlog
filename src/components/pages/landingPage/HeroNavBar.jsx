@@ -59,16 +59,16 @@ const HeroNavBar = ({ checkUserExist, handleGetStarted }) => {
           <ul
             className={`flex flex-col gap-y-[2rem] sm:gap-y-0 sm:flex-row mt-[5rem] sm:mt-0 sm:flex text-center`}
           >
-            <li className="mb-[1rem] sm:mb-0 sm:mr-[2.56rem] cursor-pointer">
+            <li className="mb-[1rem] sm:mb-0 sm:mr-[2.56rem] cursor-pointer ">
               <a onClick={() => scrollTo("home")}>Home</a>
             </li>
-            <li className="mb-[1rem] sm:mb-0 sm:mr-[2.56rem] cursor-pointer">
+            <li className="mb-[1rem] sm:mb-0 sm:mr-[2.56rem] cursor-pointer md:w-[8rem]">
               <a onClick={() => scrollTo("about")}>About Us</a>
             </li>
-            <li className="mb-[1rem] sm:mb-0 sm:mr-[2.56rem] cursor-pointer">
+            <li className="mb-[1rem] sm:mb-0 sm:mr-[2.56rem] cursor-pointer md:w-[8rem]">
               <a onClick={() => scrollTo("service")}>Services</a>
             </li>
-            <li className="mb-[1rem] sm:mb-0 cursor-pointer">
+            <li className="mb-[1rem] sm:mb-0 cursor-pointer md:w-[8rem]">
               <a onClick={() => scrollTo("doctor")}>Find a doctor</a>
             </li>
           </ul>

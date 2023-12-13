@@ -24,7 +24,7 @@ const FindDoctor = () => {
           you desire.
         </p>
       </div>
-      <div className="grid grid-cols-2">
+      <div className="grid grid-cols-2 md:grid-cols-6">
         <FindDoctorCards img={"doctor1"} />
         <FindDoctorCards img={"doctor2"} />
         <FindDoctorCards img={"doctor3"} />

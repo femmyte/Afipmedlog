@@ -16,19 +16,19 @@ const MedicalProvider = () => {
 					</button> */}
         </div>
         <div className="grid grid-cols-12 w-full">
-          <div className="col col-span-7">
+          <div className="col col-span-full md:col-span-7">
             <ContentBox
               title={"Name"}
               text={`${user?.medicalProvider?.firstName} ${user?.medicalProvider?.lastName}`}
             />
           </div>
-          <div className="col-span-3">
+          <div className="col-span-full md:col-span-3">
             <ContentBox
               title={"Specialty:"}
               text={user?.medicalProvider?.specialty}
             />
           </div>
-          <div className="col-span-2">
+          <div className="col-span-full md:col-span-2">
             <ContentBox
               title={"Gender:"}
               text={user?.medicalProvider?.gender}
@@ -36,13 +36,13 @@ const MedicalProvider = () => {
           </div>
         </div>
         <div className="grid grid-cols-12 w-full">
-          <div className="col-span-6">
+          <div className="col-span-full md:col-span-6">
             <ContentBox
               title={"Phone Number:"}
               text={user?.medicalProvider?.phoneNumber}
             />
           </div>
-          <div className="col-span-6">
+          <div className="col-span-full md:col-span-6">
             <ContentBox
               title={"Email Address:"}
               text={user?.medicalProvider?.email}
@@ -50,22 +50,22 @@ const MedicalProvider = () => {
           </div>
         </div>
         <div className="grid grid-cols-12 w-full">
-          <div className="col col-span-5">
+          <div className="col col-span-full md:col-span-5">
             <ContentBox
               title={"Home Address:"}
               text={user?.medicalProvider?.address}
             />
           </div>
-          <div className="col-span-1">
+          <div className="col-span-full md:col-span-1">
             <ContentBox title={"City:"} text={user?.medicalProvider?.city} />
           </div>
-          <div className="col-span-3">
+          <div className="col-span-full md:col-span-3">
             <ContentBox
               title={"State"}
               text={user?.medicalProvider?.stateOfOrigin}
             />
           </div>
-          <div className="col-span-3">
+          <div className="col-span-full md:col-span-3">
             <ContentBox
               title={"Country:"}
               text={user?.medicalProvider?.nationality}

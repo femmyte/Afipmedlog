@@ -68,7 +68,7 @@ const Hero = ({ checkUserExist, handleGetStarted }) => {
   return (
     <div className="px-4 md:px-[6.25rem] py-[3rem] w-screen" id="home">
       <div className="flex flex-col md:flex-row justify-between items-center gap-y-6">
-        <div className="w-full md:w-[31.5625rem] ">
+        <div className="md:w-[31.5625rem] ">
           <h2 className="text-[2.5rem] font-medium text-center md:text-left">
             Be in Charge of Your Medical Records
           </h2>
@@ -86,18 +86,18 @@ const Hero = ({ checkUserExist, handleGetStarted }) => {
             </button>
           </div>
         </div>
-        <div className="md:w-[28.625rem md:h-[27.5625] w-full pt-[2rem] px-4 md:px-[4.0625rem] bg-[#DCE6FB] rounded-[0.75rem] md:mr-[6.25rem] relative">
+        <div className=" md:w-[28.625rem md:h-[27.5625] pt-[2rem] px-4 md:px-[4.0625rem] bg-[#DCE6FB] rounded-[0.75rem] md:mr-[6.25rem] relative ">
           <div className=" relative">
             <Image
               src="/images/HeroImage.png"
               alt="hero image"
               width={328}
               height={416}
-              className=" w-[20.5rem] h-[26rem]"
+              className=" w-full md:w-[20.5rem] h-[26rem]"
             />
             <HeroImageText
               text="Decentralized Identity Management"
-              className="absolute top-[0.77rem] hidden md:block left-[16.2rem]"
+              className="absolute top-[0.77rem] hidden md:block  left-[16.2rem]"
             />
             <HeroImageText
               text="Decentralized Identifier DID"
