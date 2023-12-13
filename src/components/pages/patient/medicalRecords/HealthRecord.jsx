@@ -111,7 +111,10 @@ const HealthRecord = () => {
               <Accordion title={category} handleClick={handleOpenModal}>
                 <div className="grid grid-cols-12 w-full h-max">
                   {Object.entries(properties).map(([property, value]) => (
-                    <div key={property} className="col col-span-3">
+                    <div
+                      key={property}
+                      className="col col-span-full md:col-span-3"
+                    >
                       <ContentBox title={property} text={value} />
                     </div>
                   ))}

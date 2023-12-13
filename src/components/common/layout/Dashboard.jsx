@@ -23,11 +23,11 @@ function DashboardLayout({ children }) {
     <section className={`${darkToggle && "dark"} App overflow-x-hidden`}>
       <div className="flex relative dark:bg-main-dark-bg">
         {activeMenu ? (
-          <aside className="w-72 md:w-[18%] fixed sidebar dark:bg-secondary-dark-bg bg-white">
+          <aside className="w-72 md:w-[18%] fixed sidebar dark:bg-secondary-dark-bg bg-white z-50">
             <Sidebar />
           </aside>
         ) : (
-          <aside className={"w-0 dark:bg-secondary-dark-bg"}>
+          <aside className={"w-0 hidden dark:bg-secondary-dark-bg"}>
             <Sidebar />
           </aside>
         )}
@@ -40,13 +40,15 @@ function DashboardLayout({ children }) {
         >
           <div
             className={
-              "fixed md:static bg-main-bg dark:bg-main-dark-bg navbar w-full"
+              "fixed  bg-white dark:bg-main-dark-bg navbar w-full z-50"
             }
           >
             <Navbar />
           </div>
 
-          <div className=" pt-[30px] pb-[20px] px-[2rem]">{children}</div>
+          <div className=" pt-[8rem] md:pt-[30px] pb-[20px] px-[2rem]">
+            {children}
+          </div>
         </div>
       </div>
     </section>

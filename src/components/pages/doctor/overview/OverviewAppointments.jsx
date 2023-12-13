@@ -7,7 +7,7 @@ const OverviewAppointments = () => {
   const [value, onChange] = useState(new Date());
   return (
     <div
-      className="w-[16rem] flex flex-col  p-4 mt-[2rem]"
+      className="w-full md:w-[16rem] flex flex-col  p-4 mt-[2rem]"
       style={{ boxShadow: "4px 4px 24px 0px rgba(206, 206, 206, 0.24)" }}
     >
       <div className="flex justify-between">

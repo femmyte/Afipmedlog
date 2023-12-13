@@ -4,7 +4,7 @@ import { CiCirclePlus } from "react-icons/ci";
 const DocumentComponent = ({ title }) => {
   return (
     <div
-      className="w-[22.25rem] p-[1.25rem]"
+      className="w-[22.25rem] p-[1.25rem] overflow-x-auto"
       style={{ boxShadow: "4px 4px 24px 0px rgba(206, 206, 206, 0.24)" }}
     >
       <div className="flex items-center justify-between">

@@ -24,7 +24,8 @@ const Table = () => {
           <GoChevronRight />
         </div>
       </div>
-      <table className="mt-[0.5rem] text-left md:w-full max-w-[100%] overflow-auto">
+      <table className="mt-[0.5rem] text-left w-full overflow-x-auto ">
+
         <thead>
           <tr className="text-[0.875rem] py-[0.88rem] mr-[0.88rem]">
             <th className="font-normal ">Treatment</th>

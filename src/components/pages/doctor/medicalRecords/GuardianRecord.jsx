@@ -103,19 +103,19 @@ const GuardianRecord = () => {
           )}
         </div>
         <div className="grid grid-cols-12  w-full">
-          <div className="col col-span-7 ">
+          <div className="col col-span-full md:col-span-7 ">
             <ContentBox
               title={"Name"}
               text={`${sharedHealthRecord[id]?.data?.guardianInfo?.firstName} ${sharedHealthRecord[id]?.data?.guardianInfo?.lastName}`}
             />
           </div>
-          <div className="col-span-3 ">
+          <div className="col-span-full md:col-span-3 ">
             <ContentBox
               title={"Relationship with Patient:"}
               text={sharedHealthRecord[id]?.data?.guardianInfo?.relationship}
             />
           </div>
-          <div className="col-span-2 ">
+          <div className="col-span-full md:col-span-2 ">
             <ContentBox
               title={"Gender:"}
               text={sharedHealthRecord[id]?.data?.guardianInfo?.gender}
@@ -123,13 +123,13 @@ const GuardianRecord = () => {
           </div>
         </div>
         <div className="grid grid-cols-12 w-full">
-          <div className="col-span-6">
+          <div className="col-span-full md:col-span-6">
             <ContentBox
               title={"Phone Number:"}
               text={sharedHealthRecord[id]?.data?.guardianInfo?.phoneNumber}
             />
           </div>
-          <div className="col-span-6">
+          <div className="col-span-full md:col-span-6">
             <ContentBox
               title={"Email Address:"}
               text={sharedHealthRecord[id]?.data?.guardianInfo?.email}
@@ -137,25 +137,25 @@ const GuardianRecord = () => {
           </div>
         </div>
         <div className="grid grid-cols-12 w-full">
-          <div className="col col-span-5">
+          <div className="col col-span-full md:col-span-5">
             <ContentBox
               title={"Home Address:"}
               text={sharedHealthRecord[id]?.data?.guardianInfo?.address}
             />
           </div>
-          <div className="col-span-1">
+          <div className="col-span-full md:col-span-1">
             <ContentBox
               title={"City:"}
               text={sharedHealthRecord[id]?.data?.guardianInfo?.city}
             />
           </div>
-          <div className="col-span-3">
+          <div className="col-span-full md:col-span-3">
             <ContentBox
               title={"State"}
               text={sharedHealthRecord[id]?.data?.guardianInfo?.stateOfOrigin}
             />
           </div>
-          <div className="col-span-3">
+          <div className="col-span-full md:col-span-3">
             <ContentBox
               title={"Country:"}
               text={sharedHealthRecord[id]?.data?.guardianInfo?.nationality}

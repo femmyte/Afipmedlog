@@ -4,7 +4,7 @@ import { GoChevronRight } from "react-icons/go";
 const GeneralDetails = () => {
   return (
     <div
-      className="w-[16rem]  p-2 mt-[2rem]"
+      className="w-full md:w-[16rem]  p-2 mt-[2rem]"
       style={{ boxShadow: "4px 4px 24px 0px rgba(206, 206, 206, 0.24)" }}
     >
       <div className="flex justify-between">
