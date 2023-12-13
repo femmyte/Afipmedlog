@@ -31,11 +31,13 @@ const PrimaryHealthInformation = ({ userInfo }) => {
         </thead>
         <tbody>
           <tr className="text-left text-[#151515] text-[1rem]">
-            <td>{userInfo?.firstName}</td>
-            <td>{userInfo?.lastName}</td>
-            <td>{userInfo?.speciality}</td>
-            <td>{userInfo?.gender}</td>
-            <td className="pl-[2.06rem]">{userInfo?.address}</td>
+            <td>{userInfo?.firstName ? userInfo?.firstName : "-"} </td>
+            <td>{userInfo?.lastName ? userInfo?.lastName : "-"}</td>
+            <td>{userInfo?.speciality ? userInfo?.speciality : "-"}</td>
+            <td>{userInfo?.gender ? userInfo?.gender : "-"}</td>
+            <td className="pl-[2.06rem]">
+              {userInfo?.address ? userInfo?.address : "-"}
+            </td>
           </tr>
           <tr className="text-left text-[0.875rem] text-[#727272]">
             <th className="font-normal pt-[1.25rem] pb-[0.5rem]">City</th>
@@ -50,10 +52,10 @@ const PrimaryHealthInformation = ({ userInfo }) => {
             </th>
           </tr>
           <tr className="text-left text-[#151515] text-[1rem]">
-            <td>{userInfo?.city}</td>
-            <td>{userInfo?.stateOfOrigin}</td>
-            <td>{userInfo?.nationality}</td>
-            <td>{userInfo?.phoneNumber}</td>
+            <td>{userInfo?.city ? userInfo?.city : "-"}</td>
+            <td>{userInfo?.stateOfOrigin ? userInfo?.stateOfOrigin : "-"}</td>
+            <td>{userInfo?.nationality ? userInfo?.nationality : "-"}</td>
+            <td>{userInfo?.phoneNumber ? userInfo?.phoneNumber : "-"}</td>
           </tr>
         </tbody>
       </table>

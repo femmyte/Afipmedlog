@@ -89,12 +89,12 @@ const Navbar = () => {
       className="flex justify-between items-center px-[2rem] py-[1.5rem] relative  text-black dark:text-gray-200 dark:bg-main-dark-bg dark:hover:text-white w-full"
       style={{ boxShadow: "4px 4px 24px 0px rgba(206, 206, 206, 0.24)" }}
     >
-      {/* <NavButton
-				title='Menu'
-				customFunc={() => setActiveMenu((prevState) => !prevState)}
-				color='black'
-				icon={<AiOutlineMenu />}
-			/> */}
+      <NavButton
+        title="Menu"
+        customFunc={() => setActiveMenu((prevState) => !prevState)}
+        color="black"
+        icon={<AiOutlineMenu />}
+      />
       <div className="">
         <SearchComponent />
       </div>

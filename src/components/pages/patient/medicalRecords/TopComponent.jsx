@@ -32,13 +32,13 @@ const TopComponent = () => {
         </p>
       </div>
       <div className="flex items-center gap-x-[2rem]">
-        <button
+        {/* <button
           className="w-[10.125rem] py-[0.5rem] px-4 rounded-[0.25rem] bg-primaryBlue text-white flex gap-x-3 items-center font-[500] leading-6 tracking-[0.02rem"
           onClick={handleCopyDid}
         >
           <FiClipboard />
           <span>Copy Did </span>
-        </button>
+        </button> */}
 
         {/* <div className="flex items-center gap-x-[2rem]">
           <button

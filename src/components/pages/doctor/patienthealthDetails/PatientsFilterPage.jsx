@@ -86,25 +86,25 @@ const PatientsFilterPage = () => {
                   onClick={() => handleShowUserRecord(id)}
                 >
                   <td className="py-[0.88rem] border-b-[1px] border-[#F2F2F2]">
-                    {`${item.data.data.personalInfo.firstName} ${item.data.data.personalInfo.lastName}`}
+                    {`${item?.data?.data?.personalInfo?.firstName} ${item?.data?.data?.personalInfo?.lastName}`}
                   </td>
                   <td className="py-[0.88rem] border-b-[1px] border-[#F2F2F2]">
-                    {item.data.data.personalInfo.phoneNumber}
+                    {item?.data?.data?.personalInfo?.phoneNumber}
                   </td>
                   <td className="py-[0.88rem] border-b-[1px] border-[#F2F2F2]">
-                    {item.data.data.personalInfo.email}
+                    {item?.data?.data?.personalInfo?.email}
                   </td>
                   <td className="py-[0.88rem] border-b-[1px] border-[#F2F2F2]">
-                    {item.data.data.personalInfo.nationality}
+                    {item?.data?.data?.personalInfo?.nationality}
                   </td>
                   <td className="py-[0.88rem] border-b-[1px] border-[#F2F2F2]">
-                    {item.data.data.personalInfo.city}
+                    {item?.data?.data?.personalInfo?.city}
                   </td>
                   <td className="py-[0.88rem] border-b-[1px] border-[#F2F2F2]">
-                    {item.data.data.personalInfo.gender}
+                    {item?.data?.data?.personalInfo?.gender}
                   </td>
                   <td className="py-[0.88rem] border-b-[1px] border-[#F2F2F2]">
-                    {item.data.data.createdDate}
+                    {item?.data?.data?.createdDate}
                   </td>
                   <td className="py-[0.88rem] border-b-[1px] border-[#F2F2F2] text-[#16B61C]">
                     Active

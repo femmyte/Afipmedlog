@@ -134,19 +134,19 @@ const GuardianRecord = () => {
           <div className="col col-span-7 ">
             <ContentBox
               title={"Name"}
-              text={`${guardianData.guardianInfo?.firstName} ${guardianData.guardianInfo?.lastName}`}
+              text={`${guardianData?.guardianInfo?.firstName} ${guardianData?.guardianInfo?.lastName}`}
             />
           </div>
           <div className="col-span-3 ">
             <ContentBox
               title={"Relationship with Patient:"}
-              text={guardianData.guardianInfo?.relationship}
+              text={guardianData?.guardianInfo?.relationship}
             />
           </div>
           <div className="col-span-2 ">
             <ContentBox
               title={"Gender:"}
-              text={guardianData.guardianInfo?.gender}
+              text={guardianData?.guardianInfo?.gender}
             />
           </div>
         </div>
@@ -160,7 +160,7 @@ const GuardianRecord = () => {
           <div className="col-span-6">
             <ContentBox
               title={"Email Address:"}
-              text={guardianData.guardianInfo?.email}
+              text={guardianData?.guardianInfo?.email}
             />
           </div>
         </div>
@@ -168,172 +168,30 @@ const GuardianRecord = () => {
           <div className="col col-span-5">
             <ContentBox
               title={"Home Address:"}
-              text={guardianData.guardianInfo?.address}
+              text={guardianData?.guardianInfo?.address}
             />
           </div>
           <div className="col-span-1">
             <ContentBox
               title={"City:"}
-              text={guardianData.guardianInfo?.city}
+              text={guardianData?.guardianInfo?.city}
             />
           </div>
           <div className="col-span-3">
             <ContentBox
               title={"State"}
-              text={guardianData.guardianInfo?.stateOfOrigin}
+              text={guardianData?.guardianInfo?.stateOfOrigin}
             />
           </div>
           <div className="col-span-3">
             <ContentBox
               title={"Country:"}
-              text={guardianData.guardianInfo?.nationality}
+              text={guardianData?.guardianInfo?.nationality}
             />
           </div>
         </div>
       </div>
-      {/* <CustomModal modalIsOpen={openModal} setIsOpen={setOpenModal}>
-        <div className="py-[2.5rem] px-[3.62rem]">
-          <p className="font-[600] text-[1.25rem] leading-[2.375rem] text-[#2E3646] text-center mb-8">
-            Share Medical Record
-          </p>
-          <div className="p-6 relative">
-            <form onSubmit={handleSubmit}>
-              <div className={`grid gap-x-4 grid-cols-2`}>
-                <div className={`w-full`}>
-                  <label>
-                    Name:
-                    <input
-                      type="text"
-                      name="name"
-                      value={user.name}
-                      onChange={handleInputChange}
-                      className={`w-full p-2 rounded-md border border-gray-300 focus:border-blue-500`}
-                    />
-                  </label>
-                </div>
-                <div className={`w-full`}>
-                  <label>
-                    Email:
-                    <input
-                      type="email"
-                      name="email"
-                      value={user.email}
-                      onChange={handleInputChange}
-                      className={`w-full p-2 rounded-md border border-gray-300 focus:border-blue-500`}
-                    />
-                  </label>
-                </div>
-              </div>
-              <div className={`grid gap-x-4 grid-cols-2 mt-4`}>
-                <div className={`w-full`}>
-                  <label>
-                    Guardian relationship:
-                    <input
-                      type="text"
-                      name="relationship"
-                      value={user.relationship}
-                      onChange={handleInputChange}
-                      className={`w-full p-2 rounded-md border border-gray-300 focus:border-blue-500`}
-                    />
-                  </label>
-                </div>
-                <div className={`w-full`}>
-                  <label>
-                    Address:
-                    <input
-                      type="text"
-                      name="address"
-                      value={user.address}
-                      onChange={handleInputChange}
-                      className={`w-full p-2 rounded-md border border-gray-300 focus:border-blue-500`}
-                    />
-                  </label>
-                </div>
-              </div>
-              <div className={`grid gap-x-4 grid-cols-2 mt-4`}>
-                <div className={`w-full`}>
-                  <label>
-                    Phone Number:
-                    <input
-                      type="tel"
-                      name="phoneNumber"
-                      value={user.phoneNumber}
-                      onChange={handleInputChange}
-                      className={`w-full p-2 rounded-md border border-gray-300 focus:border-blue-500`}
-                    />
-                  </label>
-                </div>
-                <div className={`w-full`}>
-                  <label>
-                    Gender:
-                    <select
-                      name="gender"
-                      value={user.gender}
-                      onChange={handleInputChange}
-                      required
-                      className={`w-full p-2 rounded-md border border-gray-300 focus:border-blue-500`}
-                    >
-                      <option>Select Gender</option>
-                      <option value="male">Male</option>
-                      <option value="female">Female</option>
-                      <option value="other">Other</option>
-                    </select>
-                  </label>
-                </div>
-              </div>
-              <div className={`grid gap-x-4 grid-cols-2 mt-4`}>
-                <div className={`w-full`}>
-                  <label>
-                    City:
-                    <input
-                      type="text"
-                      name="city"
-                      value={user.city}
-                      onChange={handleInputChange}
-                      className={`w-full p-2 rounded-md border border-gray-300 focus:border-blue-500`}
-                    />
-                  </label>
-                </div>
-                <div className={`w-full`}>
-                  <label>
-                    State Of Origin:
-                    <input
-                      type="text"
-                      name="stateOfOrigin"
-                      value={user.stateOfOrigin}
-                      onChange={handleInputChange}
-                      className={`w-full p-2 rounded-md border border-gray-300 focus:border-blue-500`}
-                    />
-                  </label>
-                </div>
-              </div>
-              <div className={`grid gap-x-4 grid-cols-2 mt-4`}>
-                <div className={`w-full`}>
-                  <label>
-                    Nationality:
-                    <input
-                      type="text"
-                      name="nationality"
-                      value={user.nationality}
-                      onChange={handleInputChange}
-                      className={`w-full p-2 rounded-md border border-gray-300 focus:border-blue-500`}
-                    />
-                  </label>
-                </div>
-              </div>
-              <div className="flex justify-center mt-[4rem]">
-                <button
-                  type="submit"
-                  className="w-[10.125rem] py-[0.5rem] px-4 rounded-[0.25rem] bg-primaryBlue text-white flex justify-center items-center font-[500] leading-6 tracking-[0.02rem disabled:bg-[#DCE6FB]"
-                  disabled={validate()}
-                >
-                  Create Record
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      </CustomModal> */}
+
       {isSuccessful && (
         <div className="absolute px-8 py-2 rounded-md bg-green-600 top-0 right-0">
           <p className="text-white">Guardian Information Saved Successfully</p>
