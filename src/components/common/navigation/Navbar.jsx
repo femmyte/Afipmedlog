@@ -86,7 +86,7 @@ const Navbar = () => {
 
   return (
     <div
-      className="flex justify-between items-center px-[2rem] py-[1.5rem] relative  text-black dark:text-gray-200 dark:bg-main-dark-bg dark:hover:text-white w-full"
+      className="flex  sticky justify-between items-center px-[2rem] py-[1.5rem] text-black dark:text-gray-200 dark:bg-main-dark-bg dark:hover:text-white w-full "
       style={{ boxShadow: "4px 4px 24px 0px rgba(206, 206, 206, 0.24)" }}
     >
       <NavButton
@@ -95,7 +95,7 @@ const Navbar = () => {
         color="black"
         icon={<AiOutlineMenu />}
       />
-      <div className="">
+      <div className="hidden md:block">
         <SearchComponent />
       </div>
       <div className="flex gap-x-[50px]">
