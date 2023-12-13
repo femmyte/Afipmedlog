@@ -66,10 +66,10 @@ const Hero = ({ checkUserExist, handleGetStarted }) => {
     );
   }
   return (
-    <div className="px-[6.25rem] py-[3rem]">
-      <div className="flex justify-between items-center">
-        <div className="w-[31.5625rem] ">
-          <h2 className="text-[2.5rem] font-medium">
+    <div className="px-4 md:px-[6.25rem] py-[3rem] w-screen" id="home">
+      <div className="flex flex-col md:flex-row justify-between items-center gap-y-6">
+        <div className="w-full md:w-[31.5625rem] ">
+          <h2 className="text-[2.5rem] font-medium text-center md:text-left">
             Be in Charge of Your Medical Records
           </h2>
           <p className="my-[1rem] text-[1rem] text-[#5F5F5F]">
@@ -77,14 +77,16 @@ const Hero = ({ checkUserExist, handleGetStarted }) => {
             doctor of your choice in any part of the world for reference
             purposes
           </p>
-          <button
-            onClick={handleGetStarted}
-            className="w-[11.875rem] py-[0.5rem] px-[1rem] rounded-[0.25rem] bg-primaryBlue text-white flex justify-center items-center font-[500] leading-6 tracking-[0.02rem "
-          >
-            {checkUserExist ? "Go to Dashboard" : "Get started"}
-          </button>
+          <div className="flex flex-col md:flex-row items-center justify-center md:justify-start my-6 md:my-0">
+            <button
+              onClick={handleGetStarted}
+              className="w-[11.875rem] py-[0.5rem] px-[1rem] rounded-[0.25rem] bg-primaryBlue text-white flex justify-center items-center font-[500] leading-6 tracking-[0.02rem "
+            >
+              {checkUserExist ? "Go to Dashboard" : "Get started"}
+            </button>
+          </div>
         </div>
-        <div className="w-[28.625rem h-[27.5625]  pt-[2rem] px-[4.0625rem] bg-[#DCE6FB] rounded-[0.75rem] mr-[6.25rem] relative">
+        <div className="md:w-[28.625rem md:h-[27.5625] w-full pt-[2rem] px-4 md:px-[4.0625rem] bg-[#DCE6FB] rounded-[0.75rem] md:mr-[6.25rem] relative">
           <div className=" relative">
             <Image
               src="/images/HeroImage.png"
@@ -95,19 +97,19 @@ const Hero = ({ checkUserExist, handleGetStarted }) => {
             />
             <HeroImageText
               text="Decentralized Identity Management"
-              className="absolute top-[0.77rem] left-[16.2rem]"
+              className="absolute top-[0.77rem] hidden md:block left-[16.2rem]"
             />
             <HeroImageText
               text="Decentralized Identifier DID"
-              className="absolute top-[4rem] right-[16.2rem]"
+              className="absolute top-[4rem] hidden md:block  right-[16.2rem]"
             />
             <HeroImageText
               text="Access to Medical Doctors Around the Globe"
-              className="absolute top-[19.5rem] right-[16.2rem]"
+              className="hidden md:block absolute top-[19.5rem] right-[16.2rem]"
             />
             <HeroImageText
               text="Decentralized Data Storage and Sharing"
-              className="absolute  top-[15.62rem] left-[16.2rem]"
+              className="hidden md:block absolute  top-[15.62rem] left-[16.2rem]"
             />
           </div>
         </div>
