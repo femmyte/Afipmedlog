@@ -47,7 +47,7 @@ const Accordion = ({ title, children, handleClick, protocol }) => {
           <div className="my-[1.5rem] flex justify-end">
             <button
               className="text-[0.875rem] text-primaryGreen font-[400] leading-[1.25rem]"
-              onClick={() => handleClick(title)}
+              // onClick={() => handleClick(title)}
             >
               Edit Record
             </button>

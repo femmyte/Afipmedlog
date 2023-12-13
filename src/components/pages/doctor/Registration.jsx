@@ -86,7 +86,6 @@ const Registration = () => {
   };
   const getUser = useCallback(async () => {
     setIsGettingUser(true);
-    console.log("getting user");
     try {
       const { records } = await web5.dwn.records.query({
         message: {
@@ -108,7 +107,6 @@ const Registration = () => {
           return user;
         });
       }
-      console.log(doctorInfo);
       if (doctorInfo.length > 0) {
         setUser({
           firstName: doctorInfo[0].data.personalInfo.firstName || "",
@@ -147,7 +145,6 @@ const Registration = () => {
 
   const handleCreate = async () => {
     try {
-      console.log("running");
       const storedRole = localStorage.getItem("role");
       const currentDate = new Date().toLocaleDateString();
       const currentTime = new Date().toLocaleTimeString();

@@ -7,9 +7,8 @@ import {
   useState,
   useCallback,
 } from "react";
-// import { Web5 } from "@web5/api";
-// import { Web5 } from "@web5/api/browser";
 import protocolDefinition from "@/protocols/healthRecord.json";
+import useWeb5 from "./useWeb5";
 
 const AppContext = createContext();
 
@@ -35,31 +34,37 @@ export const AppContextProvider = ({ children }) => {
   const [sharedHealthRecord, setSharedHealthRecord] = useState([]);
   const [currentUser, setCurrentUser] = useState("user");
   // web5
-  const [web5, setWeb5] = useState(null);
-  const [myDid, setMyDid] = useState(null);
   const [didDocument, setDidDocument] = useState({});
+  const { web5, myDid, initWeb5 } = useWeb5();
 
-  const initWeb5 = useCallback(async () => {
-    const existingDid = localStorage.getItem("myDid");
+  // useEffect(() => {
+  //   // Do something with web5 and myDid
+  //   console.log("Web5:", web5);
+  //   console.log("My DID:", myDid);
+  // }, [web5, myDid]);
+  // const initWeb5 = useCallback(async () => {
+  //   const existingDid = localStorage.getItem("myDid");
 
-    const { Web5 } = await import("@web5/api/browser");
-    try {
-      const { web5, did } = await Web5.connect(existingDid);
+  //   const { Web5 } = await import("@web5/api/browser");
+  //   try {
+  //     const { web5, did } = await Web5.connect(existingDid);
+  //     // await web5.dwn.protocols.registerSigningKey(
+  //     //   "49jq984h97qh3a49j98cq5h38j09jq9853h409jjq09h5q9j4"
+  //     // );
+  //     setWeb5(web5);
+  //     setMyDid(did);
 
-      setWeb5(web5);
-      setMyDid(did);
-
-      if (web5 && did) {
-        console.log("Web5 initialized");
-      }
-    } catch (error) {
-      console.error("Error initializing Web5:", error);
-    }
-  }, []);
-  useEffect(() => {
-    const existingDid = localStorage.getItem("myDid");
-    if (existingDid) initWeb5();
-  }, []);
+  //     if (web5 && did) {
+  //       console.log("Web5 initialized");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error initializing Web5:", error);
+  //   }
+  // }, []);
+  // useEffect(() => {
+  //   const existingDid = localStorage.getItem("myDid");
+  //   if (existingDid) initWeb5();
+  // }, []);
   // const getObject = useCallback(async () => {
   //   // Local dwN
   //   // const { web5, did } = await Web5.connect({
@@ -136,11 +141,11 @@ export const AppContextProvider = ({ children }) => {
     const { protocols: localProtocols, status: localProtocolStatus } =
       await queryLocalProtocol(web5, protocolUrl);
 
-    // if (localProtocolStatus.code !== 200 || localProtocols.length === 0) {
-    const result = await installLocalProtocol(web5, protocolDefinition);
-    // console.log({ result });
-    console.log("Protocol installed locally");
-    // }
+    if (localProtocolStatus.code !== 200 || localProtocols.length === 0) {
+      const result = await installLocalProtocol(web5, protocolDefinition);
+      // console.log({ result });
+      console.log("Protocol installed locally");
+    }
 
     if (localProtocols.length > 0) {
       console.log("Protocol already exists");
@@ -150,15 +155,15 @@ export const AppContextProvider = ({ children }) => {
     const { protocols: remoteProtocols, status: remoteProtocolStatus } =
       await queryRemoteProtocol(web5, myDid, protocolUrl);
 
-    // if (remoteProtocolStatus.code !== 200 || remoteProtocols.length === 0) {
-    const { result: remoteResult } = await installRemoteProtocol(
-      web5,
-      myDid,
-      protocolDefinition
-    );
-    // console.log({ result });
-    console.log("Protocol installed remotely", remoteResult);
-    // }
+    if (remoteProtocolStatus.code !== 200 || remoteProtocols.length === 0) {
+      const { result: remoteResult } = await installRemoteProtocol(
+        web5,
+        myDid,
+        protocolDefinition
+      );
+      // console.log({ result });
+      console.log("Protocol installed remotely", remoteResult);
+    }
   }, [web5, myDid]);
 
   // Run configureProtocol when web5 or myDid changes
@@ -170,7 +175,6 @@ export const AppContextProvider = ({ children }) => {
 
   const getUser = useCallback(async () => {
     setIsGettingUser(true);
-    console.log("getting user");
     try {
       const { records } = await web5.dwn.records.query({
         message: {
@@ -209,7 +213,6 @@ export const AppContextProvider = ({ children }) => {
   }, [getUser, web5]);
   const getDoctor = useCallback(async () => {
     setIsGettingUser(true);
-    console.log("getting user");
     try {
       const { records } = await web5.dwn.records.query({
         message: {
@@ -259,179 +262,63 @@ export const AppContextProvider = ({ children }) => {
     const userInfoProtocol = protocolDefinition;
 
     console.log("running");
-
-    const response = await web5.dwn.records.query({
-      from: myDid,
-      message: {
-        filter: {
-          protocol: userInfoProtocol.protocol,
-          schema: userInfoProtocol.types.patientInfo.schema,
+    try {
+      const response = await web5.dwn.records.query({
+        from: myDid,
+        message: {
+          filter: {
+            schema: protocolDefinition.types.patientInfo.schema,
+            protocol: userInfoProtocol.protocol,
+          },
         },
-      },
-    });
-
-    if (response.status.code === 200) {
-      const receivedRecord = await Promise.all(
-        response.records.map(async (record) => {
-          const data = await record.data.json();
-          return data;
-        })
-      );
-      // console.log(response.record.timestamp);
-      // console.log(receivedRecord, "I received these records");
-
-      setSharedHealthRecord(receivedRecord);
-      // return receivedDings;
-    } else {
-      console.log("error", response.status);
+      });
+      // console.log(response);
+      for (let record of response.records) {
+        const data = await record.data.json();
+        const list = { record, data, id: record.id };
+        setSharedHealthRecord((user) => {
+          if (!user || !user.some((item) => item.id === list.id)) {
+            return [...(user || []), list];
+          }
+          return user;
+        });
+      }
+    } catch (error) {
+      console.log(error);
     }
+
+    // const response = await web5.dwn.records.query({
+    //   from: myDid,
+    //   message: {
+    //     filter: {
+    //       protocol: userInfoProtocol.protocol,
+    //       schema: userInfoProtocol.types.patientInfo.schema,
+    //     },
+    //   },
+    // });
+
+    // if (response.status.code === 200) {
+    //   const receivedRecord = await Promise.all(
+    //     response.records.map(async (record) => {
+    //       const data = await record.data.json();
+    //       return data;
+    //     })
+    //   );
+    //   // console.log(response.record.timestamp);
+    //   // console.log(receivedRecord, "I received these records");
+
+    //   setSharedHealthRecord(receivedRecord);
+    //   // return receivedDings;
+    // } else {
+    //   console.log("error", response.status);
+    // }
   }, [web5, myDid]);
   useEffect(() => {
     if (web5) {
       getRecordSharedWithDoctor();
     }
   }, [getRecordSharedWithDoctor, web5]);
-  // const configureProtocol = async (web5, did) => {
-  // 	// this is where we configure our protocol
-  // 	const protocolUrl = protocolDefinition.protocol;
 
-  // 	const { protocols: localProtocols, status: localProtocolStatus } =
-  // 		await queryLocalProtocol(web5, protocolUrl);
-  // 	if (localProtocolStatus.code !== 200 || localProtocols.length === 0) {
-  // 		const result = await installLocalProtocol(web5, protocolDefinition);
-  // 		console.log({ result });
-  // 		console.log('Protocol installed locally');
-  // 	}
-  // 	// if the protocol already exists, we return
-  // 	if (localProtocols.length > 0) {
-  // 		console.log('Protocol already exists');
-  // 		return;
-  // 	}
-  // 	const { protocols: remoteProtocols, status: remoteProtocolStatus } =
-  // 		await queryRemoteProtocol(web5, did, protocolUrl);
-  // 	if (remoteProtocolStatus.code !== 200 || remoteProtocols.length === 0) {
-  // 		const result = await installRemoteProtocol(
-  // 			web5,
-  // 			did,
-  // 			protocolDefinition
-  // 		);
-  // 		console.log({ result });
-  // 		console.log('Protocol installed remotely');
-  // 	}
-  // };
-  // // const configureProtocol = async () => {
-  // // 	// query the list of existing protocols on the DWN
-  // // 	const { protocols, status } = await web5.dwn.protocols.query({
-  // // 		message: {
-  // // 			filter: {
-  // // 				protocol: protocolDefinition.protocol,
-  // // 			},
-  // // 		},
-  // // 	});
-
-  // // 	if (status.code !== 200) {
-  // // 		alert('Error querying protocols');
-  // // 		console.error('Error querying protocols', status);
-  // // 		return;
-  // // 	}
-
-  // // 	// if the protocol already exists, we return
-  // // 	if (protocols.length > 0) {
-  // // 		console.log('Protocol already exists');
-  // // 		return;
-  // // 	}
-
-  // // 	// configure protocol on local DWN
-  // // 	const { status: configureStatus, protocol } =
-  // // 		await web5.dwn.protocols.configure({
-  // // 			message: {
-  // // 				definition: protocolDefinition,
-  // // 			},
-  // // 		});
-
-  // // 	console.log('Protocol configured', configureStatus, protocol);
-  // // };
-  // useEffect(() => {
-  // 	if (web5) {
-  // 		configureProtocol(web5, myDid);
-  // 	}
-  // }, [web5, myDid]);
-  // Memoize the getUser function
-  // const getUser = useCallback(async () => {
-  //   setIsGettingUser(true);
-  //   console.log("getting user");
-  //   const { records } = await web5.dwn.records.query({
-  //     message: {
-  //       filter: {
-  //         schema: protocolDefinition.types.patientInfo.schema,
-  //       },
-  //     },
-  //   });
-
-  //   // add entry to userInfo
-  //   for (let record of records) {
-  //     const data = await record.data.json();
-  //     const list = { record, data, id: record.id };
-  //     setUserInfo((user) => {
-  //       if (!user.some((item) => item.id === list.id)) {
-  //         return [...user, list];
-  //       }
-  //       return user;
-  //     });
-  //   }
-
-  //   if (records) {
-  //     setIsGettingUser(false);
-  //   }
-  //   return userInfo;
-  // }, [web5, userInfo]); // Dependency array includes web5
-  // const getGuardianInfo = useCallback(async () => {
-  //   setIsGettingUser(true);
-  //   console.log("getting guardain info");
-  //   const { records } = await web5.dwn.records.query({
-  //     message: {
-  //       filter: {
-  //         schema: protocolDefinition.types.guardianInfo.schema,
-  //       },
-  //     },
-  //   });
-
-  //   // add entry to userInfo
-  //   for (let record of records) {
-  //     const data = await record.data.json();
-  //     const list = { record, data, id: record.id };
-  //     setguardianRecord((user) => {
-  //       if (!user.some((item) => item.id === list.id)) {
-  //         return [...user, list];
-  //       }
-  //       return user;
-  //     });
-  //   }
-
-  //   if (records) {
-  //     setIsGettingUser(false);
-  //   }
-  // }, [web5]); // Dependency array includes web5
-
-  // Trigger the getUser function on mount
-  // useEffect(() => {
-  //   if (web5) {
-  //     getUser();
-  //     getGuardianInfo();
-  //   }
-  // }, [getUser, getGuardianInfo, web5]);
-
-  // useEffect(() => {
-  //   console.log(userInfo);
-  //   if (userInfo.length > 0) {
-  //     // setUser(userInfo[0].data);
-  //     // setUserRole(userInfo[0].data.personalInfo.role);
-  //   }
-  //   // if (guardianRecord && guardianRecord.length > 0) {
-  //   //   console.log(guardianRecord);
-  //   //   setGuardianInfo(guardianRecord[0].data.guardianInfo);
-  //   // }
-  // }, [userInfo]);
   const handleClick = (clicked) => {
     setIsClicked({ ...isClicked, [clicked]: true });
   };
@@ -457,9 +344,7 @@ export const AppContextProvider = ({ children }) => {
         fetchedTweets,
         setFetchedTweets,
         web5,
-        setWeb5,
         myDid,
-        setMyDid,
         userRole,
         setUserRole,
         // getUser,

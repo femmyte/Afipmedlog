@@ -35,7 +35,6 @@ const GuardianForm = ({ handleOpenModal }) => {
 
     setIsLoading(true);
     try {
-      console.log("running");
       const userInfoProtocol = protocolDefinition;
       const userData = {
         guardianInfo: {
@@ -70,11 +69,10 @@ const GuardianForm = ({ handleOpenModal }) => {
           // setClicked(false);
         }, 4000);
       }
-      console.log(status, record);
       if (status.code === 202) {
         // getUser();
         const { status: myDidStatus } = await record.send(myDid);
-        console.log("status of online dwd >", myDidStatus);
+        // console.log("status of online dwd >", myDidStatus);
         handleOpenModal();
       }
     } catch (error) {

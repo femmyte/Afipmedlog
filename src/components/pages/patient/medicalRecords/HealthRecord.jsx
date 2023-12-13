@@ -31,6 +31,31 @@ const HealthRecord = () => {
     };
     try {
       const userInfoProtocol = protocolDefinition;
+
+      // requirement = {
+      //   data :{},
+      //   "recordId": "b65b7r8n7bewv5w6eb7r8n7t78yj7hbevsv567n8r77bv65b7e6vwvd67b6",
+      //   "descriptor": {
+      //     "method": "CollectionsWrite",
+      //     "schema": "https://schema.org/InviteAction",
+      //     "dataCid": CID(data),
+      //     "dateCreated": 123456789,
+      //     "dataFormat": "application/json"
+      //   },
+      //   "processing": {
+      //     "nonce": "4572616e48616d6d65724c61686176",
+      //     "author": "did:example:alice",
+      //     "recipient": "did:example:bob",
+      //   },
+      //   "attestation": {
+      //     "payload": "89f5hw458fhw958fq094j9jdq0943j58jfq09j49j40f5qj30jf",
+      //     "signatures": [{
+      //       "protected": "4d093qj5h3f9j204fq8h5398hf9j24f5q9h83402048h453q",
+      //       "signature": "49jq984h97qh3a49j98cq5h38j09jq9853h409jjq09h5q9j4"
+      //     }]
+      //   }
+      // }
+
       const { record } = await web5.dwn.records.write({
         data: patientData,
         message: {
@@ -39,6 +64,15 @@ const HealthRecord = () => {
           schema: userInfoProtocol.types[protocol].schema,
           dataFormat: "application/json",
           recipient: userDid,
+          attestation: {
+            payload: "89f5hw458fhw958fq094j9jdq0943j58jfq09j49j40f5qj30jf",
+            signatures: [
+              {
+                protected: "4d093qj5h3f9j204fq8h5398hf9j24f5q9h83402048h453q",
+                signature: "49jq984h97qh3a49j98cq5h38j09jq9853h409jjq09h5q9j4",
+              },
+            ],
+          },
         },
       });
       const { status } = await record.send(userDid);

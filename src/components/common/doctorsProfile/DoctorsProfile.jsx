@@ -9,7 +9,7 @@ const DoctorsProfile = ({ userInfo }) => {
       style={{ boxShadow: "4px 4px 24px 0px rgba(206, 206, 206, 0.24)" }}
     >
       {/* <h2 className="font-medium text-[2rem]">Profile</h2> */}
-      <div className="flex w-[43rem] justify-between items-start px-[1.25rem]">
+      <div className="flex w-full justify-between items-start px-[1.25rem]">
         <div className="flex items-center">
           <Image
             src="/images/user.png"

@@ -2,58 +2,68 @@
 import { useStateContext } from "@/state/AppContext";
 import React, { useCallback, useEffect, useState } from "react";
 import protocolDefinition from "@/protocols/healthRecord.json";
-const AllergyRecord = ({ patientDid }) => {
+const AllergyRecord = ({ recordIdNumber }) => {
   const [record, setRecord] = useState(null);
   const [recordList, setRecordList] = useState(null);
-  let { web5 } = useStateContext();
+  let { web5, sharedHealthRecord } = useStateContext();
   // console.log(patientDid);
-  const getRecord = useCallback(async () => {
-    try {
-      const response = await web5.dwn.records.query({
-        from: patientDid,
-        message: {
-          filter: {
-            schema: protocolDefinition.types.patientInfo.schema,
-            dataFormat: "application/json",
-          },
-        },
-      });
-      for (let record of response.records) {
-        const data = await record.data.json();
-        const list = { record, data, id: record.id };
-        setRecordList((user) => {
-          if (!user || !user.some((item) => item.id === list.id)) {
-            return [...(user || []), list];
-          }
-          return user;
-        });
-      }
+  // const getRecord = useCallback(async () => {
+  //   try {
+  //     let { record, status } = await web5.dwn.records.read({
+  //       message: {
+  //         filter: {
+  //           schema: protocolDefinition.types.patientInfo.schema,
+  //           recordId: patientDid,
+  //         },
+  //       },
+  //     });
+  //     console.log(record, status);
 
-      // for (let record of response.records) {
-      //   const data = await record.data.json();
-      //   const list = { record, data, id: record.id };
-      //   setRecordList((user) => {
-      //     if (!user.some((item) => item.id === list.id)) {
-      //       return [...user, list];
-      //     }
-      //     return user;
-      //   });
-      //   // setRecordList(list);
-      // }
-    } catch (error) {
-      console.log(error);
-    }
-  }, [patientDid, web5]);
-  useEffect(() => {
-    getRecord();
-  }, [getRecord]);
-  useEffect(() => {
-    if (recordList) {
-      console.log(recordList[1]);
-      setRecord(recordList[1]?.record);
-    }
-  }, [recordList]);
-  console.log(record);
+  //     // const response = await web5.dwn.records.query({
+  //     //   from: patientDid,
+  //     //   message: {
+  //     //     filter: {
+  //     //       schema: protocolDefinition.types.patientInfo.schema,
+  //     //       dataFormat: "application/json",
+  //     //     },
+  //     //   },
+  //     // });
+  //     // for (let record of response.records) {
+  //     //   const data = await record.data.json();
+  //     //   const list = { record, data, id: record.id };
+  //     //   setRecordList((user) => {
+  //     //     if (!user || !user.some((item) => item.id === list.id)) {
+  //     //       return [...(user || []), list];
+  //     //     }
+  //     //     return user;
+  //     //   });
+  //     // }
+
+  //     // for (let record of response.records) {
+  //     //   const data = await record.data.json();
+  //     //   const list = { record, data, id: record.id };
+  //     //   setRecordList((user) => {
+  //     //     if (!user.some((item) => item.id === list.id)) {
+  //     //       return [...user, list];
+  //     //     }
+  //     //     return user;
+  //     //   });
+  //     //   // setRecordList(list);
+  //     // }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }, [patientDid, web5]);
+  // useEffect(() => {
+  //   getRecord();
+  // }, [getRecord]);
+  // useEffect(() => {
+  //   if (recordList) {
+  //     console.log(recordList);
+  //     setRecord(recordList[1]?.record);
+  //   }
+  // }, [recordList]);
+  // console.log(sharedHealthRecord[recordIdNumber]);
   const [formData, setFormData] = useState({
     name: "",
     severity: "",
@@ -84,13 +94,14 @@ const AllergyRecord = ({ patientDid }) => {
 
   const handleUpdateRecord = async (e) => {
     e.preventDefault();
-    console.log(formData);
+    // console.log(formData);
 
     try {
+      // console.log("updating data");
       // Get the existing record
-      const existingRecord = recordList[1];
+      const existingRecord = sharedHealthRecord[recordIdNumber];
       // Create a new version of the healthRecord array
-      const updatedHealthRecord = [...existingRecord.data.healthRecord];
+      const updatedHealthRecord = [...existingRecord.healthRecord];
       updatedHealthRecord[0] = {
         name: formData.name,
         severity: formData.severity,
@@ -105,10 +116,11 @@ const AllergyRecord = ({ patientDid }) => {
           healthRecord: updatedHealthRecord,
         },
       };
-      const updateResponse = await record.update({
+      const updateResponse = await sharedHealthRecord[
+        recordIdNumber
+      ].record.update({
         data: updatedRecord,
       });
-      console.log(updateResponse);
     } catch (error) {
       console.log(error);
     }

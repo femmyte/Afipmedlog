@@ -10,6 +10,7 @@ const PatientsFilterPage = () => {
   const router = useRouter();
   let { web5, myDid, userRole, user, userInfo, sharedHealthRecord } =
     useStateContext();
+  console.log(sharedHealthRecord);
   const handleShowUserRecord = (id) => {
     router.push(`/doctor/patients/${id}`);
   };
@@ -84,25 +85,25 @@ const PatientsFilterPage = () => {
                   onClick={() => handleShowUserRecord(id)}
                 >
                   <td className="py-[0.88rem] border-b-[1px] border-[#F2F2F2]">
-                    {`${item.data.personalInfo.firstName} ${item.data.personalInfo.lastName}`}
+                    {`${item.data.data.personalInfo.firstName} ${item.data.data.personalInfo.lastName}`}
                   </td>
                   <td className="py-[0.88rem] border-b-[1px] border-[#F2F2F2]">
-                    {item.data.personalInfo.phoneNumber}
+                    {item.data.data.personalInfo.phoneNumber}
                   </td>
                   <td className="py-[0.88rem] border-b-[1px] border-[#F2F2F2]">
-                    {item.data.personalInfo.email}
+                    {item.data.data.personalInfo.email}
                   </td>
                   <td className="py-[0.88rem] border-b-[1px] border-[#F2F2F2]">
-                    {item.data.personalInfo.nationality}
+                    {item.data.data.personalInfo.nationality}
                   </td>
                   <td className="py-[0.88rem] border-b-[1px] border-[#F2F2F2]">
-                    {item.data.personalInfo.city}
+                    {item.data.data.personalInfo.city}
                   </td>
                   <td className="py-[0.88rem] border-b-[1px] border-[#F2F2F2]">
-                    {item.data.personalInfo.gender}
+                    {item.data.data.personalInfo.gender}
                   </td>
                   <td className="py-[0.88rem] border-b-[1px] border-[#F2F2F2]">
-                    {item.dateSent}
+                    {item.data.data.createdDate}
                   </td>
                   <td className="py-[0.88rem] border-b-[1px] border-[#F2F2F2] text-[#16B61C]">
                     Active

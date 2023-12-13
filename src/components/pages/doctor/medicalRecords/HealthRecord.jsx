@@ -23,10 +23,10 @@ const HealthRecord = () => {
   const [selectedRecord, setSelectedRecord] = useState(null);
   const [userDid, setUserDid] = useState("");
   const handleOpenModal = (title) => {
-    console.log(title);
     setSelectedRecord(title);
     setOpenModal(true);
   };
+  // console.log(sharedHealthRecord);
   const handleSendRecord = (e) => {
     e.preventDefault();
     setOpenModal(false);
@@ -41,9 +41,7 @@ const HealthRecord = () => {
       case "cardiologyRecord":
         return <CardiologyRecord />;
       case "allergyRecord":
-        return (
-          <AllergyRecord patientDid={sharedHealthRecord[id]?.patientDid} />
-        );
+        return <AllergyRecord recordIdNumber={id} />;
       case "surgeryRecord":
         return <SurgeryRecord />;
       // case "FamilyHealthRecords":
