@@ -20,11 +20,13 @@ const FindDoctor = () => {
           <h2 className="text-[1.5rem] font-medium">Find a Doctor</h2>
         </div>
         <p className="w-full md:w-[38.0625rem] px-[1.5rem]">
+
           Search through our available doctors to get a doctor in the specialty
           you desire.
         </p>
       </div>
       <div className="grid grid-cols-2 md:grid-cols-6">
+
         <FindDoctorCards img={"doctor1"} />
         <FindDoctorCards img={"doctor2"} />
         <FindDoctorCards img={"doctor3"} />

@@ -49,6 +49,7 @@ const Footer = () => {
       <span className="text-[0.875rem] mt-[1.5rem] text-center flex flex-col justify-center border-t-[1px] border-[#7F7F7F] p-[1rem]">
         &copy; Copyright 2023. All Right Reserved by AFIPMedLog
       </span>
+
     </div>
   );
 };

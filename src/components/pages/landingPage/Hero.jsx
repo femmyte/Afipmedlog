@@ -70,6 +70,7 @@ const Hero = ({ checkUserExist, handleGetStarted }) => {
       <div className="flex flex-col md:flex-row justify-between items-center gap-y-6">
         <div className="md:w-[31.5625rem] ">
           <h2 className="text-[2.5rem] font-medium text-center md:text-left">
+
             Be in Charge of Your Medical Records
           </h2>
           <p className="my-[1rem] text-[1rem] text-[#5F5F5F]">
@@ -88,6 +89,7 @@ const Hero = ({ checkUserExist, handleGetStarted }) => {
         </div>
         <div className=" md:w-[28.625rem md:h-[27.5625] pt-[2rem] px-4 md:px-[4.0625rem] bg-[#DCE6FB] rounded-[0.75rem] md:mr-[6.25rem] relative ">
           <div className=" relative">
+
             <Image
               src="/images/HeroImage.png"
               alt="hero image"
@@ -110,6 +112,7 @@ const Hero = ({ checkUserExist, handleGetStarted }) => {
             <HeroImageText
               text="Decentralized Data Storage and Sharing"
               className="hidden md:block absolute  top-[15.62rem] left-[16.2rem]"
+
             />
           </div>
         </div>

@@ -55,6 +55,7 @@ const HeroNavBar = ({ checkUserExist, handleGetStarted }) => {
               ? "flex flex-col items-center justify-start  bg-black h-screen w-screen text-white z-50"
               : "hidden sm:flex items-center gap-x-10"
           } `}
+
         >
           <ul
             className={`flex flex-col gap-y-[2rem] sm:gap-y-0 sm:flex-row mt-[5rem] sm:mt-0 sm:flex text-center`}

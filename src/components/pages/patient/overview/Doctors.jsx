@@ -5,7 +5,8 @@ import { GoChevronRight } from "react-icons/go";
 const Doctors = () => {
   return (
     <div
-      className="w-full md:w-[16.1875rem] h-[9.9375rem] gap-[1.2rem] py-[1.5rem] px-[1rem]  p-2"
+      className="md:w-[16.1875rem] md:h-[9.9375rem] flex flex-col justify-center mt-[2rem] gap-[1.2rem] py-[1.5rem] px-[1rem]  p-2"
+
       style={{ boxShadow: "4px 4px 24px 0px rgba(206, 206, 206, 0.24)" }}
     >
       <div className="flex justify-between">

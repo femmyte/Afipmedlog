@@ -5,7 +5,7 @@ import React from "react";
 const OverviewHeader = () => {
   const { userName } = useStateContext();
   return (
-    <div>
+    <div className="mt-[3rem]">
       <h2 className="text-[2rem] font-medium text-[#151515]">
         Welcome, Dr. {userName}
       </h2>
