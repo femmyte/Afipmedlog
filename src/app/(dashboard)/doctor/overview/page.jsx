@@ -11,14 +11,14 @@ const page = () => {
   return (
     <div className="">
       <OverviewHeader />
-      <div className="grid grid-cols-12 gap-[2rem] w-full">
-        <div className="col-span-9">
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-[2rem] w-full">
+        <div className="md:col-span-9">
           <Cards />
-          <div className="col-span-full mt-[1.5rem]">
+          <div className="md:col-span-full mt-[1.5rem]">
             <Table />
           </div>
         </div>
-        <div className="col-span-3">
+        <div className="md:col-span-3">
           <Doctors />
           <OverviewAppointments />
         </div>
