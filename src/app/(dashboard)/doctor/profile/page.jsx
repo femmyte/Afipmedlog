@@ -126,14 +126,14 @@ const Profile = () => {
         </p>
       </div> */}
       <h2 className="font-medium text-[2rem]">Profile</h2>
-      <div className="grid grid-cols-12 gap-x-8 ">
-        <div className=" col-span-8">
+      <div className="grid grid-cols-12 gap-8 ">
+        <div className=" col-span-full md:col-span-8">
           <DoctorsProfile userInfo={user} />
           <PersonalInformation userInfo={user} />
           <CareerInformation careerInfo={careerInfo} />
           {/* <UpcomingAppointments /> */}
         </div>
-        <div className=" col-span-4 flex flex-col gap-y-[1.5rem]">
+        <div className=" col-span-full md:col-span-4 flex flex-col gap-y-[1.5rem]">
           <MyDid handleSendDidModal={handleSendDidModal} />
           <DocumentComponent title="Document" />
         </div>

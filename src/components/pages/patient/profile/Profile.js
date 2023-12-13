@@ -144,14 +144,14 @@ const Profile = () => {
           {user?.firstName} {user?.lastName}
         </h2>
       </div>
-      <div className="grid grid-cols-12 gap-x-8 ">
-        <div className=" col-span-8">
+      <div className="grid grid-cols-12 gap-8 ">
+        <div className=" col-span-full md:col-span-8">
           <PatientProfile userInfo={user} />
           <PersonalInformation userInfo={user} />
           <GuardianInformation userInfo={guardianInfo} />
           <PrimaryHealthInformation userInfo={medicalProviderinfo} />
         </div>
-        <div className=" col-span-4 flex flex-col gap-y-[1.5rem]">
+        <div className=" col-span-full md:col-span-4 flex flex-col gap-y-[1.5rem]">
           <MyDid handleSendDidModal={handleSendDidModal} />
           <DocumentComponent title={"Document"} />
         </div>
