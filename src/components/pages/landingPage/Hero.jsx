@@ -67,8 +67,8 @@ const Hero = ({ checkUserExist, handleGetStarted }) => {
   }
   return (
     <div className="px-[6.25rem] py-[3rem]">
-      <div className="flex justify-between items-center">
-        <div className="w-[31.5625rem] ">
+      <div className="flex flex-col md:flex-row justify-center items-center">
+        <div className="md:w-[31.5625rem] w-full">
           <h2 className="text-[2.5rem] font-medium">
             Be in Charge of Your Medical Records
           </h2>
@@ -84,30 +84,30 @@ const Hero = ({ checkUserExist, handleGetStarted }) => {
             {checkUserExist ? "Go to Dashboard" : "Get started"}
           </button>
         </div>
-        <div className="w-[28.625rem h-[27.5625]  pt-[2rem] px-[4.0625rem] bg-[#DCE6FB] rounded-[0.75rem] mr-[6.25rem] relative">
-          <div className=" relative">
+        <div className="md:w-[28.625rem] md:h-[27.5625] w-full mt-[2rem] pt-[2rem] px-[4.0625rem] bg-[#DCE6FB] rounded-[0.75rem] md:mr-[6.25rem]">
+          <div className=" relative ">
             <Image
               src="/images/HeroImage.png"
               alt="hero image"
               width={328}
               height={416}
-              className=" w-[20.5rem] h-[26rem]"
+              className=" md:w-[20.5rem]  md:h-[26rem]"
             />
             <HeroImageText
               text="Decentralized Identity Management"
-              className="absolute top-[0.77rem] left-[16.2rem]"
+              className="absolute top-0 left-[8rem] md:top-[0.77rem] md:left-[16.2rem]"
             />
             <HeroImageText
               text="Decentralized Identifier DID"
-              className="absolute top-[4rem] right-[16.2rem]"
+              className="absolute top-[5rem] right-[8rem] md:top-[4rem] md:right-[16.2rem]"
             />
             <HeroImageText
               text="Access to Medical Doctors Around the Globe"
-              className="absolute top-[19.5rem] right-[16.2rem]"
+              className="absolute hidden md:block  md:top-[19.5rem] md:right-[16.2rem]"
             />
             <HeroImageText
               text="Decentralized Data Storage and Sharing"
-              className="absolute  top-[15.62rem] left-[16.2rem]"
+              className="absolute hidden  md:block md:top-[15.62rem] md:left-[16.2rem]"
             />
           </div>
         </div>

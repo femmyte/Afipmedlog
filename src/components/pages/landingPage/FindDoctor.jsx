@@ -19,12 +19,12 @@ const FindDoctor = () => {
           />
           <h2 className="text-[1.5rem] font-medium">Find a Doctor</h2>
         </div>
-        <p className="w-[38.0625rem] px-[1.5rem]">
+        <p className="md:w-[38.0625rem] w-full px-[1.5rem]">
           Search through our available doctors to get a doctor in the specialty
           you desire.
         </p>
       </div>
-      <div className="flex justify-center items-center">
+      <div className="flex flex-col md:flex-row justify-center items-center">
         <FindDoctorCards img={"doctor1"} />
         <FindDoctorCards img={"doctor2"} />
         <FindDoctorCards img={"doctor3"} />

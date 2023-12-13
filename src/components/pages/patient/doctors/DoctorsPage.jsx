@@ -29,7 +29,7 @@ const DoctorsPage = () => {
             </div>
         </div>
         <div>
-            <table className='w-full mt-[1.5rem]'>
+            <table className='w-full mt-[1.5rem] max-w-[100%] overflow-auto'>
                 <thead>
                     <tr className='text-[0.875rem]'>
                         <td className='font-normal py-[0.88rem] border-b-[1px]'>Doctors’ name</td>

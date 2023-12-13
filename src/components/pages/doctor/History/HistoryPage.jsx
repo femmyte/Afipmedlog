@@ -15,7 +15,7 @@ const HistoryPage = () => {
         </p>
       </div>
       <div className="flex justify-between md:flex-row flex-col mt-[1.5rem]">
-        <div className="flex">
+        <div className="flex ">
           <div className="flex border-[0.4px] bg-[#F9F9F9] border-[#D1D1D1]  mr-[1rem] p-[0.5rem] rounded-[0.25rem]">
             <Image
               src="/images/icons/filter.svg"

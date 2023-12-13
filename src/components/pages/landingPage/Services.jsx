@@ -17,9 +17,9 @@ const Services = () => {
                 }}/>
                 <h2 className='text-[1.5rem] font-medium'>Our Services</h2>
             </div>
-            <p className='w-[38.0625rem] text-[#5F5F5F] text-[1rem]'>We ensure that every patient takes charge of their own medical records without any interference by a third party.</p>
+            <p className='md:w-[38.0625rem] w-full text-[#5F5F5F] text-[1rem]'>We ensure that every patient takes charge of their own medical records without any interference by a third party.</p>
         </div>
-        <div className='flex items-center text-center px-[5rem] mt-[2.5rem]'>
+        <div className='flex md:flex-row flex-col justify-center items-center text-center px-[5rem] mt-[2.5rem]'>
             <ServicesCard
             icon="/images/icons/receipt-edit.svg"
             heading="Decentralized Data Storage and Sharing"

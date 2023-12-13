@@ -10,7 +10,7 @@ const HistoryTable = () => {
     >
         <div style={{ boxShadow: "4px 4px 24px 0px rgba(206, 206, 206, 0.24)" }}>
             <h3 className="text-[1.25rem] font-medium text-[#151515]">History</h3>
-            <table className="w-full mt-[1rem] text-[#151515]">
+            <table className="w-full mt-[1rem] text-[#151515] overflow-auto max-w-[100%]">
                 <thead>
                 <tr className="text-left text-[0.875rem]">
                     <th className="font-normal py-[0.88rem]">Symptoms</th>

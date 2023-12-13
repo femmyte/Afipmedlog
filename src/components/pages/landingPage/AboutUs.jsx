@@ -3,13 +3,13 @@ import Image from "next/image";
 
 export const AboutUs = () => {
   return (
-    <div className="flex px-[6.25rem] justify-center items-center py-[4.5rem]">
-      <div className="w-[28.625rem] bg-[#145AE2] h-[27.5625rem] rounded-[0.75rem] relative mr-[8rem]">
-        <div className="w-[28.625rem] bg-[#DCE6FB] px-[4.06rem] pt-[2rem] rounded-[0.75rem] absolute left-[1.4rem] bottom-[1.5rem]">
+    <div className="flex flex-col md:flex-row px-[6.25rem] justify-center mt-[5rem] items-center py-[4.5rem]">
+      <div className="md:w-[28.625rem] w-full bg-[#145AE2]  md:h-[27.5625rem] rounded-[0.75rem] relative md:mr-[8rem]">
+        <div className="md:w-[28.625rem] w-full bg-[#DCE6FB] px-[4.06rem] pt-[2rem] rounded-[0.75rem] absolute left-[1.4rem] bottom-[1.5rem]">
           <Image src="/images/home2.png" alt="image" width={328} height={416} />
         </div>
       </div>
-      <div className="w-[44.3125rem] text-center">
+      <div className="md:w-[44.3125rem] w-full text-center">
         <div className="flex justify-center items-center mb-[1.2rem]">
           <hr
             style={{

@@ -12,7 +12,7 @@ const HeroNavBar = ({ checkUserExist, handleGetStarted }) => {
         <Link href={"/"} className="text-[#145AE2] text-[1.5rem] ">
           AFIP MedLog
         </Link>
-        <ul className="flex">
+        <ul className="md:flex hidden">
           <li className="mr-[2.56rem]">Home</li>
           <li className="mr-[2.56rem]">About Us</li>
           <li className="mr-[2.56rem]">Services</li>

@@ -17,9 +17,9 @@ const HowItWorks = () => {
                 }}/>
                 <h2 className='text-[1.5rem] font-medium'>How It Works</h2>
             </div>
-            <p className='w-[38.0625rem] px-[1.5rem] mt-[1rem] text-[#5F5F5F]'>AFIPMedLog is a very simple application that involves few steps to complete.</p>
+            <p className='md:w-[38.0625rem] w-full px-[1.5rem] mt-[1rem] text-[#5F5F5F]'>AFIPMedLog is a very simple application that involves few steps to complete.</p>
         </div>
-        <div className='flex items-center justify-center text-center px-[6.25rem] mt-[2.5rem]'>
+        <div className='flex md:flex-row flex-col items-center justify-center text-center px-[6.25rem] mt-[2.5rem]'>
             <ServicesCard
             icon="/images/icons/user-search.svg"
             heading="Find a Doctor"
