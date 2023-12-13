@@ -11,20 +11,20 @@ const page = () => {
   return (
     <div className="">
       <OverviewHeader />
-      <div className="grid grid-cols-12 gap-2 w-full">
-        <div className="col col-span-9">
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-2 w-full">
+        <div className="col md:col-span-9">
           <Cards />
         </div>
-        <div className="col col-span-2">
+        <div className="col md:col-span-2">
           <Doctors />
         </div>
-        <div className="col col-span-5">
+        <div className="col md:col-span-5">
           <Table />
         </div>
-        <div className="col col-span-4">
+        <div className="col md:col-span-4">
           <MedicalRecords />
         </div>
-        <div className="col col-span-2">
+        <div className="col md:col-span-2">
           <GeneralDetails />
           <OverviewAppointments />
         </div>

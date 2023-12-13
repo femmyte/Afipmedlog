@@ -4,7 +4,7 @@ import Image from "next/image";
 
 const Cards = () => {
   return (
-    <div className="flex text-white mt-[2rem] gap-[1rem] w-full justify-between">
+    <div className="flex flex-col md:flex-row text-white mt-[2rem] gap-[1rem] w-full justify-between">
       <Card
         className="bg-[#145AE2] w-[16.1875rem] h-[6rem] py-[1rem] px-[1.5rem]"
         img="/images/icons/heartbeat.svg"

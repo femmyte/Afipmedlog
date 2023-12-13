@@ -4,6 +4,7 @@ const historyTableData
         Symptoms: 'Oxygen deficiency, Dizziness, Fainting',
         treatment: 'Iron Deficiency',
         patient: 'Phoeebe',
+        doctor: 'Doctor Peace',
         date: '11/11/23',
         prescription: 'Iron Tablet, fruits and vegetables, iron supp...',
         status: 'Active',
@@ -11,6 +12,7 @@ const historyTableData
         testMethod: 'Blood Sample',
         result: 'Oxygen deficiency',
         prescribedTo: 'Phoebe',
+        prescribedby: 'Dr Peace',
         testDate: 'Dec 09, 23',
         drug: 'Iron supplement',
         doses: '50g',
@@ -30,6 +32,8 @@ const historyTableData
         testDate: 'Dec 09, 23',
         drug: 'Iron supplement',
         doses: '50g',
+        doctor: 'Doctor Peace',
+        prescribedby: 'Dr Peace',
         id: 122
     },
     {
@@ -46,6 +50,8 @@ const historyTableData
         testDate: 'Dec 09, 23',
         drug: 'Iron supplement',
         doses: '50g',
+        doctor: 'Doctor Peace',
+        prescribedby: 'Dr Peace',
         id: 123
     },
     {
@@ -62,6 +68,8 @@ const historyTableData
         testDate: 'Dec 09, 23',
         drug: 'Iron supplement',
         doses: '50g',
+        doctor: 'Doctor Peace',
+        prescribedby: 'Dr Peace',
         id: 124
     },
     {
@@ -78,6 +86,8 @@ const historyTableData
         testDate: 'Dec 09, 23',
         drug: 'Iron supplement',
         doses: '50g',
+        doctor: 'Doctor Peace',
+        prescribedby: 'Dr Peace',
         id: 125
     },
     {
@@ -94,6 +104,8 @@ const historyTableData
         testDate: 'Dec 09, 23',
         drug: 'Iron supplement',
         doses: '50g',
+        doctor: 'Doctor Peace',
+        prescribedby: 'Dr Peace',
         id: 126
     },
 ]
