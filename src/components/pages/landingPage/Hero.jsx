@@ -5,13 +5,10 @@ import HeroImageText from "./HeroImageText";
 import CustomModal from "@/components/common/CustomModal";
 import { useStateContext } from "@/state/AppContext";
 import { useRouter } from "next/navigation";
-import useWeb5 from "@/state/useWeb5";
-// import { Web5 } from "@web5/api/browser";
 
 const Hero = ({ checkUserExist, handleGetStarted }) => {
   const router = useRouter();
-  let { authModal, setAuthModal, setWeb5, setMyDid, setUserRole, userRole } =
-    useStateContext();
+  let { authModal, setAuthModal, setUserRole, userRole } = useStateContext();
 
   const [did, setDid] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -19,24 +16,7 @@ const Hero = ({ checkUserExist, handleGetStarted }) => {
   const [congratulationModal, setCongratulationModal] = useState(false);
   const [registrationModal, setRegistrationModal] = useState(false);
   const [scanQrCodeModa, setScanQrCodeModa] = useState(false);
-  // const [checkUserExist, setCheckUserExist] = useState(false);
-  // const [web5, setWeb5] = useState();
-  // const [myDid, setMyDid] = useState("");
-  const { web5, myDid, initWeb5 } = useWeb5();
 
-  useEffect(() => {
-    const initializer = async () => {
-      const { Web5 } = await import("@web5/api/browser");
-      const { web5, did } = await Web5.connect({ sync: "5s" });
-      setWeb5(web5);
-      setMyDid(did);
-      localStorage.setItem("myDid", did);
-    };
-    const existingDid = localStorage.getItem("myDid");
-    if (!existingDid) {
-      initializer();
-    }
-  }, [setMyDid, setWeb5]);
   const handleSubmit = (e) => {
     e.preventDefault();
     setAuthModal(false);
@@ -69,23 +49,10 @@ const Hero = ({ checkUserExist, handleGetStarted }) => {
   };
   const handleRegistration = async (e) => {
     e.preventDefault();
-
-    try {
-      // initializer();
-      // const { web5, did } = await Web5.connect({ sync: "5s" });
-      // setWeb5(web5);
-      // setMyDid(did);
-      // localStorage.setItem("myDid", did);
-      setUserRole(role);
-      setRegistrationModal(false);
-      localStorage.setItem("role", role);
-      // console.log(did, role);
-      router.push(`/${role}/settings`);
-    } catch (error) {
-      console.error("Error Singning up:", error);
-    } finally {
-      setIsLoading(false);
-    }
+    setUserRole(role);
+    setRegistrationModal(false);
+    localStorage.setItem("role", role);
+    router.push(`/${role}/settings`);
   };
   const handleScanQRCode = () => {
     setAuthModal(false);

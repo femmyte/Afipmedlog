@@ -8,12 +8,13 @@ import protocolDefinition from "@/protocols/healthRecord.json";
 import QrCodeComponent from "@/service/QrCode";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import useWeb5 from "@/state/useWeb5";
 
 const PersonalRecord = () => {
   const { id } = useParams();
   const ref = useRef();
-  let { web5, myDid, userRole, user, userInfo, sharedHealthRecord } =
-    useStateContext();
+  const { web5, myDid, initWeb5 } = useWeb5();
+  let { userRole, user, userInfo, sharedHealthRecord } = useStateContext();
   const [authPhrase, setAuthPhrase] = useState(myDid);
   const [openModal, setOpenModal] = useState(false);
   const [sendDidModal, setsendDidModal] = useState(false);

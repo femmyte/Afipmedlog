@@ -1,13 +1,14 @@
 "use client";
 import { useStateContext } from "@/state/AppContext";
-// import { Web5 } from '@web5/api';
 import React, { useContext, useEffect, useState } from "react";
 // import protocolDefinition from '@/protocols/profileProtocol.json';
 import protocolDefinition from "@/protocols/healthRecord.json";
 import { useRouter } from "next/navigation";
+import useWeb5 from "@/state/useWeb5";
 const GuardianForm = ({ handleOpenModal }) => {
   const router = useRouter();
-  const { web5, myDid, userRecord, userInfo } = useStateContext();
+  const { web5, myDid, initWeb5 } = useWeb5();
+  const { userInfo } = useStateContext();
   const [isLoading, setIsLoading] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
   // const [userInfo, setUserInfo] = useState([]);

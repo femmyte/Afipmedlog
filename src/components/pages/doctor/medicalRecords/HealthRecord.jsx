@@ -14,10 +14,12 @@ import LabTestResults from "../Forms/LabTestResults";
 import MedicationInformation from "../Forms/MedicationInformation";
 import VitalSigns from "../Forms/VitalSigns";
 import InsuranceInformation from "../Forms/InsuranceInformation";
+import useWeb5 from "@/state/useWeb5";
 
 const HealthRecord = () => {
   const { id } = useParams();
-  let { web5, sharedHealthRecord } = useStateContext();
+  const { web5, myDid, initWeb5 } = useWeb5();
+  let { sharedHealthRecord } = useStateContext();
   const [openModal, setOpenModal] = useState(false);
   const [openSuccessModal, setOpenSuccessModal] = useState(false);
   const [selectedRecord, setSelectedRecord] = useState(null);

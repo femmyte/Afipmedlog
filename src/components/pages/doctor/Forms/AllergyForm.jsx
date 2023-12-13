@@ -2,10 +2,12 @@
 import { useStateContext } from "@/state/AppContext";
 import React, { useCallback, useEffect, useState } from "react";
 import protocolDefinition from "@/protocols/healthRecord.json";
+import useWeb5 from "@/state/useWeb5";
 const AllergyRecord = ({ recordIdNumber }) => {
   const [record, setRecord] = useState(null);
   const [recordList, setRecordList] = useState(null);
-  let { web5, sharedHealthRecord } = useStateContext();
+  const { web5, myDid, initWeb5 } = useWeb5();
+  let { sharedHealthRecord } = useStateContext();
   // console.log(patientDid);
   // const getRecord = useCallback(async () => {
   //   try {
