@@ -6,17 +6,17 @@ import { useStateContext } from "@/state/AppContext";
 import GuardianForm from "./GuardianForm";
 import protocolDefinition from "@/protocols/healthRecord.json";
 import { useParams } from "next/navigation";
+import useWeb5 from "@/state/useWeb5";
 const GuardianRecord = () => {
   let {
-    myDid,
     userRole,
     userInfo,
     sharedHealthRecord,
-    web5,
     user: guardianData,
     getGuardianInfo,
     guardianInfo,
   } = useStateContext();
+  const { web5, myDid, initWeb5 } = useWeb5();
   const { id } = useParams();
   const [isLoading, setIsLoading] = useState(false);
   const [openModal, setOpenModal] = useState(false);

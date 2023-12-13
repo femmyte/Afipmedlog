@@ -5,11 +5,12 @@ import { GoChevronDown } from "react-icons/go";
 import doctorsData from "@/utils/doctorsData";
 import { useStateContext } from "@/state/AppContext";
 import { useRouter } from "next/navigation";
+import useWeb5 from "@/state/useWeb5";
 
 const PatientsFilterPage = () => {
   const router = useRouter();
-  let { web5, myDid, userRole, user, userInfo, sharedHealthRecord } =
-    useStateContext();
+  const { web5, myDid, initWeb5 } = useWeb5();
+  let { sharedHealthRecord } = useStateContext();
   console.log(sharedHealthRecord);
   const handleShowUserRecord = (id) => {
     router.push(`/doctor/patients/${id}`);

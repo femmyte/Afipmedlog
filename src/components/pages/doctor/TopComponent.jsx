@@ -20,9 +20,11 @@ import MedicalHistory from "./Forms/MedicalHistory";
 import VitalSigns from "./Forms/VitalSigns";
 import InsuranceInformation from "./Forms/InsuranceInformation";
 import checklistData from "@/utils/checklistData";
+import useWeb5 from "@/state/useWeb5";
 
 const TopComponent = () => {
-  let { myDid, web5, user, setSharedHealthRecord } = useStateContext();
+  const { web5, myDid, initWeb5 } = useWeb5();
+  let { user, setSharedHealthRecord } = useStateContext();
   const [copiedDid, setCopiedDid] = useState(false);
   const [clicked, setClicked] = useState(false);
   const [openModal, setOpenModal] = useState(false);

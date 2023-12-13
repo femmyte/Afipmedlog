@@ -10,13 +10,13 @@ import { generateUUID } from "@/utils/utilities";
 // import firebase from "firebase/app";
 import { collection, addDoc } from "firebase/firestore";
 import { app, database } from "@/service/firebaseConfig";
+import useWeb5 from "@/state/useWeb5";
 
 const Registration = () => {
   const dbInstance = collection(database, "patientDid");
 
   const router = useRouter();
-  const { web5, myDid, setWeb5, setMyDid, userRole, setUserRecord } =
-    useStateContext();
+  const { setUserRecord } = useStateContext();
   // console.log(web5)
   const [isLoading, setIsLoading] = useState(false);
   const [successModal, setSuccessModal] = useState(false);
@@ -24,7 +24,7 @@ const Registration = () => {
   const [isCreateMode, setIsCreateMode] = useState(true);
   const [userInfo, setUserInfo] = useState([]);
   const [isGettingUser, setIsGettingUser] = useState(false);
-
+  const { web5, myDid, initWeb5 } = useWeb5();
   const [user, setUser] = useState({
     firstName: "",
     lastName: "",
@@ -68,28 +68,7 @@ const Registration = () => {
   //     const { name, value } = event.target;
   //     setUser({ ...user, [name]: value });
   //   };
-
-  const initWeb5 = useCallback(async () => {
-    const existingDid = localStorage.getItem("myDid");
-
-    const { Web5 } = await import("@web5/api/browser");
-    try {
-      const { web5, did } = await Web5.connect(existingDid);
-
-      setWeb5(web5);
-      setMyDid(did);
-
-      if (web5 && did) {
-        console.log("Web5 initialized");
-      }
-    } catch (error) {
-      console.error("Error initializing Web5:", error);
-    }
-  }, []);
-  useEffect(() => {
-    const existingDid = localStorage.getItem("myDid");
-    if (existingDid) initWeb5();
-  }, [initWeb5]);
+  // console.log(web5);
   const handleUserInputChange = (fieldName, value) => {
     setUser((prevFormData) => ({
       ...prevFormData,

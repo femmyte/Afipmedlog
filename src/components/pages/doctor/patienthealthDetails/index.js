@@ -9,9 +9,11 @@ import GuardianInformation from "./GuardianInformation";
 import PrimaryHealthInformation from "./PrimaryHealthInformation";
 import { FiChevronsRight } from "react-icons/fi";
 import DocumentComponent from "./DocumentsComponent";
+import useWeb5 from "@/state/useWeb5";
 const PatientHealthDetails = () => {
   const { id } = useParams();
-  const { web5, sharedHealthRecord } = useStateContext();
+  const { web5, myDid, initWeb5 } = useWeb5();
+  const { sharedHealthRecord } = useStateContext();
   const [user, setUser] = useState([]);
   const [guardianInfo, setGuardianInfo] = useState([]);
   const [medicalProviderinfo, setMedicalProviderinfo] = useState([]);

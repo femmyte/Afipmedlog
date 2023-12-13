@@ -8,10 +8,12 @@ import CustomModal from "@/components/common/CustomModal";
 import { generateUUID } from "@/utils/utilities";
 import { collection, addDoc } from "firebase/firestore";
 import { app, database } from "@/service/firebaseConfig";
+import useWeb5 from "@/state/useWeb5";
 const Registration = () => {
   const dbInstance = collection(database, "doctorDid");
   const router = useRouter();
-  const { web5, myDid, userRole, setUserRecord, initWeb5 } = useStateContext();
+  const { web5, myDid, initWeb5 } = useWeb5();
+  const { userRole, setUserRecord } = useStateContext();
   const [isLoading, setIsLoading] = useState(false);
   const [successModal, setSuccessModal] = useState(false);
   const [isGettingUser, setIsGettingUser] = useState(false);
@@ -39,11 +41,6 @@ const Registration = () => {
     failedCases: "",
     successCases: "",
   });
-  useEffect(() => {
-    const existingDid = localStorage.getItem("myDid");
-
-    if (existingDid) initWeb5();
-  }, [initWeb5]);
 
   const handleUserInputChange = (fieldName, value) => {
     setUser((prevFormData) => ({

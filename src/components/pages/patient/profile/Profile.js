@@ -10,8 +10,9 @@ import { FiChevronsRight } from "react-icons/fi";
 import MyDid from "./MyDid";
 import CustomModal from "@/components/common/CustomModal";
 import DocumentComponent from "./DocumentsComponent";
+import useWeb5 from "@/state/useWeb5";
 const Profile = () => {
-  const { web5 } = useStateContext();
+  const { web5, myDid, initWeb5 } = useWeb5();
   const [user, setUser] = useState([]);
   const [guardianInfo, setGuardianInfo] = useState([]);
   const [medicalProviderinfo, setMedicalProviderinfo] = useState([]);

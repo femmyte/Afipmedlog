@@ -5,13 +5,13 @@ import CustomModal from "@/components/common/CustomModal";
 import { useStateContext } from "@/state/AppContext";
 import GuardianForm from "./GuardianForm";
 import protocolDefinition from "@/protocols/healthRecord.json";
+import useWeb5 from "@/state/useWeb5";
 const GuardianRecord = () => {
+  const { web5, myDid, initWeb5 } = useWeb5();
   let {
-    myDid,
     userRole,
     userInfo,
     guardianRecord,
-    web5,
     user: guardianData,
     getGuardianInfo,
     guardianInfo,

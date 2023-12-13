@@ -10,8 +10,9 @@ import { useStateContext } from "@/state/AppContext";
 import protocolDefinition from "@/protocols/healthRecord.json";
 import CustomModal from "@/components/common/CustomModal";
 import DocumentComponent from "@/components/common/doctorsProfile/DocumentsComponent";
+import useWeb5 from "@/state/useWeb5";
 const Profile = () => {
-  const { web5 } = useStateContext();
+  const { web5, myDid, initWeb5 } = useWeb5();
   const [user, setUser] = useState(null);
   const [doctorInfo, setDoctorInfo] = useState([]);
   const [careerInfo, setCareerInfo] = useState(null);
